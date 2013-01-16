@@ -41,6 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="cluster.cs" />
     <Compile Include="cluster_client.cs" />
     <Compile Include="cluster_query.cs" />
     <Compile Include="Program.cs" />
