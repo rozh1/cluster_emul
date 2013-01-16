@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 
 namespace cluster_emul
 {
-    /* Класс клиента
-     */
+    /// <summary>
+    /// Класс клиента
+    /// </summary>
     class cluster_client
     {
         public int num;             //номер клиента
@@ -16,11 +17,11 @@ namespace cluster_emul
         private cluster_query cq;   //запросы
         public bool request_sended; //флаг посылки запроса
 
-        /* Конструктор класса
-         * Входные параметры:
-         *  int Num - номер клиента
-         *  int Num_reg - номер региона
-         */
+        /// <summary>
+        /// Конструктор класса
+        /// </summary>
+        /// <param name="Num">номер клиента</param>
+        /// <param name="Num_reg">номер региона</param>
         public cluster_client(int Num, int Num_reg)
         {
             num = Num;
@@ -29,8 +30,9 @@ namespace cluster_emul
             request_sended = false;
         }
 
-        /* Функция определения нового запроса
-         */
+        /// <summary>
+        /// Функция определения нового запроса
+        /// </summary>
         public void NewRequest()
         {
             if (!request_sended)
@@ -40,8 +42,9 @@ namespace cluster_emul
             }
         }
 
-        /* Функция получения ответа от сервера
-         */
+        /// <summary>
+        /// Функция получения ответа от сервера
+        /// </summary>
         public void ReciveAns()
         {
             request_sended = false;

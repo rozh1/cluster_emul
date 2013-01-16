@@ -6,15 +6,17 @@ using System.Threading.Tasks;
 
 namespace cluster_emul
 {
-    /* Класс генерации запроса к серверу.
-    */
+    /// <summary>
+    /// Класс генерации запроса к серверу
+    /// </summary>
     class cluster_query
     {
         private float[] queries;    //массив запросов
         private Random rand;        //великий русский рандом
 
-        /* конструктор класса 
-         */
+        /// <summary>
+        ///  Конструктор класса
+        /// </summary>
         public cluster_query()
         {
             rand = new Random();
@@ -35,23 +37,20 @@ namespace cluster_emul
             queries[13] = 1.00F;
         }
 
-        /* Функция выдачи номера запроса
-         * Входные параметры: 
-         *  нет
-         * Выходные параметры:
-         *  int - номер запроса
-         */
+        /// <summary>
+        /// Функция выдачи номера запроса
+        /// </summary>
+        /// <returns>номер запроса</returns>
         public int GenQueryNum()
         {
             return rand.Next(0, 13);
         }
 
-        /* Функция выдачи номера запроса
-         * Входные параметры: 
-         *  int num - номер запроса
-         * Выходные параметры:
-         *  float - время выполенения запроса
-         */
+        /// <summary>
+        /// Функция выдачи номера запроса
+        /// </summary>
+        /// <param name="num">номер запроса</param>
+        /// <returns>время выполенения запроса</returns>
         public float GetQueryByNum(int num)
         {
             return queries[num];
