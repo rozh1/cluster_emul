@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Threading;
 
 namespace cluster_emul
 {
@@ -44,7 +43,7 @@ namespace cluster_emul
         /// <returns>номер запроса</returns>
         public int GenQueryNum()
         {
-            return (int)(13*rand.NextDouble());
+            return rand.Next(0, 13);
         }
 
         /// <summary>

@@ -109,7 +109,7 @@ namespace cluster_emul
             for (int i = 0; i < Clusters.Count; i++)
             {
                 cluster cl = (cluster)Clusters[i];
-                if (cl.query_time < 0.01)
+                if (cl.query_time < 0.01 && cl.GetQueueCount()>0)
                 {
                     int[] arr = cl.GetQueryInfo(true);
                     cluster_client client = (cluster_client)Clients[arr[1]];
@@ -126,7 +126,7 @@ namespace cluster_emul
         /// </summary>
         public void WorkHandler()
         {
-            while (time < 1)
+            while (time < 20000)
             {
                 if (CheckClusters())
                 {
