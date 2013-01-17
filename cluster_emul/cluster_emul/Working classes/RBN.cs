@@ -45,6 +45,11 @@ namespace cluster_emul
             {
                 cluster_client cl = new cluster_client(i, Region_num);
                 Clients.Add(cl);
+                
+            }
+            for (int i = 0; i < local_queue_length; i++)
+            {
+                cluster_client cl = (cluster_client)Clients[i];
                 cl.NewRequest();
                 local_queue.Enqueue(cl.GetParametrs());     //Инициализация очереди РБН
             }
@@ -58,7 +63,7 @@ namespace cluster_emul
 
         void WorkHandler()
         {
-            
+            for(int i=0; i < )
         }
     }
 }
