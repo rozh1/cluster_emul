@@ -45,7 +45,6 @@ namespace cluster_emul
             {
                 cluster_client cl = new cluster_client(i, Region_num);
                 Clients.Add(cl);
-                
             }
             for (int i = 0; i < local_queue_length; i++)
             {
@@ -57,13 +56,12 @@ namespace cluster_emul
             {
                 cluster cl = new cluster();
                 Clients.Add(cl);
-                cl.QueueAdd((int[])local_queue.Dequeue());
+                cl.QueueAdd((int[])local_queue.Dequeue());  //Инициализация очереди серверов
             }
         }
 
         void WorkHandler()
         {
-            for(int i=0; i < )
         }
     }
 }
