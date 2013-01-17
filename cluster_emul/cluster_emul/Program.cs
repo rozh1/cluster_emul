@@ -31,7 +31,7 @@ namespace cluster_emul
         static void Main(string[] args)
         {
            // Application.Run(new MainWindow());
-            RegionsHandler rh = new RegionsHandler(2, 1000);
+            RegionsHandler rh = new RegionsHandler(3, 1000);
             rh.Work();
             Console.ReadKey();
         }

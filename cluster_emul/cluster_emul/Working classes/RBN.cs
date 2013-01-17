@@ -124,6 +124,7 @@ namespace cluster_emul
         /// <summary>
         /// Обработчик запросов
         /// </summary>
+        /// <param name="time">Текущее время</param>
         public void WorkHandler(float time)
         {
             this.time = time;
@@ -131,6 +132,23 @@ namespace cluster_emul
             {
                 QueueAllocation();
                 QueueRecive();
+            }
+            for (int i = 0; i < Clusters.Count; i++)
+            {
+                ((cluster)Clusters[i]).query_time -= 0.01F;
+            }
+        }
+
+        /// <summary>
+        /// Режим сна региона (дорабатывает запросы из очереди, но новые не принимает)
+        /// </summary>
+        /// <param name="time">Текущее время</param>
+        public void SleepHandler(float time)
+        {
+            this.time = time;
+            if (CheckClusters())
+            {
+                QueueAllocation();
             }
             for (int i = 0; i < Clusters.Count; i++)
             {

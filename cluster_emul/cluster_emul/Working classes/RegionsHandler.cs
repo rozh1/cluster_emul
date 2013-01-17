@@ -48,13 +48,14 @@ namespace cluster_emul
         /// </summary>
         public void Work()
         {
-            while (time < 10)
+            while (time < 600)
             {
                 time += 0.01F;
                 for (int i = 0; i < RegionsCount; i++)
                 {
                     RBN rbn = (RBN)Regions[i];
-                    rbn.WorkHandler(time);
+                    if (i * 100 + 300 > time && i * 100 < time) rbn.WorkHandler(time);
+                    else rbn.SleepHandler(time);
                 }
             }
         }
