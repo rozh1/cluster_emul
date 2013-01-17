@@ -60,6 +60,19 @@ namespace cluster_emul
             }
         }
 
+        /// <summary>
+        /// Размещает запросы в очереди по серверам
+        /// </summary>
+        void QueueAllocation()
+        {
+            for (int i = 0; i < Clusters.Count; i++)
+            {
+                cluster cl = (cluster)Clusters[i];
+                if ((cl.GetQueueCount() < 2) && local_queue.Count > 0)
+                    cl.QueueAdd((int[])local_queue.Dequeue());
+            }
+        }
+
         void WorkHandler()
         {
         }

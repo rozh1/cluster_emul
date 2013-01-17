@@ -71,5 +71,14 @@ namespace cluster_emul
         {
             return (int[])queue.Peek();
         }
+
+        /// <summary>
+        /// Возвращает количество запросов в очереди
+        /// </summary>
+        /// <returns>количество запросов в очереди</returns>
+        public int GetQueueCount()
+        {
+            return queue.Count;
+        }
     }
 }
