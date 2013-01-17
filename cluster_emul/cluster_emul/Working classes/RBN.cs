@@ -46,18 +46,13 @@ namespace cluster_emul
                 cluster_client cl = new cluster_client(i, Region_num);
                 Clients.Add(cl);
             }
-            for (int i = 0; i < local_queue_length; i++)
-            {
-                cluster_client cl = (cluster_client)Clients[i];
-                cl.NewRequest();
-                local_queue.Enqueue(cl.GetParametrs());     //Инициализация очереди РБН
-            }
+            QueueRecive();                                              //Инициализация очереди РБН
             for (int i = 0; i < Clusters.Capacity; i++)
             {
                 cluster cl = new cluster();
                 Clients.Add(cl);
-                cl.QueueAdd((int[])local_queue.Dequeue());  //Инициализация очереди серверов
             }
+            QueueAllocation(2);                                         //Инициализация очереди серверов
         }
 
         /// <summary>
@@ -65,12 +60,61 @@ namespace cluster_emul
         /// </summary>
         void QueueAllocation()
         {
+            QueueAllocation(1);
+        }
+
+        /// <summary>
+        /// Размещает запросы в очереди по серверам
+        /// </summary>
+        /// <param name="k">Количество мест в очереди сервера</param>
+        void QueueAllocation(int k)
+        {
+            for (int j = 0; j < k; j++)
+            {
+                for (int i = 0; i < Clusters.Count; i++)
+                {
+                    cluster cl = (cluster)Clusters[i];
+                    if ((cl.GetQueueCount() < 2) && local_queue.Count > 0)
+                        cl.QueueAdd((int[])local_queue.Dequeue());
+                }
+            }
+        }
+
+        /// <summary>
+        /// Получение новых запросов от клиентов и запись в очередь РБН
+        /// </summary>
+        void QueueRecive()
+        {
+            for (int i = 0; i < Clients.Count; i++)
+            {
+                cluster_client cl = (cluster_client)Clients[i];
+                if (!cl.request_sended && local_queue.Count<local_queue_length)
+                {
+                    cl.NewRequest();
+                    local_queue.Enqueue(cl.GetParametrs());
+                }
+            }
+        }
+
+        /// <summary>
+        /// проверяет кластеры на наличие выполненых запросов
+        /// </summary>
+        /// <returns>true - если есть сервера с выполенными запросами</returns>
+        bool CheckClusters()
+        {
+            bool flag = false;
             for (int i = 0; i < Clusters.Count; i++)
             {
                 cluster cl = (cluster)Clusters[i];
-                if ((cl.GetQueueCount() < 2) && local_queue.Count > 0)
-                    cl.QueueAdd((int[])local_queue.Dequeue());
+                if (cl.query_time < 0.01)
+                {
+                    int[] arr = cl.GetQueryInfo(true);
+                    cluster_client client = (cluster_client)Clients[arr[1]];
+                    client.ReciveAns();
+                    flag = true;
+                }
             }
+            return flag;
         }
 
         void WorkHandler()
