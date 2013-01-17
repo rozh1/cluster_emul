@@ -49,5 +49,19 @@ namespace cluster_emul
         {
             request_sended = false;
         }
+
+        /// <summary>
+        /// <para>Возвращает параметры клиента</para>
+        /// <para>номер запроса, номер клиента, номер региона</para>
+        /// </summary>
+        /// <returns>массив int (номер запроса, номер клиента, номер региона)</returns>
+        public int[] GetParametrs()
+        {
+            int[] arr = new int[3];
+            arr[0] = num_request;
+            arr[1] = num;
+            arr[2] = num_region;
+            return arr;
+        }
     }
 }

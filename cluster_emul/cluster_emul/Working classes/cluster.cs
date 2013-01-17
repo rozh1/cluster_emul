@@ -52,5 +52,24 @@ namespace cluster_emul
             query_time=cq.GetQueryByNum(arr[0]);
         }
 
+        /// <summary>
+        /// Возвращает информацию о текущем запросе 
+        /// </summary>
+        /// <param name="delete">Фглаг удаления запроса из локальной очереди</param>
+        /// <returns>Массив с информацие о запросе</returns>
+        public int[] GetQueryInfo(bool delete)
+        {
+            if (delete) return (int[])queue.Dequeue();
+            else return (int[])queue.Peek();
+        }
+
+        /// <summary>
+        /// Возвращает информацию о текущем запросе 
+        /// </summary>
+        /// <returns>Массив с информацие о запросе</returns>
+        public int[] GetQueryInfo()
+        {
+            return (int[])queue.Peek();
+        }
     }
 }
