@@ -31,8 +31,8 @@ namespace cluster_emul
         static void Main(string[] args)
         {
            // Application.Run(new MainWindow());
-            RBN rbn = new RBN(1, 20, 100000, 3);
-            rbn.WorkHandler();
+            RegionsHandler rh = new RegionsHandler(2, 1000);
+            rh.Work();
             Console.ReadKey();
         }
     }

@@ -124,20 +124,17 @@ namespace cluster_emul
         /// <summary>
         /// Обработчик запросов
         /// </summary>
-        public void WorkHandler()
+        public void WorkHandler(float time)
         {
-            while (time < 20000)
+            this.time = time;
+            if (CheckClusters())
             {
-                if (CheckClusters())
-                {
-                    QueueAllocation();
-                    QueueRecive();
-                }
-                time += 0.01F;
-                for (int i=0; i < Clusters.Count; i++)
-                {
-                    ((cluster)Clusters[i]).query_time -= 0.01F;
-                }
+                QueueAllocation();
+                QueueRecive();
+            }
+            for (int i = 0; i < Clusters.Count; i++)
+            {
+                ((cluster)Clusters[i]).query_time -= 0.01F;
             }
         }
     }
