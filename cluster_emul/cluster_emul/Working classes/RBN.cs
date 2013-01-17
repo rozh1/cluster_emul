@@ -50,7 +50,7 @@ namespace cluster_emul
             for (int i = 0; i < Clusters.Capacity; i++)
             {
                 cluster cl = new cluster();
-                Clients.Add(cl);
+                Clusters.Add(cl);
             }
             QueueAllocation(2);                                         //Инициализация очереди серверов
         }
@@ -75,7 +75,10 @@ namespace cluster_emul
                 {
                     cluster cl = (cluster)Clusters[i];
                     if ((cl.GetQueueCount() < 2) && local_queue.Count > 0)
+                    {
                         cl.QueueAdd((int[])local_queue.Dequeue());
+                        cl.SetQueryTime();
+                    }
                 }
             }
         }
@@ -112,13 +115,30 @@ namespace cluster_emul
                     cluster_client client = (cluster_client)Clients[arr[1]];
                     client.ReciveAns();
                     flag = true;
+                    Console.WriteLine("{0};{1};{2}", arr[0], arr[1],time);
                 }
             }
             return flag;
         }
 
-        void WorkHandler()
+        /// <summary>
+        /// Обработчик запросов
+        /// </summary>
+        public void WorkHandler()
         {
+            while (time < 1)
+            {
+                if (CheckClusters())
+                {
+                    QueueAllocation();
+                    QueueRecive();
+                }
+                time += 0.01F;
+                for (int i=0; i < Clusters.Count; i++)
+                {
+                    ((cluster)Clusters[i]).query_time -= 0.01F;
+                }
+            }
         }
     }
 }

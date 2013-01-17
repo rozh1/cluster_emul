@@ -30,7 +30,10 @@ namespace cluster_emul
     {
         static void Main(string[] args)
         {
-            Application.Run(new MainWindow());
+           // Application.Run(new MainWindow());
+            RBN rbn = new RBN(1, 20, 100, 3);
+            rbn.WorkHandler();
+            Console.ReadKey();
         }
     }
 }
