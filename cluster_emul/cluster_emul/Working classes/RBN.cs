@@ -86,7 +86,7 @@ namespace cluster_emul
                     {
                         int[] arr = (int[])local_queue.Peek();
                         cluster_client cl_w = (cluster_client)Clients[arr[1]];
-                        if (TOTAL_QUERY_COUNT > 0) TOTAL_QUERY_COUNT -= cl_w.GetWieghtQuery();
+                        if (TOTAL_QUERY_COUNT > 0) CURENT_TOTAL_W -= cl_w.GetWieghtQuery();
 
                         cl.QueueAdd((int[])local_queue.Dequeue());
                         cl.SetQueryTime();
@@ -107,7 +107,7 @@ namespace cluster_emul
                 if (!cl.request_sended && local_queue.Count<local_queue_length)
                 {
                     cl.NewRequest();
-                    TOTAL_QUERY_COUNT += cl.GetWieghtQuery();
+                    CURENT_TOTAL_W += cl.GetWieghtQuery();
                     local_queue.Enqueue(cl.GetParametrs());
                 }
             }
