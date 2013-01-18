@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainWindow));
             this.button1 = new System.Windows.Forms.Button();
             this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
             this.numericUpDown2 = new System.Windows.Forms.NumericUpDown();
@@ -50,14 +49,19 @@
             // 
             // button1
             // 
-            resources.ApplyResources(this.button1, "button1");
+            this.button1.Location = new System.Drawing.Point(12, 226);
             this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(260, 23);
+            this.button1.TabIndex = 0;
+            this.button1.Text = "Начать симуляцию";
             this.button1.UseVisualStyleBackColor = true;
             // 
             // numericUpDown1
             // 
-            resources.ApplyResources(this.numericUpDown1, "numericUpDown1");
+            this.numericUpDown1.Location = new System.Drawing.Point(212, 12);
             this.numericUpDown1.Name = "numericUpDown1";
+            this.numericUpDown1.Size = new System.Drawing.Size(60, 20);
+            this.numericUpDown1.TabIndex = 1;
             this.numericUpDown1.Value = new decimal(new int[] {
             3,
             0,
@@ -66,8 +70,10 @@
             // 
             // numericUpDown2
             // 
-            resources.ApplyResources(this.numericUpDown2, "numericUpDown2");
+            this.numericUpDown2.Location = new System.Drawing.Point(212, 38);
             this.numericUpDown2.Name = "numericUpDown2";
+            this.numericUpDown2.Size = new System.Drawing.Size(60, 20);
+            this.numericUpDown2.TabIndex = 1;
             this.numericUpDown2.Value = new decimal(new int[] {
             3,
             0,
@@ -76,18 +82,28 @@
             // 
             // label1
             // 
-            resources.ApplyResources(this.label1, "label1");
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(12, 14);
             this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(190, 13);
+            this.label1.TabIndex = 2;
+            this.label1.Text = "Количество серверов в 1-м регионе";
             // 
             // label2
             // 
-            resources.ApplyResources(this.label2, "label2");
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(12, 40);
             this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(189, 13);
+            this.label2.TabIndex = 2;
+            this.label2.Text = "Количество клиентов в 1-м регионе";
             // 
             // numericUpDown3
             // 
-            resources.ApplyResources(this.numericUpDown3, "numericUpDown3");
+            this.numericUpDown3.Location = new System.Drawing.Point(212, 92);
             this.numericUpDown3.Name = "numericUpDown3";
+            this.numericUpDown3.Size = new System.Drawing.Size(60, 20);
+            this.numericUpDown3.TabIndex = 1;
             this.numericUpDown3.Value = new decimal(new int[] {
             3,
             0,
@@ -96,35 +112,52 @@
             // 
             // label3
             // 
-            resources.ApplyResources(this.label3, "label3");
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(12, 94);
             this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(134, 13);
+            this.label3.TabIndex = 2;
+            this.label3.Text = "Объем БД в 1-м регионе";
             // 
             // groupBox1
             // 
-            resources.ApplyResources(this.groupBox1, "groupBox1");
             this.groupBox1.Controls.Add(this.radioButton2);
             this.groupBox1.Controls.Add(this.radioButton1);
+            this.groupBox1.Location = new System.Drawing.Point(15, 118);
             this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(257, 66);
+            this.groupBox1.TabIndex = 3;
             this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Тип МРБН";
             // 
             // radioButton2
             // 
-            resources.ApplyResources(this.radioButton2, "radioButton2");
+            this.radioButton2.AutoSize = true;
+            this.radioButton2.Location = new System.Drawing.Point(6, 42);
             this.radioButton2.Name = "radioButton2";
+            this.radioButton2.Size = new System.Drawing.Size(137, 17);
+            this.radioButton2.TabIndex = 0;
             this.radioButton2.TabStop = true;
+            this.radioButton2.Text = "Децентрализованный";
             this.radioButton2.UseVisualStyleBackColor = true;
             // 
             // radioButton1
             // 
-            resources.ApplyResources(this.radioButton1, "radioButton1");
+            this.radioButton1.AutoSize = true;
+            this.radioButton1.Location = new System.Drawing.Point(6, 19);
             this.radioButton1.Name = "radioButton1";
+            this.radioButton1.Size = new System.Drawing.Size(124, 17);
+            this.radioButton1.TabIndex = 0;
             this.radioButton1.TabStop = true;
+            this.radioButton1.Text = "Централизованный";
             this.radioButton1.UseVisualStyleBackColor = true;
             // 
             // numericUpDown4
             // 
-            resources.ApplyResources(this.numericUpDown4, "numericUpDown4");
+            this.numericUpDown4.Location = new System.Drawing.Point(212, 64);
             this.numericUpDown4.Name = "numericUpDown4";
+            this.numericUpDown4.Size = new System.Drawing.Size(60, 20);
+            this.numericUpDown4.TabIndex = 1;
             this.numericUpDown4.Value = new decimal(new int[] {
             3,
             0,
@@ -133,13 +166,19 @@
             // 
             // label4
             // 
-            resources.ApplyResources(this.label4, "label4");
+            this.label4.AutoSize = true;
+            this.label4.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.label4.Location = new System.Drawing.Point(12, 66);
             this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(184, 13);
+            this.label4.TabIndex = 2;
+            this.label4.Text = "Количество запросов от 1 клиента";
             // 
             // MainWindow
             // 
-            resources.ApplyResources(this, "$this");
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.ClientSize = new System.Drawing.Size(284, 261);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label4);
@@ -154,6 +193,7 @@
             this.MinimizeBox = false;
             this.Name = "MainWindow";
             this.ShowIcon = false;
+            this.Text = "MainWindow";
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown3)).EndInit();

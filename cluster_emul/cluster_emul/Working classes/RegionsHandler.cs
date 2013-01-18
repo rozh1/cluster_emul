@@ -51,6 +51,7 @@ namespace cluster_emul
             time = 200;
             for (int k = 0; k < 10; k++)
             {
+                Console.WriteLine("Сутки №" + (k + 1));
                 while (time < (ClientsCount-1) * 100 + 300)
                 {
                     time += 0.01F;
