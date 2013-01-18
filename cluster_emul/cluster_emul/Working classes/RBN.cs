@@ -198,10 +198,40 @@ namespace cluster_emul
         /// Признак активности региона
         /// </summary>
         /// <returns>true - если регион не активен</returns>
-        public bool IsSleep()
+        public bool IsSleep(float time)
         {
-            if (local_queue.Count == 0) return true;
-            else return false;
+            this.time = time;
+            int i = Region_num-1;
+            if (i * 100 + 300 > time && i * 100 < time) return false;
+            else return true;
+        }
+
+        /// <summary>
+        /// Отправляет первый элемент очереди РБН
+        /// </summary>
+        /// <returns>масси с информацией о запросе и клиенте</returns>
+        public int[] GetQueryFromQueue()
+        {
+            return (int[])local_queue.Dequeue();
+        }
+
+        /// <summary>
+        /// Добавляет новый запрос в очередь РБН
+        /// </summary>
+        /// <param name="arr">Информация о запросе и клиенте</param>
+        public void SetNewQuery(int[] arr)
+        {
+            local_queue.Enqueue(arr);
+        }
+
+        /// <summary>
+        /// проверяет заполненность очереди РБН
+        /// </summary>
+        /// <returns>true - если заполнена</returns>
+        public bool QueueFull()
+        {
+            if (local_queue.Count < local_queue_length) return false;
+            else true;
         }
     }
 }

@@ -75,12 +75,12 @@ namespace cluster_emul
         public void DeCentralizedHandler()
         {
 
-                    for (int i = 0; i < RegionsCount; i++)
-                    {
-                        RBN rbn = (RBN)Regions[i];
-                        if (i * 100 + 300 > time && i * 100 < time) rbn.WorkHandler(time);
-                        else rbn.SleepHandler(time);
-                if (rbn.IsSleep())
+            for (int i = 0; i < RegionsCount; i++)
+            {
+                RBN rbn = (RBN)Regions[i];
+                if (i * 100 + 300 > time && i * 100 < time) rbn.WorkHandler(time);
+                else rbn.SleepHandler(time);
+                if (rbn.IsSleep(time))
                 {
                     for (int j = 0; j < RegionsCount; j++)
                     {
