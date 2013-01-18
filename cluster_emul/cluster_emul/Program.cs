@@ -32,9 +32,9 @@ namespace cluster_emul
         [STAThread]
         static void Main(string[] args)
         {
-            Application.Run(new MainWindow());
+            //Application.Run(new MainWindow());
             OutputHandler.Init("file.txt");
-            RegionsHandler rh = new RegionsHandler(3, 1000);
+            RegionsHandler rh = new RegionsHandler(3, 10);
             rh.Work();
             OutputHandler.Close();
             Console.WriteLine("Все готово!");

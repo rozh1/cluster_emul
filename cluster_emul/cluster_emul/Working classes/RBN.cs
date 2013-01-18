@@ -13,16 +13,17 @@ namespace cluster_emul
     /// </summary>
     class RBN
     {
-        Queue local_queue;        //Очередь запросов РБН
-        int local_queue_length;   //длина очереди
-        int Region_num;           //номер региона
-        ArrayList Clients;        //Клиенты
-        ArrayList Clusters;       //Серверы
-        float time = 0;           //Модельное мремя
-        int TOTAL_QUERY_COUNT = 0;//Общее количество обработанных регионом запросов 
-        int CURENT_TOTAL_W = 0;   //Общий суммарный вес очредеи РБН
-        public int db_capacity;          //Объём базы данных региона
-        float normalizing_factor; //нормирующий коэффициент при расчёте весов
+        Queue local_queue;              //Очередь запросов РБН
+        int local_queue_length;         //длина очереди
+        int Region_num;                 //номер региона
+        ArrayList Clients;              //Клиенты
+        ArrayList Clusters;             //Серверы
+        float time = 0;                 //Модельное мремя
+        int TOTAL_QUERY_COUNT = 0;      //Общее количество обработанных регионом запросов 
+        int CURENT_TOTAL_W = 0;         //Общий суммарный вес очредеи РБН
+        public int db_capacity;         //Объём базы данных региона
+        float normalizing_factor;       //нормирующий коэффициент при расчёте весов
+        public ArrayList AnotherQueries;//Обработанные запросы от клиентов из других регионов
 
         /// <summary>
         /// Конструктор класса
@@ -40,6 +41,7 @@ namespace cluster_emul
             this.Clients = new ArrayList(Clients);
             this.Clusters = new ArrayList(Clusters);
             this.db_capacity = db_capacity;
+            AnotherQueries = new ArrayList();
             InitClientCluster();
         }
 
@@ -85,9 +87,12 @@ namespace cluster_emul
                     if ((cl.GetQueueCount() < 2) && local_queue.Count > 0)
                     {
                         int[] arr = (int[])local_queue.Peek();
-                        cluster_client cl_w = (cluster_client)Clients[arr[1]];
-                        if (TOTAL_QUERY_COUNT > 0) CURENT_TOTAL_W -= cl_w.GetWieghtQuery();
-
+                        //если запрос из своего региона
+                        if (arr[2] == Region_num)
+                        {
+                            cluster_client cl_w = (cluster_client)Clients[arr[1]];
+                            if (TOTAL_QUERY_COUNT > 0) CURENT_TOTAL_W -= cl_w.GetWieghtQuery();
+                        }
                         cl.QueueAdd((int[])local_queue.Dequeue());
                         cl.SetQueryTime();
                     }
@@ -126,12 +131,20 @@ namespace cluster_emul
                 if (cl.query_time < 0.01 && cl.GetQueueCount()>0)
                 {
                     int[] arr = cl.GetQueryInfo(true);
-                    cluster_client client = (cluster_client)Clients[arr[1]];
-                    client.ReciveAns();
+                    //если запрос из своего региона
+                    if (arr[2] == Region_num)
+                    {
+                        cluster_client client = (cluster_client)Clients[arr[1]];
+                        client.ReciveAns();
+                    }
+                    else
+                    {
+                        AnotherQueries.Add(arr);
+                    }
                     TOTAL_QUERY_COUNT++;
                     flag = true;
-                    //Console.WriteLine("{0};{1};{2};{3}", arr[0], arr[1],arr[2],time);
-                    OutputHandler.WriteLine(arr[0] + ";" + arr[1] + ";" + arr[2] + ";" + time);
+                    //Номер региона;номер запроса в регионе;номер запроса;номер клиента;номер региона клиента; время
+                    OutputHandler.WriteLine(Region_num+";"+TOTAL_QUERY_COUNT+";"+arr[0] + ";" + arr[1] + ";" + arr[2] + ";" + time);
                 }
             }
             return flag;
@@ -228,10 +241,30 @@ namespace cluster_emul
         /// проверяет заполненность очереди РБН
         /// </summary>
         /// <returns>true - если заполнена</returns>
-        public bool QueueFull()
+        public bool QueueIsFull()
         {
             if (local_queue.Count < local_queue_length) return false;
-            else true;
+            else return true;
+        }
+
+        /// <summary>
+        /// проверяет пустоту очереди РБН
+        /// </summary>
+        /// <returns>true - если пустая</returns>
+        public bool QueueIsEmpty()
+        {
+            if (local_queue.Count == 0) return true;
+            else return false;
+        }
+
+        /// <summary>
+        /// Получает ответ от сервера из другого региона
+        /// </summary>
+        /// <param name="arr">Информация о запросе и клиенте</param>
+        public void ReciveAns(int[] arr)
+        {
+            cluster_client client = (cluster_client)Clients[arr[1]];
+            client.ReciveAns();
         }
     }
 }

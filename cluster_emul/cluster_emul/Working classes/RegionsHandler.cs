@@ -51,7 +51,7 @@ namespace cluster_emul
         public void Work()
         {
             time = 200;
-            for (int k = 0; k < 10; k++)
+            for (int k = 0; k < 2; k++)
             {
                 Console.WriteLine("Сутки №" + (k + 1));
                 while (time < (ClientsCount - 1) * 100 + 300)
@@ -63,7 +63,6 @@ namespace cluster_emul
                             DeCentralizedHandler();
                             break;
                     }
-
                 }
                 time = 0;
             }
@@ -84,7 +83,22 @@ namespace cluster_emul
                 {
                     for (int j = 0; j < RegionsCount; j++)
                     {
-                        RBN another_rbn = (RBN)Regions[i];
+                        RBN another_rbn = (RBN)Regions[j];
+                        if (!another_rbn.IsSleep(time))
+                        {
+                            if (!rbn.QueueIsFull() && !another_rbn.QueueIsEmpty())
+                            {
+                                rbn.SetNewQuery(another_rbn.GetQueryFromQueue());
+                            }
+                        }
+                    }
+                }
+                if (rbn.AnotherQueries.Count > 0)
+                {
+                    for (int k = 0; k < rbn.AnotherQueries.Count; k++)
+                    {
+                        int[] arr = (int[])rbn.AnotherQueries[k];
+                        ((RBN)Regions[arr[2]-1]).ReciveAns(arr);
                     }
                 }
             }
