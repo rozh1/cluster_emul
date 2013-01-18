@@ -23,6 +23,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using cluster_emul.Utils;
 
 namespace cluster_emul
 {
@@ -31,8 +32,11 @@ namespace cluster_emul
         static void Main(string[] args)
         {
            // Application.Run(new MainWindow());
+            OutputHandler.Init("file.txt");
             RegionsHandler rh = new RegionsHandler(3, 1000);
             rh.Work();
+            OutputHandler.Close();
+            Console.WriteLine("Все готово!");
             Console.ReadKey();
         }
     }

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Collections;
+using cluster_emul.Utils;
 
 namespace cluster_emul
 {
@@ -117,7 +118,8 @@ namespace cluster_emul
                     cluster_client client = (cluster_client)Clients[arr[1]];
                     client.ReciveAns();
                     flag = true;
-                    Console.WriteLine("{0};{1};{2};{3}", arr[0], arr[1],arr[2],time);
+                    //Console.WriteLine("{0};{1};{2};{3}", arr[0], arr[1],arr[2],time);
+                    OutputHandler.WriteLine(arr[0] + ";" + arr[1] + ";" + arr[2] + ";" + time);
                 }
             }
             return flag;
