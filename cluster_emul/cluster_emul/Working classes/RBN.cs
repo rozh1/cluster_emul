@@ -13,12 +13,16 @@ namespace cluster_emul
     /// </summary>
     class RBN
     {
-        Queue local_queue;      //Очередь запросов РБН
-        int local_queue_length; //длина очереди
-        int Region_num;         //номер региона
-        ArrayList Clients;      //Клиенты
-        ArrayList Clusters;     //Серверы
-        float time = 0;         //Модельное мремя
+        Queue local_queue;        //Очередь запросов РБН
+        int local_queue_length;   //длина очереди
+        int Region_num;           //номер региона
+        ArrayList Clients;        //Клиенты
+        ArrayList Clusters;       //Серверы
+        float time = 0;           //Модельное мремя
+        int TOTAL_QUERY_COUNT = 0;//Общее количество обработанных регионом запросов 
+        int CURENT_TOTAL_W = 0;   //Общий суммарный вес очредеи РБН
+        public int db_capacity;          //Объём базы данных региона
+        float normalizing_factor; //нормирующий коэффициент при расчёте весов
 
         /// <summary>
         /// Конструктор класса
@@ -27,13 +31,15 @@ namespace cluster_emul
         /// <param name="Local_Queue_length">Длина очереди балансировщика</param>
         /// <param name="Clients">Количество клиентов в регионе</param>
         /// <param name="Clusters">Количество серверов в регионе</param>
-        public RBN(int Region_number, int Local_Queue_length, int Clients, int Clusters)
+        /// <param name="db_capacity">Объём базы данных региона</param>
+        public RBN(int Region_number, int Local_Queue_length, int Clients, int Clusters, int db_capacity)
         {
             local_queue_length = Local_Queue_length;
             local_queue = new Queue(Local_Queue_length);
             Region_num = Region_number;
             this.Clients = new ArrayList(Clients);
             this.Clusters = new ArrayList(Clusters);
+            this.db_capacity = db_capacity;
             InitClientCluster();
         }
 
@@ -78,6 +84,10 @@ namespace cluster_emul
                     cluster cl = (cluster)Clusters[i];
                     if ((cl.GetQueueCount() < 2) && local_queue.Count > 0)
                     {
+                        int[] arr = (int[])local_queue.Peek();
+                        cluster_client cl_w = (cluster_client)Clients[arr[1]];
+                        if (TOTAL_QUERY_COUNT > 0) CURENT_TOTAL_W -= cl_w.GetWieghtQuery();
+
                         cl.QueueAdd((int[])local_queue.Dequeue());
                         cl.SetQueryTime();
                     }
@@ -97,6 +107,7 @@ namespace cluster_emul
                 if (!cl.request_sended && local_queue.Count<local_queue_length)
                 {
                     cl.NewRequest();
+                    CURENT_TOTAL_W += cl.GetWieghtQuery();
                     local_queue.Enqueue(cl.GetParametrs());
                 }
             }
@@ -117,6 +128,7 @@ namespace cluster_emul
                     int[] arr = cl.GetQueryInfo(true);
                     cluster_client client = (cluster_client)Clients[arr[1]];
                     client.ReciveAns();
+                    TOTAL_QUERY_COUNT++;
                     flag = true;
                     //Console.WriteLine("{0};{1};{2};{3}", arr[0], arr[1],arr[2],time);
                     OutputHandler.WriteLine(arr[0] + ";" + arr[1] + ";" + arr[2] + ";" + time);
@@ -163,6 +175,23 @@ namespace cluster_emul
             {
                 ((cluster)Clusters[i]).query_time -= 0.01F;
             }
+        }
+        /// <summary>
+        /// Функция устанавливает нормирущий коэффициент
+        /// </summary>
+        /// <param name="koeff">нормирующий коэффициент</param>
+        public void Set_normalizing_factor(float koeff)
+        {
+            normalizing_factor = koeff;
+        }
+        /// <summary>
+        /// Функция вычисления веса региона
+        /// </summary>
+        /// <returns>вес региона</returns>
+        public float Weight_Compute()
+        {
+            //Wr = { [ P ]/[Li ni]}∙normalizing_factor;
+            return  (float)(TOTAL_QUERY_COUNT/(2*Clients.Count)) * normalizing_factor;
         }
     }
 }

@@ -16,7 +16,6 @@ namespace cluster_emul
         int ClientsCount;       //Количество клиентов в 1-м регионе
         ArrayList Regions;      //Региональные балансировщики
         float time = 0;         //Модельное мремя
-        int BalanceType = 0;    //Тип балансировки
 
         /// <summary>
         /// Конструктор класса
@@ -39,7 +38,8 @@ namespace cluster_emul
             for (int i = 0; i < RegionsCount; i++)
             {
                 int k = i + 1;
-                RBN rbn = new RBN(k, k * ClientsCount, k * ClientsCount, k * 3);
+                RBN rbn = new RBN(k, k * 10, k * ClientsCount, k * 3,k);
+                rbn.Set_normalizing_factor((float)(RegionsCount * ClientsCount /rbn.db_capacity));
                 Regions.Add(rbn);
             }
         }
@@ -53,32 +53,18 @@ namespace cluster_emul
             for (int k = 0; k < 10; k++)
             {
                 Console.WriteLine("Сутки №" + (k + 1));
-                while (time < (ClientsCount - 1) * 100 + 300)
+                while (time < (ClientsCount-1) * 100 + 300)
                 {
                     time += 0.01F;
-                    switch (BalanceType)
+                    for (int i = 0; i < RegionsCount; i++)
                     {
-                        case 0:
-                            DeCentralizedHandler();
-                            break;
+                        RBN rbn = (RBN)Regions[i];
+                        if (i * 100 + 300 > time && i * 100 < time) rbn.WorkHandler(time);
+                        else rbn.SleepHandler(time);
                     }
-
                 }
                 time = 0;
             }
-        }
-
-        /// <summary>
-        /// Функция реализует работу децентрализованной балансировки
-        /// </summary>
-        public void DeCentralizedHandler()
-        {
-                for (int i = 0; i < RegionsCount; i++)
-                {
-                    RBN rbn = (RBN)Regions[i];
-                    if (i * 100 + 300 > time && i * 100 < time) rbn.WorkHandler(time);
-                    else rbn.SleepHandler(time);
-                }
         }
     }
 }

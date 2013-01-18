@@ -16,7 +16,8 @@ namespace cluster_emul
         public int num_request;     //номер текущего запроса
         private cluster_query cq;   //запросы
         public bool request_sended; //флаг посылки запроса
-
+        public int query_col;       //количество обработанных запросов клиента
+        private int query_weight;   //вес текущего запроса
         /// <summary>
         /// Конструктор класса
         /// </summary>
@@ -28,6 +29,7 @@ namespace cluster_emul
             num_region = Num_reg;
             cq = new cluster_query();
             request_sended = false;
+            query_col = 0; query_weight = 0;
         }
 
         /// <summary>
@@ -38,6 +40,7 @@ namespace cluster_emul
             if (!request_sended)
             {
                 num_request = cq.GenQueryNum();
+                query_weight = cq.GetQueryWeightByNum(num_request);
                 request_sended = true;
             }
         }
@@ -48,6 +51,7 @@ namespace cluster_emul
         public void ReciveAns()
         {
             request_sended = false;
+            query_col++;
         }
 
         /// <summary>
@@ -62,6 +66,14 @@ namespace cluster_emul
             arr[1] = num;
             arr[2] = num_region;
             return arr;
+        }
+        /// <summary>
+        ///Возвращает вес текущего запроса
+        /// </summary>
+        /// <returns>вес текущего запроса</returns>
+        public int GetWieghtQuery()
+        {
+            return query_weight;
         }
     }
 }

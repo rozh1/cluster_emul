@@ -55,6 +55,17 @@ namespace cluster_emul
         {
             return queries[num];
         }
+        /// <summary>
+        /// Функция выдачи веса запроса
+        /// </summary>
+        /// <param name="num">номер запроса</param>
+        /// <returns>вес запроса</returns>
+        public int GetQueryWeightByNum(int num)
+        {
+            //здесь можно добавить функцию расчёта веса для каждого ЗАПРОСА
+            //пока взяли простой случай, когда вес == порядковому номеру
+            return num;
+        }
 
     }
 }
