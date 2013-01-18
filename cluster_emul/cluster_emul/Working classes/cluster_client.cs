@@ -67,6 +67,10 @@ namespace cluster_emul
             arr[2] = num_region;
             return arr;
         }
+        /// <summary>
+        ///Возвращает вес текущего запроса
+        /// </summary>
+        /// <returns>вес текущего запроса</returns>
         public int GetWieghtQuery()
         {
             return query_weight;

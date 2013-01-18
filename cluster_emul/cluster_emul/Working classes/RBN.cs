@@ -21,7 +21,7 @@ namespace cluster_emul
         float time = 0;           //Модельное мремя
         int TOTAL_QUERY_COUNT = 0;//Общее количество обработанных регионом запросов 
         int CURENT_TOTAL_W = 0;   //Общий суммарный вес очредеи РБН
-        int db_capacity;          //Объём базы данных региона
+        public int db_capacity;          //Объём базы данных региона
         float normalizing_factor; //нормирующий коэффициент при расчёте весов
 
         /// <summary>
@@ -176,10 +176,18 @@ namespace cluster_emul
                 ((cluster)Clusters[i]).query_time -= 0.01F;
             }
         }
+        /// <summary>
+        /// Функция устанавливает нормирущий коэффициент
+        /// </summary>
+        /// <param name="koeff">нормирующий коэффициент</param>
         public void Set_normalizing_factor(float koeff)
         {
             normalizing_factor = koeff;
         }
+        /// <summary>
+        /// Функция вычисления веса региона
+        /// </summary>
+        /// <returns>вес региона</returns>
         public float Weight_Compute()
         {
             //Wr = { [ P ]/[Li ni]}∙normalizing_factor;
