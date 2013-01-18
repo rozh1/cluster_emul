@@ -164,5 +164,15 @@ namespace cluster_emul
                 ((cluster)Clusters[i]).query_time -= 0.01F;
             }
         }
+
+        /// <summary>
+        /// Признак активности региона
+        /// </summary>
+        /// <returns>true - если регион не активен</returns>
+        public bool IsSleep()
+        {
+            if (local_queue.Count == 0) return true;
+            else return false;
+        }
     }
 }
