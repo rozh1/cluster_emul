@@ -20,7 +20,9 @@ namespace cluster_emul
         ArrayList Clusters;       //Серверы
         float time = 0;           //Модельное мремя
         int TOTAL_QUERY_COUNT = 0;//Общее количество обработанных регионом запросов 
+        int CURENT_TOTAL_W = 0;   //Общий суммарный вес очредеи РБН
         int db_capacity;          //Объём базы данных региона
+        float normalizing_factor; //нормирующий коэффициент при расчёте весов
 
         /// <summary>
         /// Конструктор класса
@@ -29,7 +31,7 @@ namespace cluster_emul
         /// <param name="Local_Queue_length">Длина очереди балансировщика</param>
         /// <param name="Clients">Количество клиентов в регионе</param>
         /// <param name="Clusters">Количество серверов в регионе</param>
-        /// <param name="db_capacity">Объём базы данных первого региона</param>
+        /// <param name="db_capacity">Объём базы данных региона</param>
         public RBN(int Region_number, int Local_Queue_length, int Clients, int Clusters, int db_capacity)
         {
             local_queue_length = Local_Queue_length;
@@ -37,7 +39,7 @@ namespace cluster_emul
             Region_num = Region_number;
             this.Clients = new ArrayList(Clients);
             this.Clusters = new ArrayList(Clusters);
-            this.db_capacity = Region_num*db_capacity;
+            this.db_capacity = db_capacity;
             InitClientCluster();
         }
 
@@ -82,6 +84,10 @@ namespace cluster_emul
                     cluster cl = (cluster)Clusters[i];
                     if ((cl.GetQueueCount() < 2) && local_queue.Count > 0)
                     {
+                        int[] arr = (int[])local_queue.Peek();
+                        cluster_client cl_w = (cluster_client)Clients[arr[1]];
+                        if (TOTAL_QUERY_COUNT > 0) TOTAL_QUERY_COUNT -= cl_w.GetWieghtQuery();
+
                         cl.QueueAdd((int[])local_queue.Dequeue());
                         cl.SetQueryTime();
                     }
@@ -101,6 +107,7 @@ namespace cluster_emul
                 if (!cl.request_sended && local_queue.Count<local_queue_length)
                 {
                     cl.NewRequest();
+                    TOTAL_QUERY_COUNT += cl.GetWieghtQuery();
                     local_queue.Enqueue(cl.GetParametrs());
                 }
             }
@@ -169,6 +176,14 @@ namespace cluster_emul
                 ((cluster)Clusters[i]).query_time -= 0.01F;
             }
         }
-
+        public void Set_normalizing_factor(float koeff)
+        {
+            normalizing_factor = koeff;
+        }
+        public float Weight_Compute()
+        {
+            //Wr = { [ P ]/[Li ni]}∙normalizing_factor;
+            return  (float)(TOTAL_QUERY_COUNT/(2*Clients.Count)) * normalizing_factor;
+        }
     }
 }

@@ -38,7 +38,8 @@ namespace cluster_emul
             for (int i = 0; i < RegionsCount; i++)
             {
                 int k = i + 1;
-                RBN rbn = new RBN(k, k * 10, k * ClientsCount, k * 3);
+                RBN rbn = new RBN(k, k * 10, k * ClientsCount, k * 3,k);
+                rbn.Set_normalizing_factor((float)(RegionsCount * ClientsCount / RegionsCount));
                 Regions.Add(rbn);
             }
         }
