@@ -16,6 +16,7 @@ namespace cluster_emul
         public int num_request;     //номер текущего запроса
         private cluster_query cq;   //запросы
         public bool request_sended; //флаг посылки запроса
+        public int query_col;
 
         /// <summary>
         /// Конструктор класса
@@ -28,6 +29,7 @@ namespace cluster_emul
             num_region = Num_reg;
             cq = new cluster_query();
             request_sended = false;
+            query_col = 0;
         }
 
         /// <summary>
@@ -48,6 +50,7 @@ namespace cluster_emul
         public void ReciveAns()
         {
             request_sended = false;
+            query_col++;
         }
 
         /// <summary>
