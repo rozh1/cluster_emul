@@ -193,5 +193,15 @@ namespace cluster_emul
             //Wr = { [ P ]/[Li ni]}∙normalizing_factor;
             return  (float)(TOTAL_QUERY_COUNT/(2*Clients.Count)) * normalizing_factor;
         }
+
+        /// <summary>
+        /// Признак активности региона
+        /// </summary>
+        /// <returns>true - если регион не активен</returns>
+        public bool IsSleep()
+        {
+            if (local_queue.Count == 0) return true;
+            else return false;
+        }
     }
 }

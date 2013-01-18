@@ -29,9 +29,10 @@ namespace cluster_emul
 {
     class Program
     {
+        [STAThread]
         static void Main(string[] args)
         {
-           // Application.Run(new MainWindow());
+            Application.Run(new MainWindow());
             OutputHandler.Init("file.txt");
             RegionsHandler rh = new RegionsHandler(3, 1000);
             rh.Work();
