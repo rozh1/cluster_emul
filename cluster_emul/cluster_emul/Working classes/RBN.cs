@@ -15,7 +15,7 @@ namespace cluster_emul
     {
         Queue local_queue;              //Очередь запросов РБН
         int local_queue_length;         //длина очереди
-        int Region_num;                 //номер региона
+        public int Region_num;          //номер региона
         ArrayList Clients;              //Клиенты
         ArrayList Clusters;             //Серверы
         float time = 200;               //Модельное мремя
@@ -213,11 +213,10 @@ namespace cluster_emul
         /// Признак активности региона
         /// </summary>
         /// <returns>true - если регион не активен</returns>
-        public bool IsSleep(float time)
+        public bool IsSleep()
         {
-            this.time = time;
             int i = Region_num-1;
-            if (i * 100 + 300 > time && i * 100 < time) return false;
+            if ((i * 100 + 300 > time && i * 100 < time) || local_queue.Count!=0) return false;
             else return true;
         }
 
@@ -264,13 +263,13 @@ namespace cluster_emul
         /// </summary>
         /// <param name="arr">Информация о запросе и клиенте</param>
         /// <param name="time">текущее модельное время</param>
-        public void ReciveAns(int[] arr, float time)
+        public void ReciveAns(int[] arr, int anotherRegion)
         {
             cluster_client client = (cluster_client)Clients[arr[1]];
             client.ReciveAns(time);
             //Номер региона;номер запроса в регионе;номер запроса;номер клиента;номер региона клиента; время задержки; время
             string output = String.Format("{0};{1};{2};{3};{4};{5:F2};{6:F2}",
-                Region_num, TOTAL_QUERY_COUNT, arr[0], arr[1], arr[2], client.recive_time, time);
+                anotherRegion, TOTAL_QUERY_COUNT, arr[0], arr[1], arr[2], client.recive_time, time);
             OutputHandler.WriteLine(output);
         }
     }

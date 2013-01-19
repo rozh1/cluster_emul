@@ -104,16 +104,19 @@ namespace cluster_emul
                 RBN rbn = (RBN)Regions[i];
                 if (i * 100 + 300 > time && i * 100 < time) rbn.WorkHandler(time);
                 else rbn.SleepHandler(time);
-                if (rbn.IsSleep(time))
+                if (rbn.IsSleep())
                 {
                     for (int j = 0; j < RegionsCount; j++)
                     {
-                        RBN another_rbn = (RBN)Regions[j];
-                        if (!another_rbn.IsSleep(time))
+                        if (i != j)
                         {
-                            if (!rbn.QueueIsFull() && !another_rbn.QueueIsEmpty())
+                            RBN another_rbn = (RBN)Regions[j];
+                            if (!another_rbn.IsSleep())
                             {
-                                rbn.SetNewQuery(another_rbn.GetQueryFromQueue());
+                                if (!rbn.QueueIsFull() && !another_rbn.QueueIsEmpty())
+                                {
+                                    rbn.SetNewQuery(another_rbn.GetQueryFromQueue());
+                                }
                             }
                         }
                     }
@@ -123,7 +126,7 @@ namespace cluster_emul
                     for (int k = 0; k < rbn.AnotherQueries.Count; k++)
                     {
                         int[] arr = (int[])rbn.AnotherQueries[k];
-                        ((RBN)Regions[arr[2]-1]).ReciveAns(arr,time);
+                        ((RBN)Regions[arr[2]-1]).ReciveAns(arr,rbn.Region_num);
                     }
                     rbn.AnotherQueries.Clear();
                 }
