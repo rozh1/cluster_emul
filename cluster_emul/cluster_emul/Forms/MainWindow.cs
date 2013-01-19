@@ -26,6 +26,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using cluster_emul.Utils;
 
 namespace cluster_emul
 {
@@ -34,6 +35,22 @@ namespace cluster_emul
         public MainWindow()
         {
             InitializeComponent();
+        }
+
+        private void StartSimButton_Click(object sender, EventArgs e)
+        {
+            int BalanceType=0;
+            if (NoBalanceRadioButton.Checked) BalanceType = 0;
+            if (DeCentralizedBalanceRadioButton.Checked) BalanceType = 1;
+            if (CenralizedBalanceRadioButton.Checked) BalanceType = 2;
+            StartSimButton.Enabled = false;
+            OutputHandler.Init(FilePathTextBox.Text);
+            RegionsHandler rh = new RegionsHandler((int)RegionsUpDown5.Value, (int)ClientsNumericUpDown.Value,
+                (int)ServersUpDown.Value, (int)DBcapNumericUpDown.Value, BalanceType);
+            rh.Work();
+            OutputHandler.Close();
+            Console.WriteLine("Все готово!");
+            StartSimButton.Enabled = true;
         }
     }
 }

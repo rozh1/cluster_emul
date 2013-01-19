@@ -28,54 +28,58 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.button1 = new System.Windows.Forms.Button();
-            this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
-            this.numericUpDown2 = new System.Windows.Forms.NumericUpDown();
+            this.StartSimButton = new System.Windows.Forms.Button();
+            this.ServersUpDown = new System.Windows.Forms.NumericUpDown();
+            this.ClientsNumericUpDown = new System.Windows.Forms.NumericUpDown();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.numericUpDown3 = new System.Windows.Forms.NumericUpDown();
+            this.DBcapNumericUpDown = new System.Windows.Forms.NumericUpDown();
             this.label3 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.radioButton2 = new System.Windows.Forms.RadioButton();
-            this.radioButton1 = new System.Windows.Forms.RadioButton();
-            this.numericUpDown4 = new System.Windows.Forms.NumericUpDown();
+            this.NoBalanceRadioButton = new System.Windows.Forms.RadioButton();
+            this.DeCentralizedBalanceRadioButton = new System.Windows.Forms.RadioButton();
+            this.CenralizedBalanceRadioButton = new System.Windows.Forms.RadioButton();
+            this.label5 = new System.Windows.Forms.Label();
+            this.RegionsUpDown5 = new System.Windows.Forms.NumericUpDown();
+            this.FilePathTextBox = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown3)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ServersUpDown)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ClientsNumericUpDown)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.DBcapNumericUpDown)).BeginInit();
             this.groupBox1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown4)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.RegionsUpDown5)).BeginInit();
             this.SuspendLayout();
             // 
-            // button1
+            // StartSimButton
             // 
-            this.button1.Location = new System.Drawing.Point(12, 226);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(260, 23);
-            this.button1.TabIndex = 0;
-            this.button1.Text = "Начать симуляцию";
-            this.button1.UseVisualStyleBackColor = true;
+            this.StartSimButton.Location = new System.Drawing.Point(12, 250);
+            this.StartSimButton.Name = "StartSimButton";
+            this.StartSimButton.Size = new System.Drawing.Size(260, 23);
+            this.StartSimButton.TabIndex = 0;
+            this.StartSimButton.Text = "Начать симуляцию";
+            this.StartSimButton.UseVisualStyleBackColor = true;
+            this.StartSimButton.Click += new System.EventHandler(this.StartSimButton_Click);
             // 
-            // numericUpDown1
+            // ServersUpDown
             // 
-            this.numericUpDown1.Location = new System.Drawing.Point(212, 12);
-            this.numericUpDown1.Name = "numericUpDown1";
-            this.numericUpDown1.Size = new System.Drawing.Size(60, 20);
-            this.numericUpDown1.TabIndex = 1;
-            this.numericUpDown1.Value = new decimal(new int[] {
+            this.ServersUpDown.Location = new System.Drawing.Point(212, 38);
+            this.ServersUpDown.Name = "ServersUpDown";
+            this.ServersUpDown.Size = new System.Drawing.Size(60, 20);
+            this.ServersUpDown.TabIndex = 1;
+            this.ServersUpDown.Value = new decimal(new int[] {
             3,
             0,
             0,
             0});
             // 
-            // numericUpDown2
+            // ClientsNumericUpDown
             // 
-            this.numericUpDown2.Location = new System.Drawing.Point(212, 38);
-            this.numericUpDown2.Name = "numericUpDown2";
-            this.numericUpDown2.Size = new System.Drawing.Size(60, 20);
-            this.numericUpDown2.TabIndex = 1;
-            this.numericUpDown2.Value = new decimal(new int[] {
-            3,
+            this.ClientsNumericUpDown.Location = new System.Drawing.Point(212, 64);
+            this.ClientsNumericUpDown.Name = "ClientsNumericUpDown";
+            this.ClientsNumericUpDown.Size = new System.Drawing.Size(60, 20);
+            this.ClientsNumericUpDown.TabIndex = 1;
+            this.ClientsNumericUpDown.Value = new decimal(new int[] {
+            10,
             0,
             0,
             0});
@@ -83,7 +87,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(12, 14);
+            this.label1.Location = new System.Drawing.Point(12, 40);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(190, 13);
             this.label1.TabIndex = 2;
@@ -92,19 +96,19 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(12, 40);
+            this.label2.Location = new System.Drawing.Point(12, 66);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(189, 13);
             this.label2.TabIndex = 2;
             this.label2.Text = "Количество клиентов в 1-м регионе";
             // 
-            // numericUpDown3
+            // DBcapNumericUpDown
             // 
-            this.numericUpDown3.Location = new System.Drawing.Point(212, 92);
-            this.numericUpDown3.Name = "numericUpDown3";
-            this.numericUpDown3.Size = new System.Drawing.Size(60, 20);
-            this.numericUpDown3.TabIndex = 1;
-            this.numericUpDown3.Value = new decimal(new int[] {
+            this.DBcapNumericUpDown.Location = new System.Drawing.Point(212, 90);
+            this.DBcapNumericUpDown.Name = "DBcapNumericUpDown";
+            this.DBcapNumericUpDown.Size = new System.Drawing.Size(60, 20);
+            this.DBcapNumericUpDown.TabIndex = 1;
+            this.DBcapNumericUpDown.Value = new decimal(new int[] {
             3,
             0,
             0,
@@ -113,7 +117,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(12, 94);
+            this.label3.Location = new System.Drawing.Point(12, 92);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(134, 13);
             this.label3.TabIndex = 2;
@@ -121,85 +125,115 @@
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.radioButton2);
-            this.groupBox1.Controls.Add(this.radioButton1);
-            this.groupBox1.Location = new System.Drawing.Point(15, 118);
+            this.groupBox1.Controls.Add(this.NoBalanceRadioButton);
+            this.groupBox1.Controls.Add(this.DeCentralizedBalanceRadioButton);
+            this.groupBox1.Controls.Add(this.CenralizedBalanceRadioButton);
+            this.groupBox1.Location = new System.Drawing.Point(15, 116);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(257, 66);
+            this.groupBox1.Size = new System.Drawing.Size(257, 89);
             this.groupBox1.TabIndex = 3;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Тип МРБН";
             // 
-            // radioButton2
+            // NoBalanceRadioButton
             // 
-            this.radioButton2.AutoSize = true;
-            this.radioButton2.Location = new System.Drawing.Point(6, 42);
-            this.radioButton2.Name = "radioButton2";
-            this.radioButton2.Size = new System.Drawing.Size(137, 17);
-            this.radioButton2.TabIndex = 0;
-            this.radioButton2.TabStop = true;
-            this.radioButton2.Text = "Децентрализованный";
-            this.radioButton2.UseVisualStyleBackColor = true;
+            this.NoBalanceRadioButton.AutoSize = true;
+            this.NoBalanceRadioButton.Checked = true;
+            this.NoBalanceRadioButton.Location = new System.Drawing.Point(6, 20);
+            this.NoBalanceRadioButton.Name = "NoBalanceRadioButton";
+            this.NoBalanceRadioButton.Size = new System.Drawing.Size(119, 17);
+            this.NoBalanceRadioButton.TabIndex = 1;
+            this.NoBalanceRadioButton.TabStop = true;
+            this.NoBalanceRadioButton.Text = "Нет балансировки";
+            this.NoBalanceRadioButton.UseVisualStyleBackColor = true;
             // 
-            // radioButton1
+            // DeCentralizedBalanceRadioButton
             // 
-            this.radioButton1.AutoSize = true;
-            this.radioButton1.Location = new System.Drawing.Point(6, 19);
-            this.radioButton1.Name = "radioButton1";
-            this.radioButton1.Size = new System.Drawing.Size(124, 17);
-            this.radioButton1.TabIndex = 0;
-            this.radioButton1.TabStop = true;
-            this.radioButton1.Text = "Централизованный";
-            this.radioButton1.UseVisualStyleBackColor = true;
+            this.DeCentralizedBalanceRadioButton.AutoSize = true;
+            this.DeCentralizedBalanceRadioButton.Location = new System.Drawing.Point(6, 66);
+            this.DeCentralizedBalanceRadioButton.Name = "DeCentralizedBalanceRadioButton";
+            this.DeCentralizedBalanceRadioButton.Size = new System.Drawing.Size(137, 17);
+            this.DeCentralizedBalanceRadioButton.TabIndex = 0;
+            this.DeCentralizedBalanceRadioButton.Text = "Децентрализованный";
+            this.DeCentralizedBalanceRadioButton.UseVisualStyleBackColor = true;
             // 
-            // numericUpDown4
+            // CenralizedBalanceRadioButton
             // 
-            this.numericUpDown4.Location = new System.Drawing.Point(212, 64);
-            this.numericUpDown4.Name = "numericUpDown4";
-            this.numericUpDown4.Size = new System.Drawing.Size(60, 20);
-            this.numericUpDown4.TabIndex = 1;
-            this.numericUpDown4.Value = new decimal(new int[] {
+            this.CenralizedBalanceRadioButton.AutoSize = true;
+            this.CenralizedBalanceRadioButton.Location = new System.Drawing.Point(6, 43);
+            this.CenralizedBalanceRadioButton.Name = "CenralizedBalanceRadioButton";
+            this.CenralizedBalanceRadioButton.Size = new System.Drawing.Size(124, 17);
+            this.CenralizedBalanceRadioButton.TabIndex = 0;
+            this.CenralizedBalanceRadioButton.Text = "Централизованный";
+            this.CenralizedBalanceRadioButton.UseVisualStyleBackColor = true;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(12, 14);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(116, 13);
+            this.label5.TabIndex = 5;
+            this.label5.Text = "Количество регионов";
+            // 
+            // RegionsUpDown5
+            // 
+            this.RegionsUpDown5.Location = new System.Drawing.Point(212, 12);
+            this.RegionsUpDown5.Name = "RegionsUpDown5";
+            this.RegionsUpDown5.Size = new System.Drawing.Size(60, 20);
+            this.RegionsUpDown5.TabIndex = 4;
+            this.RegionsUpDown5.Value = new decimal(new int[] {
             3,
             0,
             0,
             0});
             // 
+            // FilePathTextBox
+            // 
+            this.FilePathTextBox.Location = new System.Drawing.Point(15, 224);
+            this.FilePathTextBox.Name = "FilePathTextBox";
+            this.FilePathTextBox.Size = new System.Drawing.Size(257, 20);
+            this.FilePathTextBox.TabIndex = 6;
+            this.FilePathTextBox.Text = "file.csv";
+            // 
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.label4.Location = new System.Drawing.Point(12, 66);
+            this.label4.Location = new System.Drawing.Point(12, 208);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(184, 13);
+            this.label4.Size = new System.Drawing.Size(105, 13);
             this.label4.TabIndex = 2;
-            this.label4.Text = "Количество запросов от 1 клиента";
+            this.label4.Text = "Файл лога работы:";
             // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(284, 261);
+            this.ClientSize = new System.Drawing.Size(284, 283);
+            this.Controls.Add(this.FilePathTextBox);
+            this.Controls.Add(this.label5);
+            this.Controls.Add(this.RegionsUpDown5);
             this.Controls.Add(this.groupBox1);
-            this.Controls.Add(this.label3);
             this.Controls.Add(this.label4);
+            this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.numericUpDown3);
-            this.Controls.Add(this.numericUpDown4);
-            this.Controls.Add(this.numericUpDown2);
-            this.Controls.Add(this.numericUpDown1);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.DBcapNumericUpDown);
+            this.Controls.Add(this.ClientsNumericUpDown);
+            this.Controls.Add(this.ServersUpDown);
+            this.Controls.Add(this.StartSimButton);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "MainWindow";
             this.ShowIcon = false;
             this.Text = "MainWindow";
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown3)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ServersUpDown)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ClientsNumericUpDown)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.DBcapNumericUpDown)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown4)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.RegionsUpDown5)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -207,17 +241,20 @@
 
         #endregion
 
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.NumericUpDown numericUpDown1;
-        private System.Windows.Forms.NumericUpDown numericUpDown2;
+        private System.Windows.Forms.Button StartSimButton;
+        private System.Windows.Forms.NumericUpDown ServersUpDown;
+        private System.Windows.Forms.NumericUpDown ClientsNumericUpDown;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.NumericUpDown numericUpDown3;
+        private System.Windows.Forms.NumericUpDown DBcapNumericUpDown;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.RadioButton radioButton2;
-        private System.Windows.Forms.RadioButton radioButton1;
-        private System.Windows.Forms.NumericUpDown numericUpDown4;
+        private System.Windows.Forms.RadioButton DeCentralizedBalanceRadioButton;
+        private System.Windows.Forms.RadioButton CenralizedBalanceRadioButton;
+        private System.Windows.Forms.RadioButton NoBalanceRadioButton;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.NumericUpDown RegionsUpDown5;
+        private System.Windows.Forms.TextBox FilePathTextBox;
         private System.Windows.Forms.Label label4;
     }
 }

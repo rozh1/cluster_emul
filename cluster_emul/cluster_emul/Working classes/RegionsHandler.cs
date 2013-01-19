@@ -14,6 +14,8 @@ namespace cluster_emul
     {
         int RegionsCount;       //Количество регионов
         int ClientsCount;       //Количество клиентов в 1-м регионе
+        int DB_capacity;        //Объем БД в 1-м объеме
+        int ServersCount;       //Количество серверов в 1-м регионе
         ArrayList Regions;      //Региональные балансировщики
         float time = 0;         //Модельное мремя
         int BalanceType = 0;    //Тип балансировки
@@ -23,10 +25,16 @@ namespace cluster_emul
         /// </summary>
         /// <param name="RegionsCount">Количество регионов</param>
         /// <param name="ClientsCount">Количество клиентов в 1-м регионе</param>
-        public RegionsHandler(int RegionsCount,int ClientsCount)
+        /// <param name="ServersCount">Количество серверов в 1-м регионе</param>
+        /// <param name="DB_capacity">Объем БД в 1-м объеме</param>
+        /// <param name="BalanceType">Тип балансировки</param>
+        public RegionsHandler(int RegionsCount, int ClientsCount, int ServersCount, int DB_capacity, int BalanceType)
         {
             this.RegionsCount = RegionsCount;
             this.ClientsCount = ClientsCount;
+            this.ServersCount = ServersCount;
+            this.DB_capacity = DB_capacity;
+            this.BalanceType = BalanceType;
             Regions = new ArrayList(RegionsCount);
             InitRegions();
         }
@@ -39,7 +47,7 @@ namespace cluster_emul
             for (int i = 0; i < RegionsCount; i++)
             {
                 int k = i + 1;
-                RBN rbn = new RBN(k, k * 10, k * ClientsCount, k * 3,k);
+                RBN rbn = new RBN(k, k * ClientsCount, k * ClientsCount, k * ServersCount, k * DB_capacity);
                 rbn.Set_normalizing_factor((float)(RegionsCount * ClientsCount /rbn.db_capacity));
                 Regions.Add(rbn);
             }
@@ -60,11 +68,28 @@ namespace cluster_emul
                     switch (BalanceType)
                     {
                         case 0:
+                            NotBalancedHandler();
+                            break;
+                        case 1:
                             DeCentralizedHandler();
                             break;
                     }
                 }
                 time = 0;
+            }
+        }
+
+        /// <summary>
+        /// Функция реализует работу без балансировщика
+        /// </summary>
+        public void NotBalancedHandler()
+        {
+
+            for (int i = 0; i < RegionsCount; i++)
+            {
+                RBN rbn = (RBN)Regions[i];
+                if (i * 100 + 300 > time && i * 100 < time) rbn.WorkHandler(time);
+                else rbn.SleepHandler(time);
             }
         }
 
