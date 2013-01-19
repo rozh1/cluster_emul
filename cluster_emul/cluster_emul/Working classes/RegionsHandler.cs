@@ -54,7 +54,7 @@ namespace cluster_emul
             for (int k = 0; k < 2; k++)
             {
                 Console.WriteLine("Сутки №" + (k + 1));
-                while (time < (ClientsCount - 1) * 100 + 300)
+                while (time < (RegionsCount - 1) * 100 + 300)
                 {
                     time += 0.01F;
                     switch (BalanceType)
@@ -98,8 +98,9 @@ namespace cluster_emul
                     for (int k = 0; k < rbn.AnotherQueries.Count; k++)
                     {
                         int[] arr = (int[])rbn.AnotherQueries[k];
-                        ((RBN)Regions[arr[2]-1]).ReciveAns(arr);
+                        ((RBN)Regions[arr[2]-1]).ReciveAns(arr,time);
                     }
+                    rbn.AnotherQueries.Clear();
                 }
             }
         }

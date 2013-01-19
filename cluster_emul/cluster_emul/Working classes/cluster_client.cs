@@ -18,6 +18,8 @@ namespace cluster_emul
         public bool request_sended; //флаг посылки запроса
         public int query_col;       //количество обработанных запросов клиента
         private int query_weight;   //вес текущего запроса
+        private float send_time;    //Время отправки запроса
+        public float recive_time;   //Время задержки
         /// <summary>
         /// Конструктор класса
         /// </summary>
@@ -35,21 +37,27 @@ namespace cluster_emul
         /// <summary>
         /// Функция определения нового запроса
         /// </summary>
-        public void NewRequest()
+        /// <param name="time">Текущее модельное время</param>
+        public void NewRequest(float time)
         {
             if (!request_sended)
             {
                 num_request = cq.GenQueryNum();
                 query_weight = cq.GetQueryWeightByNum(num_request);
                 request_sended = true;
+                send_time = time;
             }
         }
 
         /// <summary>
         /// Функция получения ответа от сервера
         /// </summary>
-        public void ReciveAns()
+        /// <param name="time">Текущее модельное время</param>
+        /// <returns>время ожидания ответа</returns>
+        public void ReciveAns(float time)
         {
+            if (time < send_time) time += 500;
+            recive_time = time - send_time;
             request_sended = false;
             query_col++;
         }
