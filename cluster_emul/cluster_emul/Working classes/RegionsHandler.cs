@@ -106,19 +106,10 @@ namespace cluster_emul
                 else rbn.SleepHandler(time);
                 if (rbn.IsSleep())
                 {
-                    for (int j = 0; j < RegionsCount; j++)
+                    RBN another_rbn = MaxWeightRegion(i);
+                    if (!rbn.QueueIsFull() && !another_rbn.QueueIsEmpty())
                     {
-                        if (i != j)
-                        {
-                            RBN another_rbn = (RBN)Regions[j];
-                            if (!another_rbn.IsSleep())
-                            {
-                                if (!rbn.QueueIsFull() && !another_rbn.QueueIsEmpty())
-                                {
-                                    rbn.SetNewQuery(another_rbn.GetQueryFromQueue());
-                                }
-                            }
-                        }
+                        rbn.SetNewQuery(another_rbn.GetQueryFromQueue());
                     }
                 }
                 if (rbn.AnotherQueries.Count > 0)
@@ -131,6 +122,26 @@ namespace cluster_emul
                     rbn.AnotherQueries.Clear();
                 }
             }
+        }
+
+        /// <summary>
+        /// Выбирает регион с максимальным весом очереди
+        /// </summary>
+        /// <param name="j">номер главного региона</param>
+        /// <returns>регион с максимальным весом</returns>
+        RBN MaxWeightRegion(int j)
+        {
+            RBN maxWeight = (RBN)Regions[RegionsCount-1-j];
+            for (int i = 0; i < RegionsCount; i++)
+            {
+                if (i != j)
+                {
+                    RBN rbn = (RBN)Regions[i];
+                    if (maxWeight.Weight_Compute() < rbn.Weight_Compute())
+                        maxWeight = rbn;
+                }
+            }
+            return maxWeight;
         }
     }
 }
