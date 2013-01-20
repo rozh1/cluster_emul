@@ -145,7 +145,7 @@ namespace cluster_emul
             for (int i = 0; i < RegionsCount; i++)
             {
                 RBN rbn_i = (RBN)Regions[i];
-                for (int j = 0; (j < RegionsCount) && i != j; j++)
+                for (int j = 0; (j < RegionsCount); j++)
                 {
                     if (i != j)
                     {
