@@ -143,5 +143,65 @@ namespace cluster_emul
             }
             return maxWeight;
         }
+        /// <summary>
+        /// Функция реализует работу централизованной балансировки
+        /// </summary>
+        public void CentralizedHandler()
+        {
+            int[] dev = deviation_average_weight(compute_mean_weigth());
+            for (int i = 0; i < RegionsCount; i++)
+             {
+                  for (int j = 0; (j < RegionsCount) && i!=j; j++)
+                  {
+                      RBN rbn_i = (RBN)Regions[i];
+                      RBN rbn_j = (RBN)Regions[j];
+                      if(dev[i] > dev[j])
+                      {
+                          rbn_j.SetNewQuery( rbn_i.GetQueryFromQueue());
+                      }
+                      if(dev[i] < dev[j])
+                      {
+                          rbn_i.SetNewQuery( rbn_j.GetQueryFromQueue());
+                      }
+                  }
+             }
+        }
+        /// <summary>
+        /// Функция вычисляет среднее значение весов регионов
+        /// </summary>
+        /// <returns>среднее значение весов регионов </returns>
+        public float compute_mean_weigth()
+        {
+            float s = 0;
+            for (int i = 0; i < RegionsCount; i++)
+            {
+                RBN rbn = (RBN)Regions[i];
+                s += rbn.Weight_Compute();
+            }
+            return  s / RegionsCount;
+        }
+        /// <summary>
+        /// Функция вычисляет отклонение веса региона от среднего веса
+        /// </summary>
+        /// <param name="mean">среднее значение весов регионов</param>
+        /// <returns>массив целых чисел для каждого региона:  0 - "-" девиация 1 - "+" девиация</returns>
+        public int[] deviation_average_weight(float mean)
+        {
+            int[] deviation = int[RegionsCount];
+            for (int i = 0; i < RegionsCount; i++)
+            {
+                RBN rbn = (RBN)Regions[i];
+                if (rbn.Weight_Compute() > mean)
+                {
+                    deviation[i] = 1;
+                }
+                if (rbn.Weight_Compute() < mean)
+                {
+                    deviation[i] = 0;
+                }
+            }
+            return deviation;
+        }
+        
     }
 }
