@@ -223,12 +223,31 @@ namespace cluster_emul
         /// <summary>
         /// Отправляет первый элемент очереди РБН
         /// </summary>
-        /// <returns>масси с информацией о запросе и клиенте</returns>
+        /// <returns>массив с информацией о запросе и клиенте</returns>
         public int[] GetQueryFromQueue()
         {
             return (int[])local_queue.Dequeue();
         }
-
+        /// <summary>
+        /// Отправляет последний элемент очереди РБН
+        /// </summary>
+        /// <returns>>массив с информацией о запросе и клиенте</returns>
+        public int[] GetLastQueryFromQueue()
+        {
+            object first = local_queue.Peek();
+            object current = null;
+            while (true)
+            {
+                current = local_queue.Dequeue();
+                if (local_queue.Count == 0) break;
+                if (local_queue.Peek() == first)
+                {
+                    break;
+                }
+                local_queue.Enqueue(current);
+            }
+            return (int[])current;
+        }
         /// <summary>
         /// Добавляет новый запрос в очередь РБН
         /// </summary>

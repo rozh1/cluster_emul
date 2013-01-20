@@ -152,11 +152,11 @@ namespace cluster_emul
                         RBN rbn_j = (RBN)Regions[j];
                         if (dev[i] > dev[j] && !rbn_j.QueueIsFull() && !rbn_i.QueueIsEmpty())
                         {
-                            rbn_j.SetNewQuery(rbn_i.GetQueryFromQueue());
+                            rbn_j.SetNewQuery(rbn_i.GetLastQueryFromQueue());
                         }
                         if (dev[i] < dev[j] && !rbn_i.QueueIsFull() && !rbn_j.QueueIsEmpty())
                         {
-                            rbn_i.SetNewQuery(rbn_j.GetQueryFromQueue());
+                            rbn_i.SetNewQuery(rbn_j.GetLastQueryFromQueue());
                         }
                     }
                 }
