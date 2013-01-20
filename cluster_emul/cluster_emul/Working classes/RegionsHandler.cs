@@ -17,8 +17,9 @@ namespace cluster_emul
         int DB_capacity;        //Объем БД в 1-м объеме
         int ServersCount;       //Количество серверов в 1-м регионе
         ArrayList Regions;      //Региональные балансировщики
-        float time = 0;         //Модельное мремя
+        float time = 200;       //Модельное мремя
         int BalanceType = 0;    //Тип балансировки
+        int ModelDays = 0;      //Количество модельных суток
 
         /// <summary>
         /// Конструктор класса
@@ -47,7 +48,7 @@ namespace cluster_emul
             for (int i = 0; i < RegionsCount; i++)
             {
                 int k = i + 1;
-                RBN rbn = new RBN(k, k * ClientsCount, k * ClientsCount, k * ServersCount, k * DB_capacity);
+                RBN rbn = new RBN(k, k * ServersCount * 2, k * ClientsCount, k * ServersCount, k * DB_capacity);
                 rbn.Set_normalizing_factor((float)(RegionsCount * ClientsCount /rbn.db_capacity));
                 Regions.Add(rbn);
             }
@@ -56,30 +57,28 @@ namespace cluster_emul
         /// <summary>
         /// Функция - обработчик
         /// </summary>
-        public void Work()
+        /// <returns>количество модельных суток</returns>
+        public int Work()
         {
-            time = 200;
-            for (int k = 0; k < 2; k++)
+            time += 0.01F;
+            switch (BalanceType)
             {
-                Console.WriteLine("Сутки №" + (k + 1));
-                while (time < (RegionsCount - 1) * 100 + 300)
-                {
-                    time += 0.01F;
-                    switch (BalanceType)
-                    {
-                        case 0:
-                            NotBalancedHandler();
-                            break;
-                        case 1:
-                            DeCentralizedHandler();
-                            break;
-                        case 2:
-                            CentralizedHandler();
-                            break;
-                    }
-                }
-                time = 0;
+                case 0:
+                    NotBalancedHandler();
+                    break;
+                case 1:
+                    DeCentralizedHandler();
+                    break;
+                case 2:
+                    CentralizedHandler();
+                    break;
             }
+            if (time >= (RegionsCount - 1) * 100 + 300)
+            {
+                time = 0;
+                Console.WriteLine("Сутки №" + (ModelDays++ + 1));
+            }
+            return ModelDays;
         }
 
         /// <summary>
@@ -108,7 +107,7 @@ namespace cluster_emul
                 if (rbn.IsSleep())
                 {
                     RBN another_rbn = MaxWeightRegion(i);
-                    if (!rbn.QueueIsFull() && !another_rbn.QueueIsEmpty())
+                    if (rbn.QueueIsEmpty() && !another_rbn.QueueIsEmpty())
                     {
                         rbn.SetNewQuery(another_rbn.GetQueryFromQueue());
                     }

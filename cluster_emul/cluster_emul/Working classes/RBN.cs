@@ -24,6 +24,7 @@ namespace cluster_emul
         public int db_capacity;         //Объём базы данных региона
         float normalizing_factor;       //нормирующий коэффициент при расчёте весов
         public ArrayList AnotherQueries;//Обработанные запросы от клиентов из других регионов
+        int last_client_num = 0;        //Номер последнего обратившегося клиента
 
         /// <summary>
         /// Конструктор класса
@@ -106,7 +107,7 @@ namespace cluster_emul
         /// </summary>
         void QueueRecive()
         {
-            for (int i = 0; i < Clients.Count; i++)
+            for (int i = last_client_num; i < Clients.Count; i++, last_client_num++)
             {
                 cluster_client cl = (cluster_client)Clients[i];
                 if (!cl.request_sended && local_queue.Count<local_queue_length)
@@ -115,6 +116,12 @@ namespace cluster_emul
                     CURENT_TOTAL_W += cl.GetWieghtQuery();
                     local_queue.Enqueue(cl.GetParametrs());
                 }
+                if (QueueIsFull()) break;
+            }
+            if (last_client_num == Clients.Count)
+            {
+                last_client_num = 0;
+                //QueueRecive(); //надо сделать остановку при втором вложении
             }
         }
 

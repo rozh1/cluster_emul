@@ -43,16 +43,19 @@
             this.RegionsUpDown5 = new System.Windows.Forms.NumericUpDown();
             this.FilePathTextBox = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
+            this.ModelDaysNumericUpDown = new System.Windows.Forms.NumericUpDown();
+            this.label6 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.ServersUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ClientsNumericUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.DBcapNumericUpDown)).BeginInit();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.RegionsUpDown5)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ModelDaysNumericUpDown)).BeginInit();
             this.SuspendLayout();
             // 
             // StartSimButton
             // 
-            this.StartSimButton.Location = new System.Drawing.Point(12, 250);
+            this.StartSimButton.Location = new System.Drawing.Point(12, 276);
             this.StartSimButton.Name = "StartSimButton";
             this.StartSimButton.Size = new System.Drawing.Size(260, 23);
             this.StartSimButton.TabIndex = 0;
@@ -79,7 +82,7 @@
             this.ClientsNumericUpDown.Size = new System.Drawing.Size(60, 20);
             this.ClientsNumericUpDown.TabIndex = 1;
             this.ClientsNumericUpDown.Value = new decimal(new int[] {
-            10,
+            20,
             0,
             0,
             0});
@@ -128,7 +131,7 @@
             this.groupBox1.Controls.Add(this.NoBalanceRadioButton);
             this.groupBox1.Controls.Add(this.DeCentralizedBalanceRadioButton);
             this.groupBox1.Controls.Add(this.CenralizedBalanceRadioButton);
-            this.groupBox1.Location = new System.Drawing.Point(15, 116);
+            this.groupBox1.Location = new System.Drawing.Point(15, 142);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(257, 89);
             this.groupBox1.TabIndex = 3;
@@ -190,7 +193,7 @@
             // 
             // FilePathTextBox
             // 
-            this.FilePathTextBox.Location = new System.Drawing.Point(15, 224);
+            this.FilePathTextBox.Location = new System.Drawing.Point(15, 250);
             this.FilePathTextBox.Name = "FilePathTextBox";
             this.FilePathTextBox.Size = new System.Drawing.Size(257, 20);
             this.FilePathTextBox.TabIndex = 6;
@@ -199,25 +202,48 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(12, 208);
+            this.label4.Location = new System.Drawing.Point(12, 234);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(105, 13);
             this.label4.TabIndex = 2;
             this.label4.Text = "Файл лога работы:";
             // 
+            // ModelDaysNumericUpDown
+            // 
+            this.ModelDaysNumericUpDown.Location = new System.Drawing.Point(212, 116);
+            this.ModelDaysNumericUpDown.Name = "ModelDaysNumericUpDown";
+            this.ModelDaysNumericUpDown.Size = new System.Drawing.Size(60, 20);
+            this.ModelDaysNumericUpDown.TabIndex = 1;
+            this.ModelDaysNumericUpDown.Value = new decimal(new int[] {
+            2,
+            0,
+            0,
+            0});
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(12, 118);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(192, 13);
+            this.label6.TabIndex = 2;
+            this.label6.Text = "Количество модельных суток (0 - inf)";
+            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(284, 283);
+            this.ClientSize = new System.Drawing.Size(284, 308);
             this.Controls.Add(this.FilePathTextBox);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.RegionsUpDown5);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.label4);
+            this.Controls.Add(this.label6);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
+            this.Controls.Add(this.ModelDaysNumericUpDown);
             this.Controls.Add(this.DBcapNumericUpDown);
             this.Controls.Add(this.ClientsNumericUpDown);
             this.Controls.Add(this.ServersUpDown);
@@ -234,6 +260,7 @@
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.RegionsUpDown5)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ModelDaysNumericUpDown)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -256,5 +283,7 @@
         private System.Windows.Forms.NumericUpDown RegionsUpDown5;
         private System.Windows.Forms.TextBox FilePathTextBox;
         private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.NumericUpDown ModelDaysNumericUpDown;
+        private System.Windows.Forms.Label label6;
     }
 }

@@ -27,11 +27,17 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using cluster_emul.Utils;
+using System.Threading;
 
 namespace cluster_emul
 {
     public partial class MainWindow : Form
     {
+        Thread t;                               //Поток обработчика регионов
+        RegionsHandler rh;                      //обработчик регионов
+        delegate void EnStartSimButtonDel();    //Делегат активации кнопки симуляции
+        int ModelDays = 0;                      //Количество дней смуляции
+
         public MainWindow()
         {
             InitializeComponent();
@@ -39,17 +45,54 @@ namespace cluster_emul
 
         private void StartSimButton_Click(object sender, EventArgs e)
         {
-            int BalanceType=0;
+            t = new Thread(new ThreadStart(MainThread));
+            int BalanceType = 0;
             if (NoBalanceRadioButton.Checked) BalanceType = 0;
             if (DeCentralizedBalanceRadioButton.Checked) BalanceType = 1;
             if (CenralizedBalanceRadioButton.Checked) BalanceType = 2;
             StartSimButton.Enabled = false;
             OutputHandler.Init(FilePathTextBox.Text);
-            RegionsHandler rh = new RegionsHandler((int)RegionsUpDown5.Value, (int)ClientsNumericUpDown.Value,
+            rh = new RegionsHandler((int)RegionsUpDown5.Value, (int)ClientsNumericUpDown.Value,
                 (int)ServersUpDown.Value, (int)DBcapNumericUpDown.Value, BalanceType);
-            rh.Work();
+            ModelDays = (int)ModelDaysNumericUpDown.Value;
+            t.Start();
+        }
+        
+        /// <summary>
+        /// Поток обработчика регионов
+        /// </summary>
+        private void MainThread()
+        {
+            while (ModelDays > rh.Work())
+            {
+             //   Thread.Sleep(10); //Скрость симуляции
+            }
             OutputHandler.Close();
             Console.WriteLine("Все готово!");
+            EnStartSimButtonInvoke();
+        }
+
+        /// <summary>
+        /// Потокобезопасный метод включения кнопки
+        /// </summary>
+        private void EnStartSimButtonInvoke()
+        {
+            if (this.StartSimButton.InvokeRequired)
+            {
+                EnStartSimButtonDel d = new EnStartSimButtonDel(EnStartSimButton);
+                this.Invoke(d);
+            }
+            else
+            {
+                this.StartSimButton.Enabled = true;
+            }
+        }
+
+        /// <summary>
+        /// Включение кнопки
+        /// </summary>
+        private void EnStartSimButton()
+        {
             StartSimButton.Enabled = true;
         }
     }
