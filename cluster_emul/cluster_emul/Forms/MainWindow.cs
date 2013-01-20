@@ -45,17 +45,19 @@ namespace cluster_emul
 
         private void StartSimButton_Click(object sender, EventArgs e)
         {
-            t = new Thread(new ThreadStart(MainThread));
-            int BalanceType = 0;
-            if (NoBalanceRadioButton.Checked) BalanceType = 0;
-            if (DeCentralizedBalanceRadioButton.Checked) BalanceType = 1;
-            if (CenralizedBalanceRadioButton.Checked) BalanceType = 2;
-            StartSimButton.Enabled = false;
-            OutputHandler.Init(FilePathTextBox.Text);
-            rh = new RegionsHandler((int)RegionsUpDown5.Value, (int)ClientsNumericUpDown.Value,
-                (int)ServersUpDown.Value, (int)DBcapNumericUpDown.Value, BalanceType);
-            ModelDays = (int)ModelDaysNumericUpDown.Value;
-            t.Start();
+            if (OutputHandler.Init(FilePathTextBox.Text))
+            {
+                t = new Thread(new ThreadStart(MainThread));
+                int BalanceType = 0;
+                if (NoBalanceRadioButton.Checked) BalanceType = 0;
+                if (DeCentralizedBalanceRadioButton.Checked) BalanceType = 1;
+                if (CenralizedBalanceRadioButton.Checked) BalanceType = 2;
+                StartSimButton.Enabled = false;
+                rh = new RegionsHandler((int)RegionsUpDown5.Value, (int)ClientsNumericUpDown.Value,
+                    (int)ServersUpDown.Value, (int)DBcapNumericUpDown.Value, BalanceType);
+                ModelDays = (int)ModelDaysNumericUpDown.Value;
+                t.Start();
+            }
         }
         
         /// <summary>
@@ -63,7 +65,7 @@ namespace cluster_emul
         /// </summary>
         private void MainThread()
         {
-            while (ModelDays > rh.Work())
+            while (ModelDays > rh.Work() || ModelDays==0)
             {
              //   Thread.Sleep(10); //Скрость симуляции
             }

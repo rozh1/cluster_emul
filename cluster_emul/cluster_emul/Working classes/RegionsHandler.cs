@@ -86,7 +86,6 @@ namespace cluster_emul
         /// </summary>
         public void NotBalancedHandler()
         {
-
             for (int i = 0; i < RegionsCount; i++)
             {
                 RBN rbn = (RBN)Regions[i];

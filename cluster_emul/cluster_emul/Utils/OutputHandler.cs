@@ -23,6 +23,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
+using System.Windows.Forms;
 
 namespace cluster_emul.Utils
 {
@@ -38,10 +39,19 @@ namespace cluster_emul.Utils
         /// Инициализация статического класса
         /// </summary>
         /// <param name="file">Путь к файлу вывода</param>
-        static public void Init(string file)
+        static public bool Init(string file)
         {
-            fs = new FileStream(file, FileMode.OpenOrCreate, FileAccess.Write, FileShare.Read);
+            try
+            {
+                fs = new FileStream(file, FileMode.Create, FileAccess.Write, FileShare.Read);
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message, "Что-то с файлом не так", MessageBoxButtons.OK, MessageBoxIcon.Hand);
+                return false;
+            }
             sw = new StreamWriter(fs);
+            return true;
         }
 
         /// <summary>
