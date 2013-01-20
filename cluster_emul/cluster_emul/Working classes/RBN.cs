@@ -25,6 +25,7 @@ namespace cluster_emul
         float normalizing_factor;       //нормирующий коэффициент при расчёте весов
         public ArrayList AnotherQueries;//Обработанные запросы от клиентов из других регионов
         int last_client_num = 0;        //Номер последнего обратившегося клиента
+        int kol_iterations = 1;         //Количество итераций вызова функции QueueRecive()
 
         /// <summary>
         /// Конструктор класса
@@ -121,8 +122,22 @@ namespace cluster_emul
             if (last_client_num == Clients.Count)
             {
                 last_client_num = 0;
+                QueueRecive(kol_iterations++);
+                // надо где-то сбросить в kol_iterations = 1 
                 //QueueRecive(); //надо сделать остановку при втором вложении
             }
+        }
+        /// <summary>
+        ///  Получение новых запросов от клиентов и запись в очередь РБН
+        /// </summary>
+        /// <param name="k">Порядок вложения</param>
+         void QueueRecive(int k)
+        {
+            if (k <= 2) QueueRecive();
+            else 
+            {
+                //сделать остановку
+            } 
         }
 
         /// <summary>
