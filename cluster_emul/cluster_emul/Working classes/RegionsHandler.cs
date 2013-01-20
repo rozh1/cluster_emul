@@ -73,6 +73,9 @@ namespace cluster_emul
                         case 1:
                             DeCentralizedHandler();
                             break;
+                        case 2:
+                            CentralizedHandler();
+                            break;
                     }
                 }
                 time = 0;
@@ -187,7 +190,7 @@ namespace cluster_emul
         /// <returns>массив целых чисел для каждого региона:  0 - "-" девиация 1 - "+" девиация</returns>
         public int[] deviation_average_weight(float mean)
         {
-            int[] deviation = int[RegionsCount];
+            int[] deviation = new int[RegionsCount];
             for (int i = 0; i < RegionsCount; i++)
             {
                 RBN rbn = (RBN)Regions[i];
