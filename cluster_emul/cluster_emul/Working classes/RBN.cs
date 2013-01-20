@@ -122,22 +122,12 @@ namespace cluster_emul
             if (last_client_num == Clients.Count)
             {
                 last_client_num = 0;
-                QueueRecive(kol_iterations++);
-                // надо где-то сбросить в kol_iterations = 1 
-                //QueueRecive(); //надо сделать остановку при втором вложении
+                if (kol_iterations++ <= 2) QueueRecive();
+                else
+                {
+                    kol_iterations = 1;
+                }
             }
-        }
-        /// <summary>
-        ///  Получение новых запросов от клиентов и запись в очередь РБН
-        /// </summary>
-        /// <param name="k">Порядок вложения</param>
-         void QueueRecive(int k)
-        {
-            if (k <= 2) QueueRecive();
-            else 
-            {
-                //сделать остановку
-            } 
         }
 
         /// <summary>
@@ -262,10 +252,7 @@ namespace cluster_emul
             {
                 current = local_queue.Dequeue();
                 if (local_queue.Count == 0) break;
-                if (local_queue.Peek() == first)
-                {
-                    break;
-                }
+                if (local_queue.Peek() == first) break;
                 local_queue.Enqueue(current);
             }
             return (int[])current;
