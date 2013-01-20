@@ -91,8 +91,7 @@ namespace cluster_emul
             for (int i = 0; i < RegionsCount; i++)
             {
                 RBN rbn = (RBN)Regions[i];
-                if (i * 100 + 300 > time && i * 100 < time) rbn.WorkHandler(time);
-                else rbn.SleepHandler(time);
+                TimeToWork(rbn);
             }
         }
 
@@ -105,8 +104,7 @@ namespace cluster_emul
             for (int i = 0; i < RegionsCount; i++)
             {
                 RBN rbn = (RBN)Regions[i];
-                if (i * 100 + 300 > time && i * 100 < time) rbn.WorkHandler(time);
-                else rbn.SleepHandler(time);
+                TimeToWork(rbn);
                 if (rbn.IsSleep())
                 {
                     RBN another_rbn = MaxWeightRegion(i);
@@ -115,15 +113,7 @@ namespace cluster_emul
                         rbn.SetNewQuery(another_rbn.GetQueryFromQueue());
                     }
                 }
-                if (rbn.AnotherQueries.Count > 0)
-                {
-                    for (int k = 0; k < rbn.AnotherQueries.Count; k++)
-                    {
-                        int[] arr = (int[])rbn.AnotherQueries[k];
-                        ((RBN)Regions[arr[2]-1]).ReciveAns(arr,rbn.Region_num);
-                    }
-                    rbn.AnotherQueries.Clear();
-                }
+                SendAns(rbn);
             }
         }
 
@@ -153,22 +143,28 @@ namespace cluster_emul
         {
             int[] dev = deviation_average_weight(compute_mean_weigth());
             for (int i = 0; i < RegionsCount; i++)
-             {
-                  for (int j = 0; (j < RegionsCount) && i!=j; j++)
-                  {
-                      RBN rbn_i = (RBN)Regions[i];
-                      RBN rbn_j = (RBN)Regions[j];
-                      if(dev[i] > dev[j])
-                      {
-                          rbn_j.SetNewQuery( rbn_i.GetQueryFromQueue());
-                      }
-                      if(dev[i] < dev[j])
-                      {
-                          rbn_i.SetNewQuery( rbn_j.GetQueryFromQueue());
-                      }
-                  }
-             }
+            {
+                RBN rbn_i = (RBN)Regions[i];
+                for (int j = 0; (j < RegionsCount) && i != j; j++)
+                {
+                    if (i != j)
+                    {
+                        RBN rbn_j = (RBN)Regions[j];
+                        if (dev[i] > dev[j] && !rbn_j.QueueIsFull() && !rbn_i.QueueIsEmpty())
+                        {
+                            rbn_j.SetNewQuery(rbn_i.GetQueryFromQueue());
+                        }
+                        if (dev[i] < dev[j] && !rbn_i.QueueIsFull() && !rbn_j.QueueIsEmpty())
+                        {
+                            rbn_i.SetNewQuery(rbn_j.GetQueryFromQueue());
+                        }
+                    }
+                }
+                TimeToWork(rbn_i);
+                SendAns(rbn_i);
+            }
         }
+
         /// <summary>
         /// Функция вычисляет среднее значение весов регионов
         /// </summary>
@@ -205,6 +201,33 @@ namespace cluster_emul
             }
             return deviation;
         }
-        
+
+        /// <summary>
+        /// Функция заставляет работать укзанный регион
+        /// </summary>
+        /// <param name="rbn">рабочий регион</param>
+        void TimeToWork(RBN rbn)
+        {
+            int i = rbn.Region_num-1;
+            if (i * 100 + 300 > time && i * 100 < time) rbn.WorkHandler(time);
+            else rbn.SleepHandler(time);
+        }
+
+        /// <summary>
+        /// При наличии выполненных запросов для другого региона, они будут отосланы в свои регионы
+        /// </summary>
+        /// <param name="rbn">рабочий регион</param>
+        void SendAns(RBN rbn)
+        {
+            if (rbn.AnotherQueries.Count > 0)
+            {
+                for (int k = 0; k < rbn.AnotherQueries.Count; k++)
+                {
+                    int[] arr = (int[])rbn.AnotherQueries[k];
+                    ((RBN)Regions[arr[2] - 1]).ReciveAns(arr, rbn.Region_num);
+                }
+                rbn.AnotherQueries.Clear();
+            }
+        }
     }
 }
