@@ -106,7 +106,7 @@ namespace cluster_emul
                 if (rbn.IsSleep())
                 {
                     RBN another_rbn = MaxWeightRegion(i);
-                    if (rbn.QueueIsEmpty() && !another_rbn.QueueIsEmpty())
+                    if (!rbn.QueueIsFull() && !another_rbn.QueueIsEmpty())
                     {
                         rbn.SetNewQuery(another_rbn.GetQueryFromQueue());
                     }
@@ -122,7 +122,7 @@ namespace cluster_emul
         /// <returns>регион с максимальным весом</returns>
         RBN MaxWeightRegion(int j)
         {
-            RBN maxWeight = (RBN)Regions[RegionsCount-1-j];
+            RBN maxWeight = (RBN)Regions[0];
             for (int i = 0; i < RegionsCount; i++)
             {
                 if (i != j)

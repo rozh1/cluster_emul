@@ -97,7 +97,6 @@ namespace cluster_emul
                         cl.QueueAdd((int[])local_queue.Dequeue());
                         cl.SetQueryTime();
                     }
-                    if (cl.GetQueueCount() == 1) cl.SetQueryTime();
                 }
             }
         }
@@ -158,6 +157,7 @@ namespace cluster_emul
                     {
                         AnotherQueries.Add(arr);
                     }
+                    if (cl.GetQueueCount() > 0) cl.SetQueryTime();
                     flag = true;
                 }
             }
