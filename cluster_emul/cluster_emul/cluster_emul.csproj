@@ -49,6 +49,7 @@
     <Compile Include="Forms\MainWindow.Designer.cs">
       <DependentUpon>MainWindow.cs</DependentUpon>
     </Compile>
+    <Compile Include="Utils\NextSerialNum.cs" />
     <Compile Include="Utils\OutputHandler.cs" />
     <Compile Include="Working classes\cluster.cs" />
     <Compile Include="Working classes\cluster_client.cs" />
