@@ -89,7 +89,7 @@ namespace cluster_emul
             for (int i = 0; i < RegionsCount; i++)
             {
                 RBN rbn = (RBN)Regions[i];
-                TimeToWork(rbn);
+                rbn.Work(time);
             }
         }
 
@@ -101,7 +101,7 @@ namespace cluster_emul
             for (int i = 0; i < RegionsCount; i++)
             {
                 RBN rbn = (RBN)Regions[i];
-                TimeToWork(rbn);
+                rbn.Work(time);
                 if (rbn.IsSleep())
                 {
                     RBN another_rbn = MaxWeightRegion(i);
@@ -155,7 +155,7 @@ namespace cluster_emul
             for (int i = 0; i < RegionsCount; i++)
             {
                 RBN rbn_i = (RBN)Regions[i];
-                TimeToWork(rbn_i);
+                rbn_i.Work(time);
                 for (int j = 0; (j < RegionsCount); j++)
                 {
                     if (i != j)
@@ -165,10 +165,10 @@ namespace cluster_emul
                         {
                             rbn_j.SetNewQuery(rbn_i.GetLastQueryFromQueue());
                         }
-                        if (dev[i] < dev[j] && !rbn_i.QueueIsFull() && !rbn_j.QueueIsEmpty())
-                        {
-                            rbn_i.SetNewQuery(rbn_j.GetLastQueryFromQueue());
-                        }
+                        //if (dev[i] < dev[j] && !rbn_i.QueueIsFull() && !rbn_j.QueueIsEmpty())
+                        //{
+                        //    rbn_i.SetNewQuery(rbn_j.GetLastQueryFromQueue());
+                        //}
                     }
                 }
                 SendAns(rbn_i);
@@ -210,17 +210,6 @@ namespace cluster_emul
                 }
             }
             return deviation;
-        }
-
-        /// <summary>
-        /// Функция заставляет работать укзанный регион
-        /// </summary>
-        /// <param name="rbn">рабочий регион</param>
-        void TimeToWork(RBN rbn)
-        {
-            int i = rbn.Region_num-1;
-            if (i * 100 + 300 > time && i * 100 < time) rbn.WorkHandler(time);
-            else rbn.SleepHandler(time);
         }
 
         /// <summary>

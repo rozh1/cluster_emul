@@ -149,8 +149,8 @@ namespace cluster_emul
                         cluster_client client = (cluster_client)Clients[arr[1]];
                         client.ReciveAns(time);
                         //Номер региона;номер запроса в регионе;номер запроса;номер клиента;номер региона клиента; время задержки; время
-                        string output = String.Format("{0};{1};{2};{3};{4};{5:F2};{6:F2}",
-                            Region_num, TOTAL_QUERY_COUNT, arr[0], arr[1], arr[2], client.recive_time, time);
+                        string output = String.Format("{0};{1};{2};{3};{4};{5:F2};{6:F2};{7}",
+                            Region_num, TOTAL_QUERY_COUNT, arr[0], arr[1], arr[2], client.recive_time, time, local_queue.Count);
                         OutputHandler.WriteLine(output);
                     }
                     else
@@ -167,10 +167,20 @@ namespace cluster_emul
         /// <summary>
         /// Обработчик запросов
         /// </summary>
-        /// <param name="time">Текущее время</param>
-        public void WorkHandler(float time)
+        /// <param name="time">Текущее модельное время</param>
+        public void Work(float time)
         {
             this.time = time;
+            int i = Region_num - 1;
+            if (i * 100 + 300 > time && i * 100 < time) WorkHandler();
+            else SleepHandler();
+        }
+
+        /// <summary>
+        /// Режим работы региона
+        /// </summary>
+        private void WorkHandler()
+        {
             if (local_queue.Count == 0)
             {
                 QueueRecive();
@@ -188,12 +198,10 @@ namespace cluster_emul
         }
 
         /// <summary>
-        /// Режим сна региона (дорабатывает запросы из очереди, но новые не принимает)
+        /// Режим сна региона (дорабатывает запросы из очереди, но новые из своего региона не принимает)
         /// </summary>
-        /// <param name="time">Текущее время</param>
-        public void SleepHandler(float time)
+        private void SleepHandler()
         {
-            this.time = time;
             if (CheckClusters())
             {
                 QueueAllocation(2);
@@ -313,8 +321,8 @@ namespace cluster_emul
             cluster_client client = (cluster_client)Clients[arr[1]];
             client.ReciveAns(time);
             //Номер региона;номер запроса в регионе;номер запроса;номер клиента;номер региона клиента; время задержки; время
-            string output = String.Format("{0};{1};{2};{3};{4};{5:F2};{6:F2}",
-                anotherRegion, TOTAL_QUERY_COUNT, arr[0], arr[1], arr[2], client.recive_time, time);
+            string output = String.Format("{0};{1};{2};{3};{4};{5:F2};{6:F2};{7}",
+                anotherRegion, TOTAL_QUERY_COUNT, arr[0], arr[1], arr[2], client.recive_time, time, local_queue.Count);
             OutputHandler.WriteLine(output);
         }
     }
