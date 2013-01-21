@@ -78,6 +78,11 @@
             // ClientsNumericUpDown
             // 
             this.ClientsNumericUpDown.Location = new System.Drawing.Point(212, 64);
+            this.ClientsNumericUpDown.Maximum = new decimal(new int[] {
+            10000,
+            0,
+            0,
+            0});
             this.ClientsNumericUpDown.Name = "ClientsNumericUpDown";
             this.ClientsNumericUpDown.Size = new System.Drawing.Size(60, 20);
             this.ClientsNumericUpDown.TabIndex = 1;

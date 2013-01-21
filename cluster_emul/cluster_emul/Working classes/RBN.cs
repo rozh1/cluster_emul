@@ -92,7 +92,7 @@ namespace cluster_emul
                         if (arr[2] == Region_num)
                         {
                             cluster_client cl_w = (cluster_client)Clients[arr[1]];
-                            if (TOTAL_QUERY_COUNT > 0) CURENT_TOTAL_W -= cl_w.GetWieghtQuery();
+                            if (CURENT_TOTAL_W > 0) CURENT_TOTAL_W -= cl_w.GetWieghtQuery();
                         }
                         cl.QueueAdd((int[])local_queue.Dequeue());
                         cl.SetQueryTime();
@@ -141,11 +141,11 @@ namespace cluster_emul
                 cluster cl = (cluster)Clusters[i];
                 if (cl.query_time < 0.01 && cl.GetQueueCount()>0)
                 {
-                    TOTAL_QUERY_COUNT++;
                     int[] arr = cl.GetQueryInfo(true);
                     //если запрос из своего региона
                     if (arr[2] == Region_num)
                     {
+                        TOTAL_QUERY_COUNT++;
                         cluster_client client = (cluster_client)Clients[arr[1]];
                         client.ReciveAns(time);
                         //Номер региона;номер запроса в регионе;номер запроса;номер клиента;номер региона клиента; время задержки; время
@@ -196,7 +196,7 @@ namespace cluster_emul
             this.time = time;
             if (CheckClusters())
             {
-                QueueAllocation();
+                QueueAllocation(2);
             }
             for (int i = 0; i < Clusters.Count; i++)
             {
@@ -218,7 +218,7 @@ namespace cluster_emul
         public float Weight_Compute()
         {
             //Wr = { [ P ]/[Li ni]}∙normalizing_factor;
-            return  (float)(TOTAL_QUERY_COUNT/(2*Clients.Count)) * normalizing_factor;
+            return  (float)(CURENT_TOTAL_W/(2*Clients.Count)) * normalizing_factor;
         }
 
         /// <summary>
@@ -287,12 +287,29 @@ namespace cluster_emul
         }
 
         /// <summary>
+        /// Проверяет возможность получения запроса из очереди РБН
+        /// </summary>
+        /// <returns>true - если можно</returns>
+        public bool CanGetQuery()
+        {
+            if (!QueueIsEmpty())
+            {
+                int[] arr = (int[])local_queue.Peek();
+                if (arr[2] == Region_num)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+        /// <summary>
         /// Получает ответ от сервера из другого региона
         /// </summary>
         /// <param name="arr">Информация о запросе и клиенте</param>
-        /// <param name="time">текущее модельное время</param>
+        /// <param name="anotherRegion">номер другого региона</param>
         public void ReciveAns(int[] arr, int anotherRegion)
         {
+            TOTAL_QUERY_COUNT++;
             cluster_client client = (cluster_client)Clients[arr[1]];
             client.ReciveAns(time);
             //Номер региона;номер запроса в регионе;номер запроса;номер клиента;номер региона клиента; время задержки; время

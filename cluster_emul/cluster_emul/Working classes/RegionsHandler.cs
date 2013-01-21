@@ -73,7 +73,7 @@ namespace cluster_emul
                     CentralizedHandler();
                     break;
             }
-            if (time >= (RegionsCount - 1) * 100 + 300)
+            if (time >= (RegionsCount - 1) * 100 + 400)
             {
                 time = 0;
                 Console.WriteLine("Сутки №" + (ModelDays++ + 1));
@@ -98,7 +98,6 @@ namespace cluster_emul
         /// </summary>
         public void DeCentralizedHandler()
         {
-
             for (int i = 0; i < RegionsCount; i++)
             {
                 RBN rbn = (RBN)Regions[i];
@@ -106,9 +105,12 @@ namespace cluster_emul
                 if (rbn.IsSleep())
                 {
                     RBN another_rbn = MaxWeightRegion(i);
-                    if (!rbn.QueueIsFull() && !another_rbn.QueueIsEmpty())
+                    if (another_rbn != null)
                     {
-                        rbn.SetNewQuery(another_rbn.GetQueryFromQueue());
+                        if (rbn.QueueIsEmpty() && another_rbn.CanGetQuery())
+                        {
+                            rbn.SetNewQuery(another_rbn.GetQueryFromQueue());
+                        }
                     }
                 }
                 SendAns(rbn);
@@ -122,17 +124,27 @@ namespace cluster_emul
         /// <returns>регион с максимальным весом</returns>
         RBN MaxWeightRegion(int j)
         {
-            RBN maxWeight = (RBN)Regions[0];
+            ArrayList NotSleepRegions = new ArrayList(RegionsCount);
             for (int i = 0; i < RegionsCount; i++)
             {
-                if (i != j)
+                RBN rbn = (RBN)Regions[i];
+                if (!rbn.IsSleep()) NotSleepRegions.Add(rbn);
+            }
+            if (NotSleepRegions.Count > 0)
+            {
+                RBN maxWeight = (RBN)NotSleepRegions[0];
+                for (int i = 1; i < NotSleepRegions.Count; i++)
                 {
-                    RBN rbn = (RBN)Regions[i];
+                    RBN rbn = (RBN)NotSleepRegions[i];
                     if (maxWeight.Weight_Compute() < rbn.Weight_Compute())
                         maxWeight = rbn;
                 }
+                return maxWeight;
             }
-            return maxWeight;
+            else
+            {
+                return null;
+            }
         }
         /// <summary>
         /// Функция реализует работу централизованной балансировки
@@ -143,6 +155,7 @@ namespace cluster_emul
             for (int i = 0; i < RegionsCount; i++)
             {
                 RBN rbn_i = (RBN)Regions[i];
+                TimeToWork(rbn_i);
                 for (int j = 0; (j < RegionsCount); j++)
                 {
                     if (i != j)
@@ -158,7 +171,6 @@ namespace cluster_emul
                         }
                     }
                 }
-                TimeToWork(rbn_i);
                 SendAns(rbn_i);
             }
         }
