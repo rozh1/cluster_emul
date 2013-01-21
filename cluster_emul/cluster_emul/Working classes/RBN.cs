@@ -204,7 +204,7 @@ namespace cluster_emul
         {
             if (CheckClusters())
             {
-                QueueAllocation(2);
+                QueueAllocation();
             }
             for (int i = 0; i < Clusters.Count; i++)
             {
@@ -236,7 +236,7 @@ namespace cluster_emul
         public bool IsSleep()
         {
             int i = Region_num-1;
-            if ((i * 100 + 300 > time && i * 100 < time) || local_queue.Count!=0) return false;
+            if ((i * 100 + 300 > time && i * 100 < time)) return false;
             else return true;
         }
 
@@ -246,6 +246,9 @@ namespace cluster_emul
         /// <returns>массив с информацией о запросе и клиенте</returns>
         public int[] GetQueryFromQueue()
         {
+            int[] arr = (int[])local_queue.Peek();
+            cluster_client cl_w = (cluster_client)Clients[arr[1]];
+            if (CURENT_TOTAL_W > 0) CURENT_TOTAL_W -= cl_w.GetWieghtQuery();
             return (int[])local_queue.Dequeue();
         }
         /// <summary>

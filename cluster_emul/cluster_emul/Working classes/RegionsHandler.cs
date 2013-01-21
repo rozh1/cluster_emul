@@ -98,10 +98,10 @@ namespace cluster_emul
         /// </summary>
         public void DeCentralizedHandler()
         {
+            NotBalancedHandler();
             for (int i = 0; i < RegionsCount; i++)
             {
                 RBN rbn = (RBN)Regions[i];
-                rbn.Work(time);
                 if (rbn.IsSleep())
                 {
                     RBN another_rbn = MaxWeightRegion(i);
@@ -151,11 +151,11 @@ namespace cluster_emul
         /// </summary>
         public void CentralizedHandler()
         {
+            NotBalancedHandler();
             int[] dev = deviation_average_weight(compute_mean_weigth());
             for (int i = 0; i < RegionsCount; i++)
             {
                 RBN rbn_i = (RBN)Regions[i];
-                rbn_i.Work(time);
                 for (int j = 0; (j < RegionsCount); j++)
                 {
                     if (i != j)
@@ -165,10 +165,6 @@ namespace cluster_emul
                         {
                             rbn_j.SetNewQuery(rbn_i.GetLastQueryFromQueue());
                         }
-                        //if (dev[i] < dev[j] && !rbn_i.QueueIsFull() && !rbn_j.QueueIsEmpty())
-                        //{
-                        //    rbn_i.SetNewQuery(rbn_j.GetLastQueryFromQueue());
-                        //}
                     }
                 }
                 SendAns(rbn_i);

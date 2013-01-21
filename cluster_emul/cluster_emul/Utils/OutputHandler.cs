@@ -51,6 +51,7 @@ namespace cluster_emul.Utils
                 return false;
             }
             sw = new StreamWriter(fs);
+            //WriteLine("Номер региона;номер запроса в регионе;номер запроса;номер клиента;номер региона клиента;время задержки;время;длина очереди");
             return true;
         }
 
