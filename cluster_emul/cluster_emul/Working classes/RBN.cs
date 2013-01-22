@@ -266,6 +266,10 @@ namespace cluster_emul
                 if (local_queue.Peek() == first) break;
                 local_queue.Enqueue(current);
             }
+
+            int[] arr = (int[])local_queue.Peek();
+            cluster_client cl_w = (cluster_client)Clients[((int[])current)[1]];
+            if (CURENT_TOTAL_W > 0) CURENT_TOTAL_W -= cl_w.GetWieghtQuery();
             return (int[])current;
         }
         /// <summary>
