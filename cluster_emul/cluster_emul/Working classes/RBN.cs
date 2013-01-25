@@ -181,16 +181,9 @@ namespace cluster_emul
         /// </summary>
         private void WorkHandler()
         {
-            if (local_queue.Count == 0)
-            {
-                QueueRecive();
-                QueueAllocation(2);
-            }
-            if (CheckClusters())
-            {
-                QueueRecive();
-                QueueAllocation();
-            }
+            CheckClusters();
+            QueueRecive();
+            QueueAllocation();
             for (int i = 0; i < Clusters.Count; i++)
             {
                 ((cluster)Clusters[i]).query_time -= 0.01F;
@@ -202,10 +195,8 @@ namespace cluster_emul
         /// </summary>
         private void SleepHandler()
         {
-            if (CheckClusters())
-            {
-                QueueAllocation();
-            }
+            CheckClusters();
+            QueueAllocation();
             for (int i = 0; i < Clusters.Count; i++)
             {
                 ((cluster)Clusters[i]).query_time -= 0.01F;
@@ -267,9 +258,12 @@ namespace cluster_emul
                 local_queue.Enqueue(current);
             }
 
-            int[] arr = (int[])local_queue.Peek();
-            cluster_client cl_w = (cluster_client)Clients[((int[])current)[1]];
-            if (CURENT_TOTAL_W > 0) CURENT_TOTAL_W -= cl_w.GetWieghtQuery();
+            int[] arr = (int[])current;
+            if (arr[2] == Region_num)
+            {
+                cluster_client cl_w = (cluster_client)Clients[((int[])current)[1]];
+                if (CURENT_TOTAL_W > 0) CURENT_TOTAL_W -= cl_w.GetWieghtQuery();
+            }
             return (int[])current;
         }
         /// <summary>
