@@ -259,6 +259,7 @@
             this.Name = "MainWindow";
             this.ShowIcon = false;
             this.Text = "MainWindow";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainWindow_FormClosing);
             ((System.ComponentModel.ISupportInitialize)(this.ServersUpDown)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.ClientsNumericUpDown)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.DBcapNumericUpDown)).EndInit();

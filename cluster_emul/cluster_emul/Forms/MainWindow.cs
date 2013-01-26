@@ -37,6 +37,7 @@ namespace cluster_emul
         RegionsHandler rh;                      //обработчик регионов
         delegate void EnStartSimButtonDel();    //Делегат активации кнопки симуляции
         int ModelDays = 0;                      //Количество дней смуляции
+        bool thread_life = true;                //Признак жизнитпотока
 
         public MainWindow()
         {
@@ -56,6 +57,7 @@ namespace cluster_emul
                 rh = new RegionsHandler((int)RegionsUpDown5.Value, (int)ClientsNumericUpDown.Value,
                     (int)ServersUpDown.Value, (int)DBcapNumericUpDown.Value, BalanceType);
                 ModelDays = (int)ModelDaysNumericUpDown.Value;
+                thread_life = true;
                 t.Start();
             }
         }
@@ -65,13 +67,13 @@ namespace cluster_emul
         /// </summary>
         private void MainThread()
         {
-            while (ModelDays > rh.Work() || ModelDays==0)
+            while ((ModelDays > rh.Work() || ModelDays == 0) && thread_life)
             {
              //   Thread.Sleep(10); //Скрость симуляции
             }
             OutputHandler.Close();
             Console.WriteLine("Все готово!");
-            EnStartSimButtonInvoke();
+            if (thread_life) EnStartSimButtonInvoke();
         }
 
         /// <summary>
@@ -96,6 +98,11 @@ namespace cluster_emul
         private void EnStartSimButton()
         {
             StartSimButton.Enabled = true;
+        }
+
+        private void MainWindow_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            thread_life = false;
         }
     }
 }
