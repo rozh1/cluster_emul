@@ -161,10 +161,18 @@ namespace cluster_emul
                     if (i != j)
                     {
                         RBN rbn_j = (RBN)Regions[j];
+                        dev = deviation_average_weight(compute_mean_weigth());
                         if (dev[i] > dev[j] && !rbn_j.QueueIsFull() && !rbn_i.QueueIsEmpty())
                         {
                             rbn_j.SetNewQuery(rbn_i.GetLastQueryFromQueue());
+                            //rbn_i.DelQuery(); - удалить запрос из i-того РБН
                         }
+                        if (dev[i] < dev[j] && !rbn_i.QueueIsFull() && !rbn_j.QueueIsEmpty())
+                        {
+                            rbn_i.SetNewQuery(rbn_j.GetLastQueryFromQueue());
+                            //rbn_j.DelQuery(); - удалить запрос из j-того РБН
+                        }
+
                     }
                 }
                 SendAns(rbn_i);

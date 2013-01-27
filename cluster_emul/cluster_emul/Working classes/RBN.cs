@@ -274,7 +274,6 @@ namespace cluster_emul
         {
             local_queue.Enqueue(arr);
         }
-
         /// <summary>
         /// проверяет заполненность очереди РБН
         /// </summary>
