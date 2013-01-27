@@ -204,8 +204,8 @@ namespace cluster_emul
                 if (rbn.Weight_Compute() > mean)
                 {
                     deviation[i] = 1;
-                }
-                if (rbn.Weight_Compute() < mean)
+                } 
+                else 
                 {
                     deviation[i] = 0;
                 }

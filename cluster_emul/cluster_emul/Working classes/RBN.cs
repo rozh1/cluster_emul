@@ -223,7 +223,7 @@ namespace cluster_emul
         public float Weight_Compute()
         {
             //Wr = { [ P ]/[Li ni]}∙normalizing_factor;
-            return  (float)(CURENT_TOTAL_W/(2*Clients.Count)) * normalizing_factor;
+            return  ((float)CURENT_TOTAL_W/(2*Clients.Count)) * normalizing_factor;
         }
 
         /// <summary>
