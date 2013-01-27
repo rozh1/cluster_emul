@@ -32,6 +32,12 @@ using System.Collections;
 
 namespace cluster_emul
 {
+    /// <summary>
+    /// Делегат пересылки модельного времени
+    /// </summary>
+    /// <param name="time">время</param>
+    delegate void TimeStatus(int time);
+
     public partial class MainWindow : Form
     {
         Thread t;                               //Поток обработчика регионов
@@ -56,11 +62,20 @@ namespace cluster_emul
                 if (NoBalanceRadioButton.Checked) BalanceType = 0;
                 if (DeCentralizedBalanceRadioButton.Checked) BalanceType = 1;
                 if (CenralizedBalanceRadioButton.Checked) BalanceType = 2;
+                ModelDays = (int)ModelDaysNumericUpDown.Value;
+                DaysProgressBar.Maximum = ModelDays;
+                DaysProgressBar.Value = 0;
+                TimeProgressBar.Maximum = ((int)RegionsUpDown5.Value - 1) * 100 + 300 + 100;
+                ModelDaysLabel.Text = "0";
+                StopSimButton.Enabled = true;
                 StartSimButton.Enabled = false;
                 rh = new RegionsHandler((int)RegionsUpDown5.Value, (int)ClientsNumericUpDown.Value,
                     (int)ServersUpDown.Value, (int)DBcapNumericUpDown.Value, BalanceType);
+                rh.TS += new TimeStatus(TimeStatusHandler);
+                rh.DaysTS += new TimeStatus(ModelDaysStatusHandler);
                 if (StatusWindowsCheckBox.Checked)
                 {
+                    int col = 0;
                     for (int i = 0; i < rh.Regions.Count; i++)
                     {
                         RBN rbn = (RBN)rh.Regions[i];
@@ -72,9 +87,10 @@ namespace cluster_emul
                         rh.RIA += new RegionIsActive(sw.RegionStatusHandler);
                         rh.QS += new QueueStatus(sw.QueueStatusHandler);
                         rh.QCS += new QueryCountStatus(sw.QueryCountStatusHandler);
+                        if (col == 3) col = 0;
+                        sw.SetLocation((++col) * 300, i / 3 * 300 + 10);
                     }
                 }
-                ModelDays = (int)ModelDaysNumericUpDown.Value;
                 thread_life = true;
                 t.Start();
             }
@@ -90,7 +106,6 @@ namespace cluster_emul
             //    Thread.Sleep(1); //Скрость симуляции
             }
             OutputHandler.Close();
-            Console.WriteLine("Все готово!");
             if (thread_life) EnStartSimButtonInvoke();
         }
 
@@ -116,15 +131,85 @@ namespace cluster_emul
         private void EnStartSimButton()
         {
             StartSimButton.Enabled = true;
+            StopSimButton.Enabled = false;
             for (int i = 0; i < StatusWindows.Count; i++)
                 ((StatusWindow)StatusWindows[i]).Dispose();
             StatusWindows.Clear();
         }
 
+        /// <summary>
+        /// Обрабатвает событие закрытия формы
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void MainWindow_FormClosing(object sender, FormClosingEventArgs e)
         {
             thread_life = false;
             t.Abort();
+        }
+
+        /// <summary>
+        /// Получает модельное время
+        /// </summary>
+        /// <param name="time">модельное время</param>
+        public void TimeStatusHandler(int time)
+        {
+            if (this.InvokeRequired)
+            {
+                this.Invoke(new TimeStatus(SetTimeStatus), time);
+            }
+            else
+            {
+                SetTimeStatus(time);
+            }
+        }
+
+        /// <summary>
+        /// Устанавливает модельное время в окне
+        /// </summary>
+        /// <param name="time">модельное время</param>
+        void SetTimeStatus(int time)
+        {
+            TimeProgressBar.Value = time;
+            ModelTimeLabel.Text = time.ToString();
+        }
+
+        /// <summary>
+        /// Получает модельные сутки
+        /// </summary>
+        /// <param name="day">модельные сутки</param>
+        public void ModelDaysStatusHandler(int day)
+        {
+            if (this.InvokeRequired)
+            {
+                this.Invoke(new TimeStatus(SetModelDaysStatus), day);
+            }
+            else
+            {
+                SetModelDaysStatus(day);
+            }
+        }
+
+        /// <summary>
+        /// Устанавливает модельные сутки в окне
+        /// </summary>
+        /// <param name="day">модельные сутки</param>
+        void SetModelDaysStatus(int day)
+        {
+            DaysProgressBar.Value = day;
+            ModelDaysLabel.Text = day.ToString();
+        }
+
+        private void StopSimButton_Click(object sender, EventArgs e)
+        {
+            thread_life = false;
+            t.Abort();
+            OutputHandler.Close();
+            DaysProgressBar.Value = 0;
+            ModelDaysLabel.Text = "0";
+            TimeProgressBar.Value = 0;
+            ModelTimeLabel.Text = "0";
+            EnStartSimButton();
         }
     }
 }

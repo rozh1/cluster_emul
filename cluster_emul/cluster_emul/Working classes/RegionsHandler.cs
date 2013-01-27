@@ -23,6 +23,8 @@ namespace cluster_emul
         public event RegionIsActive RIA;    //Событие активности региона
         public event QueueStatus QS;        //Событие передачи статуса очереди
         public event QueryCountStatus QCS;  //Событие передачи количества выполенных запросов
+        public event TimeStatus TS;         //Событие передачи текущего модельного времени
+        public event TimeStatus DaysTS;     //Событие передачи текущих суток
 
         /// <summary>
         /// Конструктор класса
@@ -79,8 +81,10 @@ namespace cluster_emul
             if (time >= (RegionsCount - 1) * 100 + 400)
             {
                 time = 0;
-                Console.WriteLine("Сутки №" + (ModelDays++ + 1));
+                if (DaysTS != null) DaysTS(++ModelDays);
             }
+            if (time * 100 % 100 > 99 && time * 100 % 100 < 100 && TS != null)
+                TS((int)time);
             return ModelDays;
         }
 

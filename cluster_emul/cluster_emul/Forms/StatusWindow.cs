@@ -50,15 +50,29 @@ namespace cluster_emul
     /// <param name="QueryCount">Количество выполненных запросов в регионе</param>
     delegate void QueryCountStatus(int RegionNum, int QueryCount);
 
+    /// <summary>
+    /// Класс статусного окна
+    /// </summary>
     public partial class StatusWindow : Form
     {
-        int RegionNum;
+        int RegionNum;      //Номер региона
+
+        /// <summary>
+        /// Конструктор класса
+        /// </summary>
         public StatusWindow()
         {
             InitializeComponent();
             this.Visible = true;
         }
 
+        /// <summary>
+        /// Конструктор класса
+        /// </summary>
+        /// <param name="NumRegion">Номер региона</param>
+        /// <param name="Clusters">Количество кластеров</param>
+        /// <param name="Clients">Количество Клиентов</param>
+        /// <param name="QueueLength">Длина очереди</param>
         public StatusWindow(int NumRegion, int Clusters, int Clients, int QueueLength)
         {
             InitializeComponent();
@@ -70,7 +84,17 @@ namespace cluster_emul
             RegionNum = NumRegion;
         }
 
+        public void SetLocation(int X, int Y)
+        {
+            this.Location = new Point(X, Y);
+            this.Size = new System.Drawing.Size(300, 300);
+        }
 
+        /// <summary>
+        /// Обработчик делегата активности региона
+        /// </summary>
+        /// <param name="regnum">Номер региона</param>
+        /// <param name="active">активность</param>
         public void RegionStatusHandler(int regnum, bool active)
         {
             if (this.InvokeRequired)
@@ -83,6 +107,11 @@ namespace cluster_emul
             }
         }
 
+        /// <summary>
+        /// Устанавливает статус региона в окне
+        /// </summary>
+        /// <param name="regnum">номер региона</param>
+        /// <param name="active">активность</param>
         void SetRegionStatus(int regnum, bool active)
         {
             if (regnum==RegionNum)
@@ -90,6 +119,11 @@ namespace cluster_emul
             else RbnStatus.Text = "Спит";
         }
 
+        /// <summary>
+        /// Обработчик делегата заполненности очереди
+        /// </summary>
+        /// <param name="regnum">номер региона</param>
+        /// <param name="queuecount">количество запросов в очереди</param>
         public void QueueStatusHandler(int regnum, int queuecount)
         {
             if (this.InvokeRequired)
@@ -102,12 +136,22 @@ namespace cluster_emul
             }
         }
 
+        /// <summary>
+        /// Устанавливает количество запросов в очереди в окне
+        /// </summary>
+        /// <param name="regnum">номер региона</param>
+        /// <param name="queuecount">количество запросов в очереди</param>
         void SetQueueStatus(int regnum, int queuecount)
         {
             if (regnum == RegionNum)
                 QueueProgressBar.Value = queuecount;
         }
 
+        /// <summary>
+        /// Обработчик делегата количества обработанных запросов
+        /// </summary>
+        /// <param name="regnum">Номер региона</param>
+        /// <param name="querycount">Количество выполненных запросов в регионе</param>
         public void QueryCountStatusHandler(int regnum, int querycount)
         {
             if (this.InvokeRequired)
@@ -120,6 +164,11 @@ namespace cluster_emul
             }
         }
 
+        /// <summary>
+        /// Устанавливает количество обработанных запросов региона в окне
+        /// </summary>
+        /// <param name="regnum">Номер региона</param>
+        /// <param name="querycount">Количество выполненных запросов в регионе</param>
         void SetQueryCountStatus(int regnum, int querycount)
         {
             if (regnum == RegionNum)

@@ -46,6 +46,13 @@
             this.ModelDaysNumericUpDown = new System.Windows.Forms.NumericUpDown();
             this.label6 = new System.Windows.Forms.Label();
             this.StatusWindowsCheckBox = new System.Windows.Forms.CheckBox();
+            this.DaysProgressBar = new System.Windows.Forms.ProgressBar();
+            this.TimeProgressBar = new System.Windows.Forms.ProgressBar();
+            this.label7 = new System.Windows.Forms.Label();
+            this.label8 = new System.Windows.Forms.Label();
+            this.ModelDaysLabel = new System.Windows.Forms.Label();
+            this.ModelTimeLabel = new System.Windows.Forms.Label();
+            this.StopSimButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.ServersUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ClientsNumericUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.DBcapNumericUpDown)).BeginInit();
@@ -58,7 +65,7 @@
             // 
             this.StartSimButton.Location = new System.Drawing.Point(12, 299);
             this.StartSimButton.Name = "StartSimButton";
-            this.StartSimButton.Size = new System.Drawing.Size(260, 23);
+            this.StartSimButton.Size = new System.Drawing.Size(128, 23);
             this.StartSimButton.TabIndex = 0;
             this.StartSimButton.Text = "Начать симуляцию";
             this.StartSimButton.UseVisualStyleBackColor = true;
@@ -245,11 +252,82 @@
             this.StatusWindowsCheckBox.Text = "Визуализировать работу";
             this.StatusWindowsCheckBox.UseVisualStyleBackColor = true;
             // 
+            // DaysProgressBar
+            // 
+            this.DaysProgressBar.Location = new System.Drawing.Point(12, 347);
+            this.DaysProgressBar.Name = "DaysProgressBar";
+            this.DaysProgressBar.Size = new System.Drawing.Size(260, 23);
+            this.DaysProgressBar.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
+            this.DaysProgressBar.TabIndex = 8;
+            // 
+            // TimeProgressBar
+            // 
+            this.TimeProgressBar.Location = new System.Drawing.Point(12, 396);
+            this.TimeProgressBar.Maximum = 600;
+            this.TimeProgressBar.Name = "TimeProgressBar";
+            this.TimeProgressBar.Size = new System.Drawing.Size(260, 23);
+            this.TimeProgressBar.Step = 100;
+            this.TimeProgressBar.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
+            this.TimeProgressBar.TabIndex = 8;
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(12, 329);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(217, 13);
+            this.label7.TabIndex = 9;
+            this.label7.Text = "Количество прошедших модельных суток";
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(15, 378);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(146, 13);
+            this.label8.TabIndex = 10;
+            this.label8.Text = "Текущее модельное время";
+            // 
+            // ModelDaysLabel
+            // 
+            this.ModelDaysLabel.AutoSize = true;
+            this.ModelDaysLabel.Location = new System.Drawing.Point(236, 329);
+            this.ModelDaysLabel.Name = "ModelDaysLabel";
+            this.ModelDaysLabel.Size = new System.Drawing.Size(13, 13);
+            this.ModelDaysLabel.TabIndex = 11;
+            this.ModelDaysLabel.Text = "0";
+            // 
+            // ModelTimeLabel
+            // 
+            this.ModelTimeLabel.AutoSize = true;
+            this.ModelTimeLabel.Location = new System.Drawing.Point(236, 378);
+            this.ModelTimeLabel.Name = "ModelTimeLabel";
+            this.ModelTimeLabel.Size = new System.Drawing.Size(13, 13);
+            this.ModelTimeLabel.TabIndex = 11;
+            this.ModelTimeLabel.Text = "0";
+            // 
+            // StopSimButton
+            // 
+            this.StopSimButton.Enabled = false;
+            this.StopSimButton.Location = new System.Drawing.Point(146, 299);
+            this.StopSimButton.Name = "StopSimButton";
+            this.StopSimButton.Size = new System.Drawing.Size(126, 23);
+            this.StopSimButton.TabIndex = 0;
+            this.StopSimButton.Text = "Стоп";
+            this.StopSimButton.UseVisualStyleBackColor = true;
+            this.StopSimButton.Click += new System.EventHandler(this.StopSimButton_Click);
+            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(284, 329);
+            this.ClientSize = new System.Drawing.Size(284, 428);
+            this.Controls.Add(this.ModelTimeLabel);
+            this.Controls.Add(this.ModelDaysLabel);
+            this.Controls.Add(this.label8);
+            this.Controls.Add(this.label7);
+            this.Controls.Add(this.TimeProgressBar);
+            this.Controls.Add(this.DaysProgressBar);
             this.Controls.Add(this.StatusWindowsCheckBox);
             this.Controls.Add(this.FilePathTextBox);
             this.Controls.Add(this.label5);
@@ -264,12 +342,14 @@
             this.Controls.Add(this.DBcapNumericUpDown);
             this.Controls.Add(this.ClientsNumericUpDown);
             this.Controls.Add(this.ServersUpDown);
+            this.Controls.Add(this.StopSimButton);
             this.Controls.Add(this.StartSimButton);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "MainWindow";
             this.ShowIcon = false;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
             this.Text = "MainWindow";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainWindow_FormClosing);
             ((System.ComponentModel.ISupportInitialize)(this.ServersUpDown)).EndInit();
@@ -304,5 +384,12 @@
         private System.Windows.Forms.NumericUpDown ModelDaysNumericUpDown;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.CheckBox StatusWindowsCheckBox;
+        private System.Windows.Forms.ProgressBar DaysProgressBar;
+        private System.Windows.Forms.ProgressBar TimeProgressBar;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Label ModelDaysLabel;
+        private System.Windows.Forms.Label ModelTimeLabel;
+        private System.Windows.Forms.Button StopSimButton;
     }
 }
