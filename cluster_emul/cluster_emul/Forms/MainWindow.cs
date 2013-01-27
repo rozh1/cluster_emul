@@ -28,6 +28,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using cluster_emul.Utils;
 using System.Threading;
+using System.Collections;
 
 namespace cluster_emul
 {
@@ -38,6 +39,7 @@ namespace cluster_emul
         delegate void EnStartSimButtonDel();    //Делегат активации кнопки симуляции
         int ModelDays = 0;                      //Количество дней смуляции
         bool thread_life = true;                //Признак жизнитпотока
+        ArrayList StatusWindows;                //Коллекция статусных окон
 
         public MainWindow()
         {
@@ -49,6 +51,7 @@ namespace cluster_emul
             if (OutputHandler.Init(FilePathTextBox.Text))
             {
                 t = new Thread(new ThreadStart(MainThread));
+                StatusWindows = new ArrayList();
                 int BalanceType = 0;
                 if (NoBalanceRadioButton.Checked) BalanceType = 0;
                 if (DeCentralizedBalanceRadioButton.Checked) BalanceType = 1;
@@ -56,6 +59,21 @@ namespace cluster_emul
                 StartSimButton.Enabled = false;
                 rh = new RegionsHandler((int)RegionsUpDown5.Value, (int)ClientsNumericUpDown.Value,
                     (int)ServersUpDown.Value, (int)DBcapNumericUpDown.Value, BalanceType);
+                if (StatusWindowsCheckBox.Checked)
+                {
+                    for (int i = 0; i < rh.Regions.Count; i++)
+                    {
+                        RBN rbn = (RBN)rh.Regions[i];
+                        StatusWindow sw = new StatusWindow(rbn.Region_num,
+                            rbn.Region_num * (int)ServersUpDown.Value,
+                            rbn.Region_num * (int)ClientsNumericUpDown.Value,
+                            rbn.Region_num * (int)ServersUpDown.Value * 2);
+                        StatusWindows.Add(sw);
+                        rh.RIA += new RegionIsActive(sw.RegionStatusHandler);
+                        rh.QS += new QueueStatus(sw.QueueStatusHandler);
+                        rh.QCS += new QueryCountStatus(sw.QueryCountStatusHandler);
+                    }
+                }
                 ModelDays = (int)ModelDaysNumericUpDown.Value;
                 thread_life = true;
                 t.Start();
@@ -69,7 +87,7 @@ namespace cluster_emul
         {
             while ((ModelDays > rh.Work() || ModelDays == 0) && thread_life)
             {
-             //   Thread.Sleep(10); //Скрость симуляции
+            //    Thread.Sleep(1); //Скрость симуляции
             }
             OutputHandler.Close();
             Console.WriteLine("Все готово!");
@@ -88,7 +106,7 @@ namespace cluster_emul
             }
             else
             {
-                this.StartSimButton.Enabled = true;
+                EnStartSimButton();
             }
         }
 
@@ -98,11 +116,15 @@ namespace cluster_emul
         private void EnStartSimButton()
         {
             StartSimButton.Enabled = true;
+            for (int i = 0; i < StatusWindows.Count; i++)
+                ((StatusWindow)StatusWindows[i]).Dispose();
+            StatusWindows.Clear();
         }
 
         private void MainWindow_FormClosing(object sender, FormClosingEventArgs e)
         {
             thread_life = false;
+            t.Abort();
         }
     }
 }

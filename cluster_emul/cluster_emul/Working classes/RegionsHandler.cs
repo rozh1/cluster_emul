@@ -12,14 +12,17 @@ namespace cluster_emul
     /// </summary>
     class RegionsHandler
     {
-        int RegionsCount;       //Количество регионов
-        int ClientsCount;       //Количество клиентов в 1-м регионе
-        int DB_capacity;        //Объем БД в 1-м объеме
-        int ServersCount;       //Количество серверов в 1-м регионе
-        ArrayList Regions;      //Региональные балансировщики
-        float time = 200;       //Модельное мремя
-        int BalanceType = 0;    //Тип балансировки
-        int ModelDays = 0;      //Количество модельных суток
+        int RegionsCount;                   //Количество регионов
+        int ClientsCount;                   //Количество клиентов в 1-м регионе
+        int DB_capacity;                    //Объем БД в 1-м объеме
+        int ServersCount;                   //Количество серверов в 1-м регионе
+        public ArrayList Regions;           //Региональные балансировщики
+        float time = 200;                   //Модельное мремя
+        int BalanceType = 0;                //Тип балансировки
+        int ModelDays = 0;                  //Количество модельных суток
+        public event RegionIsActive RIA;    //Событие активности региона
+        public event QueueStatus QS;        //Событие передачи статуса очереди
+        public event QueryCountStatus QCS;  //Событие передачи количества выполенных запросов
 
         /// <summary>
         /// Конструктор класса
@@ -84,19 +87,22 @@ namespace cluster_emul
         /// <summary>
         /// Функция реализует работу без балансировщика
         /// </summary>
-        public void NotBalancedHandler()
+        void NotBalancedHandler()
         {
             for (int i = 0; i < RegionsCount; i++)
             {
                 RBN rbn = (RBN)Regions[i];
                 rbn.Work(time);
+                if (RIA != null) RIA(rbn.Region_num, !rbn.IsSleep());
+                if (QS != null) QS(rbn.Region_num, rbn.GetQueueCount());
+                if (QCS != null) QCS(rbn.Region_num, rbn.TOTAL_QUERY_COUNT);
             }
         }
 
         /// <summary>
         /// Функция реализует работу децентрализованной балансировки
         /// </summary>
-        public void DeCentralizedHandler()
+        void DeCentralizedHandler()
         {
             NotBalancedHandler();
             for (int i = 0; i < RegionsCount; i++)
@@ -149,7 +155,7 @@ namespace cluster_emul
         /// <summary>
         /// Функция реализует работу централизованной балансировки
         /// </summary>
-        public void CentralizedHandler()
+        void CentralizedHandler()
         {
             NotBalancedHandler();
             int[] dev = deviation_average_weight(compute_mean_weigth());
@@ -180,7 +186,7 @@ namespace cluster_emul
         /// Функция вычисляет среднее значение весов регионов
         /// </summary>
         /// <returns>среднее значение весов регионов </returns>
-        public float compute_mean_weigth()
+        float compute_mean_weigth()
         {
             float s = 0;
             for (int i = 0; i < RegionsCount; i++)
@@ -195,7 +201,7 @@ namespace cluster_emul
         /// </summary>
         /// <param name="mean">среднее значение весов регионов</param>
         /// <returns>массив целых чисел для каждого региона:  0 - "-" девиация 1 - "+" девиация</returns>
-        public int[] deviation_average_weight(float mean)
+        int[] deviation_average_weight(float mean)
         {
             int[] deviation = new int[RegionsCount];
             for (int i = 0; i < RegionsCount; i++)

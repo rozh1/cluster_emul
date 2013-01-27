@@ -44,7 +44,8 @@ namespace cluster_emul
         /// <returns>номер запроса</returns>
         public int GenQueryNum()
         {
-            return NextSerialNum.Gen(13);//rand.Next(0, 13);
+            return NextSerialNum.Gen(13);
+            //return rand.Next(0, 13);
         }
 
         /// <summary>

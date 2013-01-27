@@ -13,19 +13,19 @@ namespace cluster_emul
     /// </summary>
     class RBN
     {
-        Queue local_queue;              //Очередь запросов РБН
-        int local_queue_length;         //длина очереди
-        public int Region_num;          //номер региона
-        ArrayList Clients;              //Клиенты
-        ArrayList Clusters;             //Серверы
-        float time = 200;               //Модельное мремя
-        int TOTAL_QUERY_COUNT = 0;      //Общее количество обработанных регионом запросов 
-        int CURENT_TOTAL_W = 0;         //Общий суммарный вес очредеи РБН
-        public int db_capacity;         //Объём базы данных региона
-        float normalizing_factor;       //нормирующий коэффициент при расчёте весов
-        public ArrayList AnotherQueries;//Обработанные запросы от клиентов из других регионов
-        int last_client_num = 0;        //Номер последнего обратившегося клиента
-        cluster_query cq;               //запросы
+        Queue local_queue;                  //Очередь запросов РБН
+        int local_queue_length;             //длина очереди
+        public int Region_num;              //номер региона
+        ArrayList Clients;                  //Клиенты
+        ArrayList Clusters;                 //Серверы
+        float time = 200;                   //Модельное мремя
+        public int TOTAL_QUERY_COUNT = 0;   //Общее количество обработанных регионом запросов 
+        int CURENT_TOTAL_W = 0;             //Общий суммарный вес очредеи РБН
+        public int db_capacity;             //Объём базы данных региона
+        float normalizing_factor;           //нормирующий коэффициент при расчёте весов
+        public ArrayList AnotherQueries;    //Обработанные запросы от клиентов из других регионов
+        int last_client_num = 0;            //Номер последнего обратившегося клиента
+        cluster_query cq;                   //запросы
 
         /// <summary>
         /// Конструктор класса
@@ -342,6 +342,15 @@ namespace cluster_emul
             string output = String.Format("{0};{1};{2};{3};{4};{5:F2};{6:F2};{7}",
                 anotherRegion, TOTAL_QUERY_COUNT, arr[0], arr[1], arr[2], client.recive_time, time, local_queue.Count);
             OutputHandler.WriteLine(output);
+        }
+
+        /// <summary>
+        /// Возвращает количество запросов в очереди
+        /// </summary>
+        /// <returns>количество запросов в очереди</returns>
+        public int GetQueueCount()
+        {
+            return local_queue.Count;
         }
     }
 }

@@ -49,6 +49,12 @@
     <Compile Include="Forms\MainWindow.Designer.cs">
       <DependentUpon>MainWindow.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\StatusWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\StatusWindow.Designer.cs">
+      <DependentUpon>StatusWindow.cs</DependentUpon>
+    </Compile>
     <Compile Include="Utils\NextSerialNum.cs" />
     <Compile Include="Utils\OutputHandler.cs" />
     <Compile Include="Working classes\cluster.cs" />
@@ -65,6 +71,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Forms\MainWindow.resx">
       <DependentUpon>MainWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\StatusWindow.resx">
+      <DependentUpon>StatusWindow.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

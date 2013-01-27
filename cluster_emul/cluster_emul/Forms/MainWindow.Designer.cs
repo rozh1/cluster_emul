@@ -45,6 +45,7 @@
             this.label4 = new System.Windows.Forms.Label();
             this.ModelDaysNumericUpDown = new System.Windows.Forms.NumericUpDown();
             this.label6 = new System.Windows.Forms.Label();
+            this.StatusWindowsCheckBox = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.ServersUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ClientsNumericUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.DBcapNumericUpDown)).BeginInit();
@@ -55,7 +56,7 @@
             // 
             // StartSimButton
             // 
-            this.StartSimButton.Location = new System.Drawing.Point(12, 276);
+            this.StartSimButton.Location = new System.Drawing.Point(12, 299);
             this.StartSimButton.Name = "StartSimButton";
             this.StartSimButton.Size = new System.Drawing.Size(260, 23);
             this.StartSimButton.TabIndex = 0;
@@ -198,7 +199,7 @@
             // 
             // FilePathTextBox
             // 
-            this.FilePathTextBox.Location = new System.Drawing.Point(15, 250);
+            this.FilePathTextBox.Location = new System.Drawing.Point(15, 273);
             this.FilePathTextBox.Name = "FilePathTextBox";
             this.FilePathTextBox.Size = new System.Drawing.Size(257, 20);
             this.FilePathTextBox.TabIndex = 6;
@@ -207,7 +208,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(12, 234);
+            this.label4.Location = new System.Drawing.Point(12, 257);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(105, 13);
             this.label4.TabIndex = 2;
@@ -234,11 +235,22 @@
             this.label6.TabIndex = 2;
             this.label6.Text = "Количество модельных суток (0 - inf)";
             // 
+            // StatusWindowsCheckBox
+            // 
+            this.StatusWindowsCheckBox.AutoSize = true;
+            this.StatusWindowsCheckBox.Location = new System.Drawing.Point(15, 237);
+            this.StatusWindowsCheckBox.Name = "StatusWindowsCheckBox";
+            this.StatusWindowsCheckBox.Size = new System.Drawing.Size(152, 17);
+            this.StatusWindowsCheckBox.TabIndex = 7;
+            this.StatusWindowsCheckBox.Text = "Визуализировать работу";
+            this.StatusWindowsCheckBox.UseVisualStyleBackColor = true;
+            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(284, 308);
+            this.ClientSize = new System.Drawing.Size(284, 329);
+            this.Controls.Add(this.StatusWindowsCheckBox);
             this.Controls.Add(this.FilePathTextBox);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.RegionsUpDown5);
@@ -291,5 +303,6 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.NumericUpDown ModelDaysNumericUpDown;
         private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.CheckBox StatusWindowsCheckBox;
     }
 }
