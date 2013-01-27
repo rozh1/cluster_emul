@@ -71,8 +71,10 @@ namespace cluster_emul
                 StartSimButton.Enabled = false;
                 rh = new RegionsHandler((int)RegionsUpDown5.Value, (int)ClientsNumericUpDown.Value,
                     (int)ServersUpDown.Value, (int)DBcapNumericUpDown.Value, BalanceType);
+                rh.SetThrottle(RefreshSpeedTrackBar.Value);
                 rh.TS += new TimeStatus(TimeStatusHandler);
                 rh.DaysTS += new TimeStatus(ModelDaysStatusHandler);
+                NextNum.Mode(RandomQueryCheckBox.Checked);
                 if (StatusWindowsCheckBox.Checked)
                 {
                     int col = 0;
@@ -210,6 +212,11 @@ namespace cluster_emul
             TimeProgressBar.Value = 0;
             ModelTimeLabel.Text = "0";
             EnStartSimButton();
+        }
+
+        private void RefreshSpeedTrackBar_Scroll(object sender, EventArgs e)
+        {
+            ResrefhSpeedLable.Text = ((TrackBar)sender).Value.ToString();
         }
     }
 }

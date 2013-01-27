@@ -53,17 +53,22 @@
             this.ModelDaysLabel = new System.Windows.Forms.Label();
             this.ModelTimeLabel = new System.Windows.Forms.Label();
             this.StopSimButton = new System.Windows.Forms.Button();
+            this.RandomQueryCheckBox = new System.Windows.Forms.CheckBox();
+            this.RefreshSpeedTrackBar = new System.Windows.Forms.TrackBar();
+            this.label9 = new System.Windows.Forms.Label();
+            this.ResrefhSpeedLable = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.ServersUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ClientsNumericUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.DBcapNumericUpDown)).BeginInit();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.RegionsUpDown5)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ModelDaysNumericUpDown)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.RefreshSpeedTrackBar)).BeginInit();
             this.SuspendLayout();
             // 
             // StartSimButton
             // 
-            this.StartSimButton.Location = new System.Drawing.Point(12, 299);
+            this.StartSimButton.Location = new System.Drawing.Point(12, 395);
             this.StartSimButton.Name = "StartSimButton";
             this.StartSimButton.Size = new System.Drawing.Size(128, 23);
             this.StartSimButton.TabIndex = 0;
@@ -206,7 +211,7 @@
             // 
             // FilePathTextBox
             // 
-            this.FilePathTextBox.Location = new System.Drawing.Point(15, 273);
+            this.FilePathTextBox.Location = new System.Drawing.Point(15, 369);
             this.FilePathTextBox.Name = "FilePathTextBox";
             this.FilePathTextBox.Size = new System.Drawing.Size(257, 20);
             this.FilePathTextBox.TabIndex = 6;
@@ -215,7 +220,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(12, 257);
+            this.label4.Location = new System.Drawing.Point(12, 353);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(105, 13);
             this.label4.TabIndex = 2;
@@ -254,7 +259,7 @@
             // 
             // DaysProgressBar
             // 
-            this.DaysProgressBar.Location = new System.Drawing.Point(12, 347);
+            this.DaysProgressBar.Location = new System.Drawing.Point(12, 443);
             this.DaysProgressBar.Name = "DaysProgressBar";
             this.DaysProgressBar.Size = new System.Drawing.Size(260, 23);
             this.DaysProgressBar.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
@@ -262,7 +267,7 @@
             // 
             // TimeProgressBar
             // 
-            this.TimeProgressBar.Location = new System.Drawing.Point(12, 396);
+            this.TimeProgressBar.Location = new System.Drawing.Point(12, 492);
             this.TimeProgressBar.Maximum = 600;
             this.TimeProgressBar.Name = "TimeProgressBar";
             this.TimeProgressBar.Size = new System.Drawing.Size(260, 23);
@@ -273,7 +278,7 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(12, 329);
+            this.label7.Location = new System.Drawing.Point(12, 425);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(217, 13);
             this.label7.TabIndex = 9;
@@ -282,7 +287,7 @@
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(15, 378);
+            this.label8.Location = new System.Drawing.Point(15, 474);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(146, 13);
             this.label8.TabIndex = 10;
@@ -291,7 +296,7 @@
             // ModelDaysLabel
             // 
             this.ModelDaysLabel.AutoSize = true;
-            this.ModelDaysLabel.Location = new System.Drawing.Point(236, 329);
+            this.ModelDaysLabel.Location = new System.Drawing.Point(236, 425);
             this.ModelDaysLabel.Name = "ModelDaysLabel";
             this.ModelDaysLabel.Size = new System.Drawing.Size(13, 13);
             this.ModelDaysLabel.TabIndex = 11;
@@ -300,7 +305,7 @@
             // ModelTimeLabel
             // 
             this.ModelTimeLabel.AutoSize = true;
-            this.ModelTimeLabel.Location = new System.Drawing.Point(236, 378);
+            this.ModelTimeLabel.Location = new System.Drawing.Point(236, 474);
             this.ModelTimeLabel.Name = "ModelTimeLabel";
             this.ModelTimeLabel.Size = new System.Drawing.Size(13, 13);
             this.ModelTimeLabel.TabIndex = 11;
@@ -309,7 +314,7 @@
             // StopSimButton
             // 
             this.StopSimButton.Enabled = false;
-            this.StopSimButton.Location = new System.Drawing.Point(146, 299);
+            this.StopSimButton.Location = new System.Drawing.Point(146, 395);
             this.StopSimButton.Name = "StopSimButton";
             this.StopSimButton.Size = new System.Drawing.Size(126, 23);
             this.StopSimButton.TabIndex = 0;
@@ -317,17 +322,57 @@
             this.StopSimButton.UseVisualStyleBackColor = true;
             this.StopSimButton.Click += new System.EventHandler(this.StopSimButton_Click);
             // 
+            // RandomQueryCheckBox
+            // 
+            this.RandomQueryCheckBox.AutoSize = true;
+            this.RandomQueryCheckBox.Location = new System.Drawing.Point(15, 258);
+            this.RandomQueryCheckBox.Name = "RandomQueryCheckBox";
+            this.RandomQueryCheckBox.Size = new System.Drawing.Size(173, 17);
+            this.RandomQueryCheckBox.TabIndex = 7;
+            this.RandomQueryCheckBox.Text = "Случайные номера запросов";
+            this.RandomQueryCheckBox.UseVisualStyleBackColor = true;
+            // 
+            // RefreshSpeedTrackBar
+            // 
+            this.RefreshSpeedTrackBar.Location = new System.Drawing.Point(12, 305);
+            this.RefreshSpeedTrackBar.Name = "RefreshSpeedTrackBar";
+            this.RefreshSpeedTrackBar.Size = new System.Drawing.Size(260, 45);
+            this.RefreshSpeedTrackBar.TabIndex = 12;
+            this.RefreshSpeedTrackBar.Scroll += new System.EventHandler(this.RefreshSpeedTrackBar_Scroll);
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(15, 282);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(195, 13);
+            this.label9.TabIndex = 13;
+            this.label9.Text = "Скорость обновления визуализации:";
+            // 
+            // ResrefhSpeedLable
+            // 
+            this.ResrefhSpeedLable.AutoSize = true;
+            this.ResrefhSpeedLable.Location = new System.Drawing.Point(236, 282);
+            this.ResrefhSpeedLable.Name = "ResrefhSpeedLable";
+            this.ResrefhSpeedLable.Size = new System.Drawing.Size(13, 13);
+            this.ResrefhSpeedLable.TabIndex = 14;
+            this.ResrefhSpeedLable.Text = "0";
+            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(284, 428);
+            this.ClientSize = new System.Drawing.Size(284, 528);
+            this.Controls.Add(this.ResrefhSpeedLable);
+            this.Controls.Add(this.label9);
+            this.Controls.Add(this.RefreshSpeedTrackBar);
             this.Controls.Add(this.ModelTimeLabel);
             this.Controls.Add(this.ModelDaysLabel);
             this.Controls.Add(this.label8);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.TimeProgressBar);
             this.Controls.Add(this.DaysProgressBar);
+            this.Controls.Add(this.RandomQueryCheckBox);
             this.Controls.Add(this.StatusWindowsCheckBox);
             this.Controls.Add(this.FilePathTextBox);
             this.Controls.Add(this.label5);
@@ -359,6 +404,7 @@
             this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.RegionsUpDown5)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.ModelDaysNumericUpDown)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.RefreshSpeedTrackBar)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -391,5 +437,9 @@
         private System.Windows.Forms.Label ModelDaysLabel;
         private System.Windows.Forms.Label ModelTimeLabel;
         private System.Windows.Forms.Button StopSimButton;
+        private System.Windows.Forms.CheckBox RandomQueryCheckBox;
+        private System.Windows.Forms.TrackBar RefreshSpeedTrackBar;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Label ResrefhSpeedLable;
     }
 }

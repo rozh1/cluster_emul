@@ -28,9 +28,27 @@ namespace cluster_emul.Utils
     /// <summary>
     /// Класс генерации последовальности чисел
     /// </summary>
-    static class NextSerialNum
+    static class NextNum
     {
-        static int num = 0; //число
+        static int num = 0;                 //число
+        static Random rand= new Random();   //великий русский рандом
+        static bool randomNums = false;     //режим рандома
+
+        /// <summary>
+        /// Устанавливает способ генерации номера запроса
+        /// </summary>
+        /// <param name="random">true - если номер рандомный</param>
+        static public void Mode(bool random)
+        {
+            if (random)
+            {
+                randomNums = true;
+            }
+            else
+            {
+                randomNums = false;
+            }
+        }
 
         /// <summary>
         /// Выдает следующее число
@@ -39,9 +57,16 @@ namespace cluster_emul.Utils
         /// <returns>следующее число</returns>
         static public int Gen(int maxNum)
         {
-            num++;
-            if (num > maxNum) num = 0;
-            return num;
+            if (randomNums)
+            {
+                return rand.Next(0, 13);
+            }
+            else
+            {
+                num++;
+                if (num > maxNum) num = 0;
+                return num;
+            }
         }
     }
 }

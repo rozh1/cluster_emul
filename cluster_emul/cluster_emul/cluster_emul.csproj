@@ -55,7 +55,7 @@
     <Compile Include="Forms\StatusWindow.Designer.cs">
       <DependentUpon>StatusWindow.cs</DependentUpon>
     </Compile>
-    <Compile Include="Utils\NextSerialNum.cs" />
+    <Compile Include="Utils\NextNum.cs" />
     <Compile Include="Utils\OutputHandler.cs" />
     <Compile Include="Working classes\cluster.cs" />
     <Compile Include="Working classes\cluster_client.cs" />

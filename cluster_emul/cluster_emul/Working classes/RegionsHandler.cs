@@ -25,6 +25,8 @@ namespace cluster_emul
         public event QueryCountStatus QCS;  //Событие передачи количества выполенных запросов
         public event TimeStatus TS;         //Событие передачи текущего модельного времени
         public event TimeStatus DaysTS;     //Событие передачи текущих суток
+        int Throttle = 10;                  //Пропуск итераций перед уведомлением
+        int ThrottleCount = 0;              //Количество прощенных итераций
 
         /// <summary>
         /// Конструктор класса
@@ -66,6 +68,7 @@ namespace cluster_emul
         public int Work()
         {
             time += 0.01F;
+            ThrottleCount++;
             switch (BalanceType)
             {
                 case 0:
@@ -85,6 +88,7 @@ namespace cluster_emul
             }
             if (time * 100 % 100 > 99 && time * 100 % 100 < 100 && TS != null)
                 TS((int)time);
+            if (Throttle == ThrottleCount) ThrottleCount = 0;
             return ModelDays;
         }
 
@@ -97,9 +101,12 @@ namespace cluster_emul
             {
                 RBN rbn = (RBN)Regions[i];
                 rbn.Work(time);
-                if (RIA != null) RIA(rbn.Region_num, !rbn.IsSleep());
-                if (QS != null) QS(rbn.Region_num, rbn.GetQueueCount());
-                if (QCS != null) QCS(rbn.Region_num, rbn.TOTAL_QUERY_COUNT);
+                if (ThrottleCount==Throttle)
+                {
+                    if (RIA != null) RIA(rbn.Region_num, !rbn.IsSleep());
+                    if (QS != null) QS(rbn.Region_num, rbn.GetQueueCount());
+                    if (QCS != null) QCS(rbn.Region_num, rbn.TOTAL_QUERY_COUNT);
+                }
             }
         }
 
@@ -238,6 +245,16 @@ namespace cluster_emul
                 }
                 rbn.AnotherQueries.Clear();
             }
+        }
+
+        /// <summary>
+        /// Устанавливает значение пропуска итераций для обновления окон статуса
+        /// </summary>
+        /// <param name="val">множитель количества пропусков</param>
+        public void SetThrottle(int val)
+        {
+            if (val == 0) Throttle = 1;
+            else Throttle = 10 * val;
         }
     }
 }

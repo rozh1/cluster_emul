@@ -13,14 +13,12 @@ namespace cluster_emul
     class cluster_query
     {
         private float[] queries;    //массив запросов
-        private Random rand;        //великий русский рандом
 
         /// <summary>
         ///  Конструктор класса
         /// </summary>
         public cluster_query()
         {
-            rand = new Random();
             queries = new float[14];
             queries[0] = 0.09F;
             queries[1] = 0.10F;
@@ -44,8 +42,7 @@ namespace cluster_emul
         /// <returns>номер запроса</returns>
         public int GenQueryNum()
         {
-            return NextSerialNum.Gen(13);
-            //return rand.Next(0, 13);
+            return NextNum.Gen(13);
         }
 
         /// <summary>
