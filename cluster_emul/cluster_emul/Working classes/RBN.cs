@@ -25,6 +25,7 @@ namespace cluster_emul
         float normalizing_factor;       //нормирующий коэффициент при расчёте весов
         public ArrayList AnotherQueries;//Обработанные запросы от клиентов из других регионов
         int last_client_num = 0;        //Номер последнего обратившегося клиента
+        cluster_query cq;               //запросы
 
         /// <summary>
         /// Конструктор класса
@@ -43,6 +44,7 @@ namespace cluster_emul
             this.Clusters = new ArrayList(Clusters);
             this.db_capacity = db_capacity;
             AnotherQueries = new ArrayList();
+            cq = new cluster_query();
             InitClientCluster();
         }
 
@@ -93,6 +95,10 @@ namespace cluster_emul
                         {
                             cluster_client cl_w = (cluster_client)Clients[arr[1]];
                             if (CURENT_TOTAL_W > 0) CURENT_TOTAL_W -= cl_w.GetWieghtQuery();
+                        }
+                        else
+                        {
+                            if (CURENT_TOTAL_W > 0) CURENT_TOTAL_W -= cq.GetQueryWeightByNum(arr[0]);
                         }
                         cl.QueueAdd((int[])local_queue.Dequeue());
                         cl.SetQueryTime();
@@ -238,8 +244,15 @@ namespace cluster_emul
         public int[] GetQueryFromQueue()
         {
             int[] arr = (int[])local_queue.Peek();
-            cluster_client cl_w = (cluster_client)Clients[arr[1]];
-            if (CURENT_TOTAL_W > 0) CURENT_TOTAL_W -= cl_w.GetWieghtQuery();
+            if (arr[2] == Region_num)
+            {
+                cluster_client cl_w = (cluster_client)Clients[arr[1]];
+                if (CURENT_TOTAL_W > 0) CURENT_TOTAL_W -= cl_w.GetWieghtQuery();
+            }
+            else
+            {
+                if (CURENT_TOTAL_W > 0) CURENT_TOTAL_W -= cq.GetQueryWeightByNum(arr[0]);
+            }
             return (int[])local_queue.Dequeue();
         }
         /// <summary>
@@ -264,6 +277,10 @@ namespace cluster_emul
                 cluster_client cl_w = (cluster_client)Clients[((int[])current)[1]];
                 if (CURENT_TOTAL_W > 0) CURENT_TOTAL_W -= cl_w.GetWieghtQuery();
             }
+            else
+            {
+                if (CURENT_TOTAL_W > 0) CURENT_TOTAL_W -= cq.GetQueryWeightByNum(arr[0]);
+            }
             return (int[])current;
         }
         /// <summary>
@@ -272,6 +289,7 @@ namespace cluster_emul
         /// <param name="arr">Информация о запросе и клиенте</param>
         public void SetNewQuery(int[] arr)
         {
+            CURENT_TOTAL_W += cq.GetQueryWeightByNum(arr[0]);
             local_queue.Enqueue(arr);
         }
         /// <summary>
