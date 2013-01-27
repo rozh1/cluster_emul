@@ -63,6 +63,7 @@ namespace cluster_emul
         public StatusWindow()
         {
             InitializeComponent();
+            this.Icon = AppResources.icon;
             this.Visible = true;
         }
 
@@ -79,6 +80,7 @@ namespace cluster_emul
             this.Text = "Регион №" + NumRegion;
             ClusterCount.Text = Clusters+" ";
             ClientsCount.Text = Clients + " ";
+            this.Icon = AppResources.icon;
             this.Visible = true;
             QueueProgressBar.Maximum = QueueLength;
             RegionNum = NumRegion;

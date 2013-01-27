@@ -50,6 +50,7 @@ namespace cluster_emul
         public MainWindow()
         {
             InitializeComponent();
+            this.Icon = AppResources.icon;
         }
 
         private void StartSimButton_Click(object sender, EventArgs e)
@@ -78,6 +79,7 @@ namespace cluster_emul
                 if (StatusWindowsCheckBox.Checked)
                 {
                     int col = 0;
+                    int row = 0;
                     for (int i = 0; i < rh.Regions.Count; i++)
                     {
                         RBN rbn = (RBN)rh.Regions[i];
@@ -89,8 +91,12 @@ namespace cluster_emul
                         rh.RIA += new RegionIsActive(sw.RegionStatusHandler);
                         rh.QS += new QueueStatus(sw.QueueStatusHandler);
                         rh.QCS += new QueryCountStatus(sw.QueryCountStatusHandler);
-                        if (col == 3) col = 0;
-                        sw.SetLocation((++col) * 300, i / 3 * 300 + 10);
+                        if ((col+1) * 300 + 300 > Screen.PrimaryScreen.WorkingArea.Width)
+                        {
+                            col = 0;
+                            row++;
+                        }
+                        sw.SetLocation((++col) * 300, row * 300);
                     }
                 }
                 thread_life = true;
@@ -147,7 +153,7 @@ namespace cluster_emul
         private void MainWindow_FormClosing(object sender, FormClosingEventArgs e)
         {
             thread_life = false;
-            t.Abort();
+            if (t != null) t.Abort();
         }
 
         /// <summary>

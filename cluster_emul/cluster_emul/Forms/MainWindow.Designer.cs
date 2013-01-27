@@ -393,9 +393,8 @@
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "MainWindow";
-            this.ShowIcon = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
-            this.Text = "MainWindow";
+            this.Text = "Эмулятор балансировщика";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainWindow_FormClosing);
             ((System.ComponentModel.ISupportInitialize)(this.ServersUpDown)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.ClientsNumericUpDown)).EndInit();
