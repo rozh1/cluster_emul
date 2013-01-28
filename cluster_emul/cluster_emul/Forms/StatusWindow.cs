@@ -146,7 +146,10 @@ namespace cluster_emul
         void SetQueueStatus(int regnum, int queuecount)
         {
             if (regnum == RegionNum)
+            {
                 QueueProgressBar.Value = queuecount;
+                CurrentQueryCount.Text = queuecount.ToString();
+            }
         }
 
         /// <summary>

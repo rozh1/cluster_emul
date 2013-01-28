@@ -39,6 +39,8 @@
             this.QueryCount = new System.Windows.Forms.Label();
             this.QueueProgressBar = new System.Windows.Forms.ProgressBar();
             this.label5 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.CurrentQueryCount = new System.Windows.Forms.Label();
             this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -82,6 +84,8 @@
             this.tableLayoutPanel1.Controls.Add(this.ClusterCount, 1, 1);
             this.tableLayoutPanel1.Controls.Add(this.ClientsCount, 1, 2);
             this.tableLayoutPanel1.Controls.Add(this.QueryCount, 1, 3);
+            this.tableLayoutPanel1.Controls.Add(this.label6, 0, 4);
+            this.tableLayoutPanel1.Controls.Add(this.CurrentQueryCount, 1, 4);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
@@ -106,7 +110,7 @@
             // RbnStatus
             // 
             this.RbnStatus.AutoSize = true;
-            this.RbnStatus.Location = new System.Drawing.Point(214, 0);
+            this.RbnStatus.Location = new System.Drawing.Point(213, 0);
             this.RbnStatus.Name = "RbnStatus";
             this.RbnStatus.Size = new System.Drawing.Size(49, 13);
             this.RbnStatus.TabIndex = 5;
@@ -115,7 +119,7 @@
             // ClusterCount
             // 
             this.ClusterCount.AutoSize = true;
-            this.ClusterCount.Location = new System.Drawing.Point(214, 20);
+            this.ClusterCount.Location = new System.Drawing.Point(213, 20);
             this.ClusterCount.Name = "ClusterCount";
             this.ClusterCount.Size = new System.Drawing.Size(13, 13);
             this.ClusterCount.TabIndex = 5;
@@ -124,7 +128,7 @@
             // ClientsCount
             // 
             this.ClientsCount.AutoSize = true;
-            this.ClientsCount.Location = new System.Drawing.Point(214, 40);
+            this.ClientsCount.Location = new System.Drawing.Point(213, 40);
             this.ClientsCount.Name = "ClientsCount";
             this.ClientsCount.Size = new System.Drawing.Size(13, 13);
             this.ClientsCount.TabIndex = 6;
@@ -133,7 +137,7 @@
             // QueryCount
             // 
             this.QueryCount.AutoSize = true;
-            this.QueryCount.Location = new System.Drawing.Point(214, 60);
+            this.QueryCount.Location = new System.Drawing.Point(213, 60);
             this.QueryCount.Name = "QueryCount";
             this.QueryCount.Size = new System.Drawing.Size(13, 13);
             this.QueryCount.TabIndex = 6;
@@ -156,6 +160,24 @@
             this.label5.Size = new System.Drawing.Size(187, 13);
             this.label5.TabIndex = 4;
             this.label5.Text = "Очередь балансировщика региона:";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(3, 80);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(170, 13);
+            this.label6.TabIndex = 1;
+            this.label6.Text = "Количество запросов в очереди";
+            // 
+            // CurrentQueryCount
+            // 
+            this.CurrentQueryCount.AutoSize = true;
+            this.CurrentQueryCount.Location = new System.Drawing.Point(213, 80);
+            this.CurrentQueryCount.Name = "CurrentQueryCount";
+            this.CurrentQueryCount.Size = new System.Drawing.Size(13, 13);
+            this.CurrentQueryCount.TabIndex = 6;
+            this.CurrentQueryCount.Text = "0";
             // 
             // StatusWindow
             // 
@@ -189,5 +211,7 @@
         private System.Windows.Forms.Label QueryCount;
         private System.Windows.Forms.ProgressBar QueueProgressBar;
         private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label CurrentQueryCount;
     }
 }
