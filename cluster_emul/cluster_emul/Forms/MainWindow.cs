@@ -63,10 +63,11 @@ namespace cluster_emul
                 if (NoBalanceRadioButton.Checked) BalanceType = 0;
                 if (DeCentralizedBalanceRadioButton.Checked) BalanceType = 1;
                 if (CenralizedBalanceRadioButton.Checked) BalanceType = 2;
+                if (DeCentralizedT2RadioButton.Checked) BalanceType = 3;
                 ModelDays = (int)ModelDaysNumericUpDown.Value;
                 DaysProgressBar.Maximum = ModelDays;
                 DaysProgressBar.Value = 0;
-                TimeProgressBar.Maximum = ((int)RegionsUpDown5.Value - 1) * 100 + 300 + 100;
+                TimeProgressBar.Maximum = ((int)RegionsUpDown5.Value - 1) * 100 + 300;
                 ModelDaysLabel.Text = "0";
                 StopSimButton.Enabled = true;
                 StartSimButton.Enabled = false;

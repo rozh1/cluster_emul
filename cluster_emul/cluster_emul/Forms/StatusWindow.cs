@@ -117,8 +117,16 @@ namespace cluster_emul
         void SetRegionStatus(int regnum, bool active)
         {
             if (regnum==RegionNum)
-            if (active) RbnStatus.Text = "Активен";
-            else RbnStatus.Text = "Спит";
+                if (active)
+                {
+                    RbnStatus.Text = "Активен";
+                    RbnStatus.BackColor = Color.Green;
+                }
+                else
+                {
+                    RbnStatus.Text = "Спит";
+                    RbnStatus.BackColor = Color.Yellow;
+                }
         }
 
         /// <summary>

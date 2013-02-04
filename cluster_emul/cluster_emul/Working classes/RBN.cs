@@ -26,6 +26,7 @@ namespace cluster_emul
         public ArrayList AnotherQueries;    //Обработанные запросы от клиентов из других регионов
         int last_client_num = 0;            //Номер последнего обратившегося клиента
         cluster_query cq;                   //запросы
+        public bool general=false;          //Признак главности региона
 
         /// <summary>
         /// Конструктор класса
@@ -187,6 +188,7 @@ namespace cluster_emul
         /// </summary>
         private void WorkHandler()
         {
+            general = false;
             CheckClusters();
             QueueRecive();
             QueueAllocation();

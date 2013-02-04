@@ -80,8 +80,11 @@ namespace cluster_emul
                 case 2:
                     CentralizedHandler();
                     break;
+                case 3:
+                    DeCentralizedHandlerType2();
+                    break;
             }
-            if (time >= (RegionsCount - 1) * 100 + 400)
+            if (time >= (RegionsCount - 1) * 100 + 300)
             {
                 time = 0;
                 if (DaysTS != null) DaysTS(++ModelDays);
@@ -186,7 +189,6 @@ namespace cluster_emul
                         {
                             rbn_i.SetNewQuery(rbn_j.GetLastQueryFromQueue());
                         }
-
                     }
                 }
                 SendAns(rbn_i);
@@ -255,6 +257,59 @@ namespace cluster_emul
         {
             if (val == 0) Throttle = 1;
             else Throttle = 10 * val;
+        }
+
+        /// <summary>
+        /// Функция реализует работу децентрализованной балансировки c элементами централизованной
+        /// </summary>
+        void DeCentralizedHandlerType2()
+        {
+            NotBalancedHandler();
+            if (GeneralRegions())
+            {
+                int[] dev = deviation_average_weight(compute_mean_weigth());
+                for (int i = 0; i < RegionsCount; i++)
+                {
+                    RBN rbn_i = (RBN)Regions[i];
+                    for (int j = 0; (j < RegionsCount); j++)
+                    {
+                        if (i != j)
+                        {
+                            RBN rbn_j = (RBN)Regions[j];
+                            if (dev[i] > dev[j] && !rbn_j.QueueIsFull() && !rbn_i.QueueIsEmpty())
+                            {
+                                rbn_j.SetNewQuery(rbn_i.GetLastQueryFromQueue());
+                            }
+                            if (dev[i] < dev[j] && !rbn_i.QueueIsFull() && !rbn_j.QueueIsEmpty())
+                            {
+                                rbn_i.SetNewQuery(rbn_j.GetLastQueryFromQueue());
+                            }
+
+                        }
+                    }
+                    SendAns(rbn_i);
+                }
+            }
+            for (int i = 0; i < RegionsCount; i++)
+            {
+                RBN rbn = (RBN)Regions[i];
+                if (rbn.IsSleep() && !GeneralRegions()) rbn.general = true;
+                SendAns(rbn);
+            }
+        }
+
+        /// <summary>
+        /// Возращает true если есть главный регион
+        /// </summary>
+        /// <returns>true если есть главный регион</returns>
+        bool GeneralRegions()
+        {
+            for (int i = 0; i < RegionsCount; i++)
+            {
+                RBN rbn = (RBN)Regions[i];
+                if (rbn.general) return true;
+            }
+            return false;
         }
     }
 }
