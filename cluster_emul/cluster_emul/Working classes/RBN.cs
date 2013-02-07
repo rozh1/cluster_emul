@@ -226,6 +226,7 @@ namespace cluster_emul
         {
             //Wr = { [ P ]/[Li ni]}∙normalizing_factor;
             return  ((float)CURENT_TOTAL_W/(2*Clients.Count)) * normalizing_factor;
+            //return ((float)CURENT_TOTAL_W / ((local_queue.Count+1) * Clusters.Count)) * normalizing_factor;
         }
 
         /// <summary>

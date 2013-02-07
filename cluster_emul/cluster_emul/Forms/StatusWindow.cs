@@ -51,6 +51,13 @@ namespace cluster_emul
     delegate void QueryCountStatus(int RegionNum, int QueryCount);
 
     /// <summary>
+    /// Делегат пересылки веса очереди
+    /// </summary>
+    /// <param name="RegionNum">Номер региона</param>
+    /// <param name="QueueWeight">Вес очереди</param>
+    delegate void QueueWeightStatus(int ReegionNum, float QueueWeight);
+
+    /// <summary>
     /// Класс статусного окна
     /// </summary>
     public partial class StatusWindow : Form
@@ -74,12 +81,14 @@ namespace cluster_emul
         /// <param name="Clusters">Количество кластеров</param>
         /// <param name="Clients">Количество Клиентов</param>
         /// <param name="QueueLength">Длина очереди</param>
-        public StatusWindow(int NumRegion, int Clusters, int Clients, int QueueLength)
+        /// <param name="DbCapacity">Объем БД региона</param>
+        public StatusWindow(int NumRegion, int Clusters, int Clients, int QueueLength, int DbCapacity)
         {
             InitializeComponent();
             this.Text = "Регион №" + NumRegion;
             ClusterCount.Text = Clusters+" ";
             ClientsCount.Text = Clients + " ";
+            RegionDbCapacity.Text = DbCapacity.ToString();
             this.Icon = AppResources.icon;
             this.Visible = true;
             QueueProgressBar.Maximum = QueueLength;
@@ -120,7 +129,7 @@ namespace cluster_emul
                 if (active)
                 {
                     RbnStatus.Text = "Активен";
-                    RbnStatus.BackColor = Color.Green;
+                    RbnStatus.BackColor = Color.LightGreen;
                 }
                 else
                 {
@@ -186,6 +195,34 @@ namespace cluster_emul
         {
             if (regnum == RegionNum)
                 QueryCount.Text = querycount.ToString();
+        }
+
+        /// <summary>
+        /// Обработчик делегата пересылки веса очереди
+        /// </summary>
+        /// <param name="regnum">Номер региона</param>
+        /// <param name="queueweight">Вес очереди</param>
+        public void QueueWeightStatusHandler(int regnum, float queueweight)
+        {
+            if (this.InvokeRequired)
+            {
+                this.Invoke(new QueueWeightStatus(SetQueueWeightStatus), regnum, queueweight);
+            }
+            else
+            {
+                SetQueueWeightStatus(regnum, queueweight);
+            }
+        }
+
+        /// <summary>
+        /// Устанавливает вес очереди региона в окне
+        /// </summary>
+        /// <param name="regnum">Номер региона</param>
+        /// <param name="queueweight">Вес очереди</param>
+        void SetQueueWeightStatus(int regnum, float queueweight)
+        {
+            if (regnum == RegionNum)
+                RegionQueuWeight.Text = queueweight.ToString();
         }
     }
 }

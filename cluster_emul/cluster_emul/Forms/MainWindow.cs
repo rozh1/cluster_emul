@@ -87,11 +87,13 @@ namespace cluster_emul
                         StatusWindow sw = new StatusWindow(rbn.Region_num,
                             rbn.Region_num * (int)ServersUpDown.Value,
                             rbn.Region_num * (int)ClientsNumericUpDown.Value,
-                            rbn.Region_num * (int)ServersUpDown.Value * 2);
+                            rbn.Region_num * (int)ServersUpDown.Value * 2,
+                            rbn.Region_num * (int)DBcapNumericUpDown.Value);
                         StatusWindows.Add(sw);
                         rh.RIA += new RegionIsActive(sw.RegionStatusHandler);
                         rh.QS += new QueueStatus(sw.QueueStatusHandler);
                         rh.QCS += new QueryCountStatus(sw.QueryCountStatusHandler);
+                        rh.QWS += new QueueWeightStatus(sw.QueueWeightStatusHandler);
                         if ((col+1) * 300 + 300 > Screen.PrimaryScreen.WorkingArea.Width)
                         {
                             col = 0;
@@ -205,7 +207,7 @@ namespace cluster_emul
         /// <param name="day">модельные сутки</param>
         void SetModelDaysStatus(int day)
         {
-            DaysProgressBar.Value = day;
+            if (day<=DaysProgressBar.Maximum) DaysProgressBar.Value = day;
             ModelDaysLabel.Text = day.ToString();
         }
 

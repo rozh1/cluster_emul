@@ -25,6 +25,7 @@ namespace cluster_emul
         public event QueryCountStatus QCS;  //Событие передачи количества выполенных запросов
         public event TimeStatus TS;         //Событие передачи текущего модельного времени
         public event TimeStatus DaysTS;     //Событие передачи текущих суток
+        public event QueueWeightStatus QWS; //Событие передачи текущего веса очереди
         int Throttle = 10;                  //Пропуск итераций перед уведомлением
         int ThrottleCount = 0;              //Количество прощенных итераций
 
@@ -56,7 +57,8 @@ namespace cluster_emul
             {
                 int k = i + 1;
                 RBN rbn = new RBN(k, k * ServersCount * 2, k * ClientsCount, k * ServersCount, k * DB_capacity);
-                rbn.Set_normalizing_factor((float)(RegionsCount * ClientsCount /rbn.db_capacity));
+                rbn.Set_normalizing_factor((float)(RegionsCount * ClientsCount) / rbn.db_capacity);
+                //rbn.Set_normalizing_factor((float)(ServersCount * 2) / DB_capacity);
                 Regions.Add(rbn);
             }
         }
@@ -109,6 +111,7 @@ namespace cluster_emul
                     if (RIA != null) RIA(rbn.Region_num, !rbn.IsSleep());
                     if (QS != null) QS(rbn.Region_num, rbn.GetQueueCount());
                     if (QCS != null) QCS(rbn.Region_num, rbn.TOTAL_QUERY_COUNT);
+                    if (QWS != null) QWS(rbn.Region_num, rbn.Weight_Compute());
                 }
             }
         }
