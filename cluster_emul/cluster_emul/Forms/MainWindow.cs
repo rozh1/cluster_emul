@@ -87,7 +87,7 @@ namespace cluster_emul
                         StatusWindow sw = new StatusWindow(rbn.Region_num,
                             rbn.Region_num * (int)ServersUpDown.Value,
                             rbn.Region_num * (int)ClientsNumericUpDown.Value,
-                            rbn.Region_num * (int)ServersUpDown.Value * 2,
+                            rbn.Region_num * (int)ClientsNumericUpDown.Value,
                             rbn.Region_num * (int)DBcapNumericUpDown.Value);
                         StatusWindows.Add(sw);
                         rh.RIA += new RegionIsActive(sw.RegionStatusHandler);
