@@ -224,8 +224,31 @@ namespace cluster_emul
         /// <returns>вес региона</returns>
         public float Weight_Compute()
         {
+            return Weight_Compute(0);
+        }
+
+        /// <summary>
+        /// Функция вычисления веса региона
+        /// </summary>
+        /// <param name="mod">Вариант формулы</param>
+        /// <returns>вес регион</returns>
+        public float Weight_Compute(int mod)
+        {
             //Wr = { [ P ]/[Li ni]}∙normalizing_factor;
-            return  ((float)CURENT_TOTAL_W/(2*Clients.Count)) * normalizing_factor;
+            if (mod == 0) return ((float)CURENT_TOTAL_W / (2 * Clients.Count)) * normalizing_factor;
+            else
+            {
+                int local_queue_wight=0;
+                for (int i = 0; i < local_queue.Count; i++)
+                {
+                    int[] arr = (int[])local_queue.ToArray()[i];
+                    if (arr[2] == Region_num)
+                    {
+                        local_queue_wight += cq.GetQueryWeightByNum(arr[0]);
+                    }
+                }
+                return ((float)local_queue_wight / (2 * Clients.Count)) * normalizing_factor;
+            }
             //return ((float)CURENT_TOTAL_W / ((local_queue.Count+1) * Clusters.Count)) * normalizing_factor;
         }
 

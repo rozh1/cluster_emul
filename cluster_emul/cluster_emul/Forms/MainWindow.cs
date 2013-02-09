@@ -64,6 +64,7 @@ namespace cluster_emul
                 if (DeCentralizedBalanceRadioButton.Checked) BalanceType = 1;
                 if (CenralizedBalanceRadioButton.Checked) BalanceType = 2;
                 if (DeCentralizedT2RadioButton.Checked) BalanceType = 3;
+                if (CentralizedType2RadioButton.Checked) BalanceType = 4;
                 ModelDays = (int)ModelDaysNumericUpDown.Value;
                 DaysProgressBar.Maximum = ModelDays;
                 DaysProgressBar.Value = 0;
