@@ -331,26 +331,21 @@ namespace cluster_emul
         void CentralizedHandlerType2()
         {
             NotBalancedHandler();
-            int[] dev = deviation_average_weight(compute_mean_weigth());
             for (int i = 0; i < RegionsCount; i++)
             {
-                RBN rbn_i = (RBN)Regions[i];
-                for (int j = 0; (j < RegionsCount); j++)
+                RBN rbn = (RBN)Regions[i];
+                if (rbn.IsSleep())
                 {
-                    if (i != j)
+                    RBN another_rbn = MaxWeightRegion(i);
+                    if (another_rbn != null)
                     {
-                        RBN rbn_j = (RBN)Regions[j];
-                        if (dev[i] > dev[j] && rbn_j.IsSleep() && rbn_i.CanGetQuery())
+                        if (!rbn.QueueIsFull() && another_rbn.CanGetQuery())
                         {
-                            rbn_j.SetNewQuery(rbn_i.GetLastQueryFromQueue());
-                        }
-                        if (dev[i] < dev[j] && rbn_i.IsSleep() && rbn_j.CanGetQuery())
-                        {
-                            rbn_i.SetNewQuery(rbn_j.GetLastQueryFromQueue());
+                            rbn.SetNewQuery(another_rbn.GetQueryFromQueue());
                         }
                     }
                 }
-                SendAns(rbn_i);
+                SendAns(rbn);
             }
         }
     }
