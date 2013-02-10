@@ -58,6 +58,12 @@ namespace cluster_emul
     delegate void QueueWeightStatus(int ReegionNum, float QueueWeight);
 
     /// <summary>
+    /// Делегат пересылки номера главного региона
+    /// </summary>
+    /// <param name="RegionNum">Номер региона</param>
+    delegate void GeneralRegionStatus(int ReegionNum);
+
+    /// <summary>
     /// Класс статусного окна
     /// </summary>
     public partial class StatusWindow : Form
@@ -98,7 +104,7 @@ namespace cluster_emul
         public void SetLocation(int X, int Y)
         {
             this.Location = new Point(X, Y);
-            this.Size = new System.Drawing.Size(300, 300);
+            this.Size = new System.Drawing.Size(this.Width, this.Height);
         }
 
         /// <summary>
@@ -223,6 +229,35 @@ namespace cluster_emul
         {
             if (regnum == RegionNum)
                 RegionQueuWeight.Text = queueweight.ToString();
+        }
+
+        /// <summary>
+        /// Обработчик делегата пересылки номера главного регина
+        /// </summary>
+        /// <param name="regnum">Номер региона</param>
+        /// <param name="queueweight">Вес очереди</param>
+        public void GeneralRegionStatusHandler(int regnum)
+        {
+            if (this.InvokeRequired)
+            {
+                this.Invoke(new GeneralRegionStatus(GeneralRegionStatus), regnum);
+            }
+            else
+            {
+                GeneralRegionStatus(regnum);
+            }
+        }
+
+        /// <summary>
+        /// Устанавливает вес очереди региона в окне
+        /// </summary>
+        /// <param name="regnum">Номер региона</param>
+        /// <param name="queueweight">Вес очереди</param>
+        void GeneralRegionStatus(int regnum)
+        {
+            if (regnum == RegionNum)
+                this.BackColor = Color.LightGreen;
+            else this.BackColor = Color.FromArgb(240, 240, 240);
         }
     }
 }

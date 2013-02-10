@@ -95,12 +95,13 @@ namespace cluster_emul
                         rh.QS += new QueueStatus(sw.QueueStatusHandler);
                         rh.QCS += new QueryCountStatus(sw.QueryCountStatusHandler);
                         rh.QWS += new QueueWeightStatus(sw.QueueWeightStatusHandler);
-                        if ((col+1) * 300 + 300 > Screen.PrimaryScreen.WorkingArea.Width)
+                        rh.GR += new GeneralRegionStatus(sw.GeneralRegionStatusHandler);
+                        if ((col + 1) * sw.Width + sw.Width > Screen.PrimaryScreen.WorkingArea.Width)
                         {
                             col = 0;
                             row++;
                         }
-                        sw.SetLocation((++col) * 300, row * 300);
+                        sw.SetLocation((++col) * sw.Width, row * sw.Height);
                     }
                 }
                 thread_life = true;

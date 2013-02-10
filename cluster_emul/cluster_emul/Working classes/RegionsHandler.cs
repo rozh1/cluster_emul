@@ -26,9 +26,11 @@ namespace cluster_emul
         public event TimeStatus TS;         //Событие передачи текущего модельного времени
         public event TimeStatus DaysTS;     //Событие передачи текущих суток
         public event QueueWeightStatus QWS; //Событие передачи текущего веса очереди
+        public event GeneralRegionStatus GR;//Событие передачи номера главного региона
         int Throttle = 10;                  //Пропуск итераций перед уведомлением
         int ThrottleCount = 0;              //Количество прощенных итераций
         int WeightComputeMode = 0;          //Вариант формулы для вычисления веса очереди
+        int GeneralRNBnum = 0;              //Номер главного региона
 
         /// <summary>
         /// Конструктор класса
@@ -79,7 +81,7 @@ namespace cluster_emul
                     NotBalancedHandler();
                     break;
                 case 1:
-                    WeightComputeMode = 0;
+                    WeightComputeMode = 1;
                     DeCentralizedHandler();
                     break;
                 case 2:
@@ -122,6 +124,7 @@ namespace cluster_emul
                     if (QS != null) QS(rbn.Region_num, rbn.GetQueueCount());
                     if (QCS != null) QCS(rbn.Region_num, rbn.TOTAL_QUERY_COUNT);
                     if (QWS != null) QWS(rbn.Region_num, rbn.Weight_Compute());
+                    if (GR != null) GR(GeneralRNBnum);
                 }
             }
         }
@@ -320,7 +323,11 @@ namespace cluster_emul
             for (int i = 0; i < RegionsCount; i++)
             {
                 RBN rbn = (RBN)Regions[i];
-                if (rbn.general) return true;
+                if (rbn.general)
+                {
+                    GeneralRNBnum = rbn.Region_num;
+                    return true;
+                }
             }
             return false;
         }

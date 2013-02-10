@@ -36,6 +36,7 @@
             this.DBcapNumericUpDown = new System.Windows.Forms.NumericUpDown();
             this.label3 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.CentralizedType2RadioButton = new System.Windows.Forms.RadioButton();
             this.NoBalanceRadioButton = new System.Windows.Forms.RadioButton();
             this.DeCentralizedT2RadioButton = new System.Windows.Forms.RadioButton();
             this.DeCentralizedBalanceRadioButton = new System.Windows.Forms.RadioButton();
@@ -58,7 +59,6 @@
             this.RefreshSpeedTrackBar = new System.Windows.Forms.TrackBar();
             this.label9 = new System.Windows.Forms.Label();
             this.ResrefhSpeedLable = new System.Windows.Forms.Label();
-            this.CentralizedType2RadioButton = new System.Windows.Forms.RadioButton();
             ((System.ComponentModel.ISupportInitialize)(this.ServersUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ClientsNumericUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.DBcapNumericUpDown)).BeginInit();
@@ -160,6 +160,16 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Тип МРБН";
             // 
+            // CentralizedType2RadioButton
+            // 
+            this.CentralizedType2RadioButton.AutoSize = true;
+            this.CentralizedType2RadioButton.Location = new System.Drawing.Point(6, 66);
+            this.CentralizedType2RadioButton.Name = "CentralizedType2RadioButton";
+            this.CentralizedType2RadioButton.Size = new System.Drawing.Size(177, 17);
+            this.CentralizedType2RadioButton.TabIndex = 2;
+            this.CentralizedType2RadioButton.Text = "Централизованный вариант 2";
+            this.CentralizedType2RadioButton.UseVisualStyleBackColor = true;
+            // 
             // NoBalanceRadioButton
             // 
             this.NoBalanceRadioButton.AutoSize = true;
@@ -177,9 +187,9 @@
             this.DeCentralizedT2RadioButton.AutoSize = true;
             this.DeCentralizedT2RadioButton.Location = new System.Drawing.Point(6, 112);
             this.DeCentralizedT2RadioButton.Name = "DeCentralizedT2RadioButton";
-            this.DeCentralizedT2RadioButton.Size = new System.Drawing.Size(166, 17);
+            this.DeCentralizedT2RadioButton.Size = new System.Drawing.Size(190, 17);
             this.DeCentralizedT2RadioButton.TabIndex = 0;
-            this.DeCentralizedT2RadioButton.Text = "Децентрализованный тип 2";
+            this.DeCentralizedT2RadioButton.Text = "Децентрализованный вариант 2";
             this.DeCentralizedT2RadioButton.UseVisualStyleBackColor = true;
             // 
             // DeCentralizedBalanceRadioButton
@@ -371,16 +381,6 @@
             this.ResrefhSpeedLable.Size = new System.Drawing.Size(13, 13);
             this.ResrefhSpeedLable.TabIndex = 14;
             this.ResrefhSpeedLable.Text = "0";
-            // 
-            // CentralizedType2RadioButton
-            // 
-            this.CentralizedType2RadioButton.AutoSize = true;
-            this.CentralizedType2RadioButton.Location = new System.Drawing.Point(6, 66);
-            this.CentralizedType2RadioButton.Name = "CentralizedType2RadioButton";
-            this.CentralizedType2RadioButton.Size = new System.Drawing.Size(153, 17);
-            this.CentralizedType2RadioButton.TabIndex = 2;
-            this.CentralizedType2RadioButton.Text = "Централизованный тип 2";
-            this.CentralizedType2RadioButton.UseVisualStyleBackColor = true;
             // 
             // MainWindow
             // 
