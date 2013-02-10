@@ -329,6 +329,7 @@ namespace cluster_emul
                     return true;
                 }
             }
+            GeneralRNBnum = 0;
             return false;
         }
 
