@@ -292,7 +292,7 @@
             // TimeProgressBar
             // 
             this.TimeProgressBar.Location = new System.Drawing.Point(12, 541);
-            this.TimeProgressBar.Maximum = 500;
+            this.TimeProgressBar.Maximum = 1440;
             this.TimeProgressBar.Name = "TimeProgressBar";
             this.TimeProgressBar.Size = new System.Drawing.Size(260, 23);
             this.TimeProgressBar.Step = 100;

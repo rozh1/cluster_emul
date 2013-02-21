@@ -56,10 +56,13 @@ namespace cluster_emul
         /// </summary>
         void InitRegions()
         {
+
             for (int i = 0; i < RegionsCount; i++)
             {
                 int k = i + 1;
-                RBN rbn = new RBN(k, k * ClientsCount, k * ClientsCount, k * ServersCount, k * DB_capacity);
+                float start_time = i * 720.0F / RegionsCount;
+                RBN rbn = new RBN(k, k * ClientsCount, k * ClientsCount, k * ServersCount,
+                    k * DB_capacity, start_time, start_time + 720.0F);
                 rbn.Set_normalizing_factor((float)(RegionsCount * ClientsCount) / rbn.db_capacity);
                 //rbn.Set_normalizing_factor((float)(ServersCount * 2) / DB_capacity);
                 Regions.Add(rbn);
@@ -98,7 +101,7 @@ namespace cluster_emul
                     break;
 
             }
-            if (time >= (RegionsCount - 1) * 100 + 300)
+            if (time >= 1439.9F)
             {
                 time = 0;
                 if (DaysTS != null) DaysTS(++ModelDays);

@@ -20,13 +20,15 @@ namespace cluster_emul
         ArrayList Clusters;                 //Серверы
         float time = 200;                   //Модельное мремя
         public int TOTAL_QUERY_COUNT = 0;   //Общее количество обработанных регионом запросов 
-        int CURENT_TOTAL_W = 0;             //Общий суммарный вес очредеи РБН
+        float CURENT_TOTAL_W = 0;           //Общий суммарный вес очредеи РБН
         public int db_capacity;             //Объём базы данных региона
         float normalizing_factor;           //нормирующий коэффициент при расчёте весов
         public ArrayList AnotherQueries;    //Обработанные запросы от клиентов из других регионов
         int last_client_num = 0;            //Номер последнего обратившегося клиента
         cluster_query cq;                   //запросы
         public bool general=false;          //Признак главности региона
+        public float start_time=0;          //Время начала работы регина
+        public float end_time = 1440;       //Время окончания работы региона
 
         /// <summary>
         /// Конструктор класса
@@ -36,7 +38,10 @@ namespace cluster_emul
         /// <param name="Clients">Количество клиентов в регионе</param>
         /// <param name="Clusters">Количество серверов в регионе</param>
         /// <param name="db_capacity">Объём базы данных региона</param>
-        public RBN(int Region_number, int Local_Queue_length, int Clients, int Clusters, int db_capacity)
+        /// <param name="StartTime">Время начала работы регина</param>
+        /// <param name="EndTime">Время окончания работы региона</param>
+        public RBN(int Region_number, int Local_Queue_length, int Clients, int Clusters,
+            int db_capacity, float StartTime, float EndTime)
         {
             local_queue_length = Local_Queue_length;
             local_queue = new Queue(Local_Queue_length);
@@ -46,6 +51,8 @@ namespace cluster_emul
             this.db_capacity = db_capacity;
             AnotherQueries = new ArrayList();
             cq = new cluster_query();
+            start_time = StartTime;
+            end_time = EndTime;
             InitClientCluster();
         }
 
@@ -179,7 +186,7 @@ namespace cluster_emul
         {
             this.time = time;
             int i = Region_num - 1;
-            if (i * 100 + 300 > time && i * 100 < time) WorkHandler();
+            if (end_time > time && start_time < time) WorkHandler();
             else SleepHandler();
         }
 
@@ -238,7 +245,7 @@ namespace cluster_emul
             if (mod == 0) return ((float)CURENT_TOTAL_W / (2 * Clients.Count)) * normalizing_factor;
             else
             {
-                int local_queue_wight=0;
+                float local_queue_wight=0;
                 for (int i = 0; i < local_queue.Count; i++)
                 {
                     int[] arr = (int[])local_queue.ToArray()[i];
@@ -258,8 +265,7 @@ namespace cluster_emul
         /// <returns>true - если регион не активен</returns>
         public bool IsSleep()
         {
-            int i = Region_num-1;
-            if ((i * 100 + 300 > time && i * 100 < time)) return false;
+            if (end_time > time && start_time < time) return false;
             else return true;
         }
 

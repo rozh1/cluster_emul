@@ -51,14 +51,17 @@ namespace cluster_emul
         {
             InitializeComponent();
             this.Icon = AppResources.icon;
+            StatusWindows = new ArrayList();
         }
 
         private void StartSimButton_Click(object sender, EventArgs e)
         {
+            for (int i = 0; i < StatusWindows.Count; i++)
+                ((StatusWindow)StatusWindows[i]).Dispose();
+            StatusWindows.Clear();
             if (OutputHandler.Init(FilePathTextBox.Text))
             {
                 t = new Thread(new ThreadStart(MainThread));
-                StatusWindows = new ArrayList();
                 int BalanceType = 0;
                 if (NoBalanceRadioButton.Checked) BalanceType = 0;
                 if (DeCentralizedBalanceRadioButton.Checked) BalanceType = 1;
@@ -68,7 +71,7 @@ namespace cluster_emul
                 ModelDays = (int)ModelDaysNumericUpDown.Value;
                 DaysProgressBar.Maximum = ModelDays;
                 DaysProgressBar.Value = 0;
-                TimeProgressBar.Maximum = ((int)RegionsUpDown5.Value - 1) * 100 + 300;
+                TimeProgressBar.Maximum = 1440;
                 ModelDaysLabel.Text = "0";
                 StopSimButton.Enabled = true;
                 StartSimButton.Enabled = false;
@@ -145,9 +148,6 @@ namespace cluster_emul
         {
             StartSimButton.Enabled = true;
             StopSimButton.Enabled = false;
-            for (int i = 0; i < StatusWindows.Count; i++)
-                ((StatusWindow)StatusWindows[i]).Dispose();
-            StatusWindows.Clear();
         }
 
         /// <summary>

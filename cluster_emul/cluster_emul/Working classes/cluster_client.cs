@@ -17,7 +17,7 @@ namespace cluster_emul
         private cluster_query cq;   //запросы
         public bool request_sended; //флаг посылки запроса
         public int query_col;       //количество обработанных запросов клиента
-        private int query_weight;   //вес текущего запроса
+        private float query_weight; //вес текущего запроса
         private float send_time;    //Время отправки запроса
         public float recive_time;   //Время задержки
         /// <summary>
@@ -79,7 +79,7 @@ namespace cluster_emul
         ///Возвращает вес текущего запроса
         /// </summary>
         /// <returns>вес текущего запроса</returns>
-        public int GetWieghtQuery()
+        public float GetWieghtQuery()
         {
             return query_weight;
         }
