@@ -22,9 +22,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace cluster_emul
@@ -51,6 +49,19 @@ namespace cluster_emul
     delegate void QueryCountStatus(int RegionNum, int QueryCount);
 
     /// <summary>
+    /// Делегат пересылки веса очереди
+    /// </summary>
+    /// <param name="RegionNum">Номер региона</param>
+    /// <param name="QueueWeight">Вес очереди</param>
+    delegate void QueueWeightStatus(int ReegionNum, float QueueWeight);
+
+    /// <summary>
+    /// Делегат пересылки номера главного региона
+    /// </summary>
+    /// <param name="RegionNum">Номер региона</param>
+    delegate void GeneralRegionStatus(int ReegionNum);
+
+    /// <summary>
     /// Класс статусного окна
     /// </summary>
     public partial class StatusWindow : Form
@@ -74,12 +85,14 @@ namespace cluster_emul
         /// <param name="Clusters">Количество кластеров</param>
         /// <param name="Clients">Количество Клиентов</param>
         /// <param name="QueueLength">Длина очереди</param>
-        public StatusWindow(int NumRegion, int Clusters, int Clients, int QueueLength)
+        /// <param name="DbCapacity">Объем БД региона</param>
+        public StatusWindow(int NumRegion, int Clusters, int Clients, int QueueLength, int DbCapacity)
         {
             InitializeComponent();
             this.Text = "Регион №" + NumRegion;
             ClusterCount.Text = Clusters+" ";
             ClientsCount.Text = Clients + " ";
+            RegionDbCapacity.Text = DbCapacity.ToString();
             this.Icon = AppResources.icon;
             this.Visible = true;
             QueueProgressBar.Maximum = QueueLength;
@@ -89,7 +102,7 @@ namespace cluster_emul
         public void SetLocation(int X, int Y)
         {
             this.Location = new Point(X, Y);
-            this.Size = new System.Drawing.Size(300, 300);
+            this.Size = new System.Drawing.Size(this.Width, this.Height);
         }
 
         /// <summary>
@@ -120,7 +133,7 @@ namespace cluster_emul
                 if (active)
                 {
                     RbnStatus.Text = "Активен";
-                    RbnStatus.BackColor = Color.Green;
+                    RbnStatus.BackColor = Color.LightGreen;
                 }
                 else
                 {
@@ -186,6 +199,63 @@ namespace cluster_emul
         {
             if (regnum == RegionNum)
                 QueryCount.Text = querycount.ToString();
+        }
+
+        /// <summary>
+        /// Обработчик делегата пересылки веса очереди
+        /// </summary>
+        /// <param name="regnum">Номер региона</param>
+        /// <param name="queueweight">Вес очереди</param>
+        public void QueueWeightStatusHandler(int regnum, float queueweight)
+        {
+            if (this.InvokeRequired)
+            {
+                this.Invoke(new QueueWeightStatus(SetQueueWeightStatus), regnum, queueweight);
+            }
+            else
+            {
+                SetQueueWeightStatus(regnum, queueweight);
+            }
+        }
+
+        /// <summary>
+        /// Устанавливает вес очереди региона в окне
+        /// </summary>
+        /// <param name="regnum">Номер региона</param>
+        /// <param name="queueweight">Вес очереди</param>
+        void SetQueueWeightStatus(int regnum, float queueweight)
+        {
+            if (regnum == RegionNum)
+                RegionQueuWeight.Text = queueweight.ToString();
+        }
+
+        /// <summary>
+        /// Обработчик делегата пересылки номера главного регина
+        /// </summary>
+        /// <param name="regnum">Номер региона</param>
+        /// <param name="queueweight">Вес очереди</param>
+        public void GeneralRegionStatusHandler(int regnum)
+        {
+            if (this.InvokeRequired)
+            {
+                this.Invoke(new GeneralRegionStatus(GeneralRegionStatus), regnum);
+            }
+            else
+            {
+                GeneralRegionStatus(regnum);
+            }
+        }
+
+        /// <summary>
+        /// Устанавливает вес очереди региона в окне
+        /// </summary>
+        /// <param name="regnum">Номер региона</param>
+        /// <param name="queueweight">Вес очереди</param>
+        void GeneralRegionStatus(int regnum)
+        {
+            if (regnum == RegionNum)
+                this.BackColor = Color.LightGreen;
+            else this.BackColor = Color.FromArgb(240, 240, 240);
         }
     }
 }

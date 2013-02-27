@@ -36,7 +36,9 @@
             this.DBcapNumericUpDown = new System.Windows.Forms.NumericUpDown();
             this.label3 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.CentralizedType2RadioButton = new System.Windows.Forms.RadioButton();
             this.NoBalanceRadioButton = new System.Windows.Forms.RadioButton();
+            this.DeCentralizedT2RadioButton = new System.Windows.Forms.RadioButton();
             this.DeCentralizedBalanceRadioButton = new System.Windows.Forms.RadioButton();
             this.CenralizedBalanceRadioButton = new System.Windows.Forms.RadioButton();
             this.label5 = new System.Windows.Forms.Label();
@@ -57,7 +59,6 @@
             this.RefreshSpeedTrackBar = new System.Windows.Forms.TrackBar();
             this.label9 = new System.Windows.Forms.Label();
             this.ResrefhSpeedLable = new System.Windows.Forms.Label();
-            this.DeCentralizedT2RadioButton = new System.Windows.Forms.RadioButton();
             ((System.ComponentModel.ISupportInitialize)(this.ServersUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ClientsNumericUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.DBcapNumericUpDown)).BeginInit();
@@ -69,7 +70,7 @@
             // 
             // StartSimButton
             // 
-            this.StartSimButton.Location = new System.Drawing.Point(12, 426);
+            this.StartSimButton.Location = new System.Drawing.Point(12, 444);
             this.StartSimButton.Name = "StartSimButton";
             this.StartSimButton.Size = new System.Drawing.Size(128, 23);
             this.StartSimButton.TabIndex = 0;
@@ -101,7 +102,7 @@
             this.ClientsNumericUpDown.Size = new System.Drawing.Size(60, 20);
             this.ClientsNumericUpDown.TabIndex = 1;
             this.ClientsNumericUpDown.Value = new decimal(new int[] {
-            20,
+            30,
             0,
             0,
             0});
@@ -131,7 +132,7 @@
             this.DBcapNumericUpDown.Size = new System.Drawing.Size(60, 20);
             this.DBcapNumericUpDown.TabIndex = 1;
             this.DBcapNumericUpDown.Value = new decimal(new int[] {
-            3,
+            5,
             0,
             0,
             0});
@@ -147,16 +148,27 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.CentralizedType2RadioButton);
             this.groupBox1.Controls.Add(this.NoBalanceRadioButton);
             this.groupBox1.Controls.Add(this.DeCentralizedT2RadioButton);
             this.groupBox1.Controls.Add(this.DeCentralizedBalanceRadioButton);
             this.groupBox1.Controls.Add(this.CenralizedBalanceRadioButton);
             this.groupBox1.Location = new System.Drawing.Point(15, 142);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(257, 120);
+            this.groupBox1.Size = new System.Drawing.Size(257, 138);
             this.groupBox1.TabIndex = 3;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Тип МРБН";
+            // 
+            // CentralizedType2RadioButton
+            // 
+            this.CentralizedType2RadioButton.AutoSize = true;
+            this.CentralizedType2RadioButton.Location = new System.Drawing.Point(6, 66);
+            this.CentralizedType2RadioButton.Name = "CentralizedType2RadioButton";
+            this.CentralizedType2RadioButton.Size = new System.Drawing.Size(177, 17);
+            this.CentralizedType2RadioButton.TabIndex = 2;
+            this.CentralizedType2RadioButton.Text = "Централизованный вариант 2";
+            this.CentralizedType2RadioButton.UseVisualStyleBackColor = true;
             // 
             // NoBalanceRadioButton
             // 
@@ -170,10 +182,20 @@
             this.NoBalanceRadioButton.Text = "Нет балансировки";
             this.NoBalanceRadioButton.UseVisualStyleBackColor = true;
             // 
+            // DeCentralizedT2RadioButton
+            // 
+            this.DeCentralizedT2RadioButton.AutoSize = true;
+            this.DeCentralizedT2RadioButton.Location = new System.Drawing.Point(6, 112);
+            this.DeCentralizedT2RadioButton.Name = "DeCentralizedT2RadioButton";
+            this.DeCentralizedT2RadioButton.Size = new System.Drawing.Size(190, 17);
+            this.DeCentralizedT2RadioButton.TabIndex = 0;
+            this.DeCentralizedT2RadioButton.Text = "Децентрализованный вариант 2";
+            this.DeCentralizedT2RadioButton.UseVisualStyleBackColor = true;
+            // 
             // DeCentralizedBalanceRadioButton
             // 
             this.DeCentralizedBalanceRadioButton.AutoSize = true;
-            this.DeCentralizedBalanceRadioButton.Location = new System.Drawing.Point(6, 66);
+            this.DeCentralizedBalanceRadioButton.Location = new System.Drawing.Point(6, 89);
             this.DeCentralizedBalanceRadioButton.Name = "DeCentralizedBalanceRadioButton";
             this.DeCentralizedBalanceRadioButton.Size = new System.Drawing.Size(137, 17);
             this.DeCentralizedBalanceRadioButton.TabIndex = 0;
@@ -213,7 +235,7 @@
             // 
             // FilePathTextBox
             // 
-            this.FilePathTextBox.Location = new System.Drawing.Point(15, 400);
+            this.FilePathTextBox.Location = new System.Drawing.Point(15, 418);
             this.FilePathTextBox.Name = "FilePathTextBox";
             this.FilePathTextBox.Size = new System.Drawing.Size(257, 20);
             this.FilePathTextBox.TabIndex = 6;
@@ -222,7 +244,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(12, 384);
+            this.label4.Location = new System.Drawing.Point(12, 402);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(105, 13);
             this.label4.TabIndex = 2;
@@ -252,7 +274,7 @@
             // StatusWindowsCheckBox
             // 
             this.StatusWindowsCheckBox.AutoSize = true;
-            this.StatusWindowsCheckBox.Location = new System.Drawing.Point(15, 268);
+            this.StatusWindowsCheckBox.Location = new System.Drawing.Point(15, 286);
             this.StatusWindowsCheckBox.Name = "StatusWindowsCheckBox";
             this.StatusWindowsCheckBox.Size = new System.Drawing.Size(152, 17);
             this.StatusWindowsCheckBox.TabIndex = 7;
@@ -261,7 +283,7 @@
             // 
             // DaysProgressBar
             // 
-            this.DaysProgressBar.Location = new System.Drawing.Point(12, 474);
+            this.DaysProgressBar.Location = new System.Drawing.Point(12, 492);
             this.DaysProgressBar.Name = "DaysProgressBar";
             this.DaysProgressBar.Size = new System.Drawing.Size(260, 23);
             this.DaysProgressBar.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
@@ -269,8 +291,8 @@
             // 
             // TimeProgressBar
             // 
-            this.TimeProgressBar.Location = new System.Drawing.Point(12, 523);
-            this.TimeProgressBar.Maximum = 500;
+            this.TimeProgressBar.Location = new System.Drawing.Point(12, 541);
+            this.TimeProgressBar.Maximum = 1440;
             this.TimeProgressBar.Name = "TimeProgressBar";
             this.TimeProgressBar.Size = new System.Drawing.Size(260, 23);
             this.TimeProgressBar.Step = 100;
@@ -280,7 +302,7 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(12, 456);
+            this.label7.Location = new System.Drawing.Point(12, 474);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(217, 13);
             this.label7.TabIndex = 9;
@@ -289,7 +311,7 @@
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(15, 505);
+            this.label8.Location = new System.Drawing.Point(15, 523);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(146, 13);
             this.label8.TabIndex = 10;
@@ -298,7 +320,7 @@
             // ModelDaysLabel
             // 
             this.ModelDaysLabel.AutoSize = true;
-            this.ModelDaysLabel.Location = new System.Drawing.Point(236, 456);
+            this.ModelDaysLabel.Location = new System.Drawing.Point(236, 474);
             this.ModelDaysLabel.Name = "ModelDaysLabel";
             this.ModelDaysLabel.Size = new System.Drawing.Size(13, 13);
             this.ModelDaysLabel.TabIndex = 11;
@@ -307,7 +329,7 @@
             // ModelTimeLabel
             // 
             this.ModelTimeLabel.AutoSize = true;
-            this.ModelTimeLabel.Location = new System.Drawing.Point(236, 505);
+            this.ModelTimeLabel.Location = new System.Drawing.Point(236, 523);
             this.ModelTimeLabel.Name = "ModelTimeLabel";
             this.ModelTimeLabel.Size = new System.Drawing.Size(13, 13);
             this.ModelTimeLabel.TabIndex = 11;
@@ -316,7 +338,7 @@
             // StopSimButton
             // 
             this.StopSimButton.Enabled = false;
-            this.StopSimButton.Location = new System.Drawing.Point(146, 426);
+            this.StopSimButton.Location = new System.Drawing.Point(146, 444);
             this.StopSimButton.Name = "StopSimButton";
             this.StopSimButton.Size = new System.Drawing.Size(126, 23);
             this.StopSimButton.TabIndex = 0;
@@ -327,7 +349,7 @@
             // RandomQueryCheckBox
             // 
             this.RandomQueryCheckBox.AutoSize = true;
-            this.RandomQueryCheckBox.Location = new System.Drawing.Point(15, 289);
+            this.RandomQueryCheckBox.Location = new System.Drawing.Point(15, 307);
             this.RandomQueryCheckBox.Name = "RandomQueryCheckBox";
             this.RandomQueryCheckBox.Size = new System.Drawing.Size(173, 17);
             this.RandomQueryCheckBox.TabIndex = 7;
@@ -336,7 +358,7 @@
             // 
             // RefreshSpeedTrackBar
             // 
-            this.RefreshSpeedTrackBar.Location = new System.Drawing.Point(12, 336);
+            this.RefreshSpeedTrackBar.Location = new System.Drawing.Point(12, 354);
             this.RefreshSpeedTrackBar.Name = "RefreshSpeedTrackBar";
             this.RefreshSpeedTrackBar.Size = new System.Drawing.Size(260, 45);
             this.RefreshSpeedTrackBar.TabIndex = 12;
@@ -345,7 +367,7 @@
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(15, 313);
+            this.label9.Location = new System.Drawing.Point(15, 331);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(195, 13);
             this.label9.TabIndex = 13;
@@ -354,27 +376,17 @@
             // ResrefhSpeedLable
             // 
             this.ResrefhSpeedLable.AutoSize = true;
-            this.ResrefhSpeedLable.Location = new System.Drawing.Point(236, 313);
+            this.ResrefhSpeedLable.Location = new System.Drawing.Point(236, 331);
             this.ResrefhSpeedLable.Name = "ResrefhSpeedLable";
             this.ResrefhSpeedLable.Size = new System.Drawing.Size(13, 13);
             this.ResrefhSpeedLable.TabIndex = 14;
             this.ResrefhSpeedLable.Text = "0";
             // 
-            // DeCentralizedT2RadioButton
-            // 
-            this.DeCentralizedT2RadioButton.AutoSize = true;
-            this.DeCentralizedT2RadioButton.Location = new System.Drawing.Point(6, 89);
-            this.DeCentralizedT2RadioButton.Name = "DeCentralizedT2RadioButton";
-            this.DeCentralizedT2RadioButton.Size = new System.Drawing.Size(166, 17);
-            this.DeCentralizedT2RadioButton.TabIndex = 0;
-            this.DeCentralizedT2RadioButton.Text = "Децентрализованный тип 2";
-            this.DeCentralizedT2RadioButton.UseVisualStyleBackColor = true;
-            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(284, 557);
+            this.ClientSize = new System.Drawing.Size(284, 578);
             this.Controls.Add(this.ResrefhSpeedLable);
             this.Controls.Add(this.label9);
             this.Controls.Add(this.RefreshSpeedTrackBar);
@@ -453,5 +465,6 @@
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Label ResrefhSpeedLable;
         private System.Windows.Forms.RadioButton DeCentralizedT2RadioButton;
+        private System.Windows.Forms.RadioButton CentralizedType2RadioButton;
     }
 }

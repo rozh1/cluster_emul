@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Collections;
 
 namespace cluster_emul
@@ -25,8 +23,13 @@ namespace cluster_emul
         public event QueryCountStatus QCS;  //Событие передачи количества выполенных запросов
         public event TimeStatus TS;         //Событие передачи текущего модельного времени
         public event TimeStatus DaysTS;     //Событие передачи текущих суток
+        public event QueueWeightStatus QWS; //Событие передачи текущего веса очереди
+        public event GeneralRegionStatus GR;//Событие передачи номера главного региона
         int Throttle = 10;                  //Пропуск итераций перед уведомлением
         int ThrottleCount = 0;              //Количество прощенных итераций
+        int WeightComputeMode = 0;          //Вариант формулы для вычисления веса очереди
+        int GeneralRNBnum = 0;              //Номер главного региона
+        int delta_count;                //Количество периодов времени
 
         /// <summary>
         /// Конструктор класса
@@ -52,11 +55,17 @@ namespace cluster_emul
         /// </summary>
         void InitRegions()
         {
+            delta_count = 2 + RegionsCount;
+            float delta = 1440.0F / delta_count;
+            time = (RegionsCount - 1) * delta;
             for (int i = 0; i < RegionsCount; i++)
             {
                 int k = i + 1;
-                RBN rbn = new RBN(k, k * ServersCount * 2, k * ClientsCount, k * ServersCount, k * DB_capacity);
-                rbn.Set_normalizing_factor((float)(RegionsCount * ClientsCount /rbn.db_capacity));
+                float start_time = i * delta;
+                RBN rbn = new RBN(k, k * ClientsCount, k * ClientsCount, k * ServersCount,
+                    k * DB_capacity, start_time, start_time + (delta_count - RegionsCount + 1) * delta);
+                rbn.Set_normalizing_factor((float)(RegionsCount * ClientsCount) / rbn.db_capacity);
+                //rbn.Set_normalizing_factor((float)(ServersCount * 2) / DB_capacity);
                 Regions.Add(rbn);
             }
         }
@@ -72,19 +81,28 @@ namespace cluster_emul
             switch (BalanceType)
             {
                 case 0:
+                    WeightComputeMode = 0;
                     NotBalancedHandler();
                     break;
                 case 1:
+                    WeightComputeMode = 1;
                     DeCentralizedHandler();
                     break;
                 case 2:
+                    WeightComputeMode = 0;
                     CentralizedHandler();
                     break;
                 case 3:
+                    WeightComputeMode = 0;
                     DeCentralizedHandlerType2();
                     break;
+                case 4:
+                    WeightComputeMode = 1;
+                    CentralizedHandlerType2();
+                    break;
+
             }
-            if (time >= (RegionsCount - 1) * 100 + 300)
+            if (time >= 1439.9F)
             {
                 time = 0;
                 if (DaysTS != null) DaysTS(++ModelDays);
@@ -109,6 +127,8 @@ namespace cluster_emul
                     if (RIA != null) RIA(rbn.Region_num, !rbn.IsSleep());
                     if (QS != null) QS(rbn.Region_num, rbn.GetQueueCount());
                     if (QCS != null) QCS(rbn.Region_num, rbn.TOTAL_QUERY_COUNT);
+                    if (QWS != null) QWS(rbn.Region_num, rbn.Weight_Compute());
+                    if (GR != null) GR(GeneralRNBnum);
                 }
             }
         }
@@ -156,7 +176,7 @@ namespace cluster_emul
                 for (int i = 1; i < NotSleepRegions.Count; i++)
                 {
                     RBN rbn = (RBN)NotSleepRegions[i];
-                    if (maxWeight.Weight_Compute() < rbn.Weight_Compute())
+                    if (maxWeight.Weight_Compute(WeightComputeMode) < rbn.Weight_Compute(WeightComputeMode))
                         maxWeight = rbn;
                 }
                 return maxWeight;
@@ -205,7 +225,7 @@ namespace cluster_emul
             for (int i = 0; i < RegionsCount; i++)
             {
                 RBN rbn = (RBN)Regions[i];
-                s += rbn.Weight_Compute();
+                s += rbn.Weight_Compute(WeightComputeMode);
             }
             return  s / RegionsCount;
         }
@@ -220,7 +240,7 @@ namespace cluster_emul
             for (int i = 0; i < RegionsCount; i++)
             {
                 RBN rbn = (RBN)Regions[i];
-                if (rbn.Weight_Compute() > mean)
+                if (rbn.Weight_Compute(WeightComputeMode) > mean)
                 {
                     deviation[i] = 1;
                 } 
@@ -307,9 +327,38 @@ namespace cluster_emul
             for (int i = 0; i < RegionsCount; i++)
             {
                 RBN rbn = (RBN)Regions[i];
-                if (rbn.general) return true;
+                if (rbn.general)
+                {
+                    GeneralRNBnum = rbn.Region_num;
+                    return true;
+                }
             }
+            GeneralRNBnum = 0;
             return false;
+        }
+
+        /// <summary>
+        /// Функция реализует работу второго варианта централизованной балансировки
+        /// </summary>
+        void CentralizedHandlerType2()
+        {
+            NotBalancedHandler();
+            for (int i = 0; i < RegionsCount; i++)
+            {
+                RBN rbn = (RBN)Regions[i];
+                if (rbn.IsSleep())
+                {
+                    RBN another_rbn = MaxWeightRegion(i);
+                    if (another_rbn != null)
+                    {
+                        if (!rbn.QueueIsFull() && another_rbn.CanGetQuery())
+                        {
+                            rbn.SetNewQuery(another_rbn.GetQueryFromQueue());
+                        }
+                    }
+                }
+                SendAns(rbn);
+            }
         }
     }
 }

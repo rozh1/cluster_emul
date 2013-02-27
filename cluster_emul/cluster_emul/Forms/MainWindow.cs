@@ -22,9 +22,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using cluster_emul.Utils;
 using System.Threading;
@@ -51,23 +49,27 @@ namespace cluster_emul
         {
             InitializeComponent();
             this.Icon = AppResources.icon;
+            StatusWindows = new ArrayList();
         }
 
         private void StartSimButton_Click(object sender, EventArgs e)
         {
+            for (int i = 0; i < StatusWindows.Count; i++)
+                ((StatusWindow)StatusWindows[i]).Dispose();
+            StatusWindows.Clear();
             if (OutputHandler.Init(FilePathTextBox.Text))
             {
                 t = new Thread(new ThreadStart(MainThread));
-                StatusWindows = new ArrayList();
                 int BalanceType = 0;
                 if (NoBalanceRadioButton.Checked) BalanceType = 0;
                 if (DeCentralizedBalanceRadioButton.Checked) BalanceType = 1;
                 if (CenralizedBalanceRadioButton.Checked) BalanceType = 2;
                 if (DeCentralizedT2RadioButton.Checked) BalanceType = 3;
+                if (CentralizedType2RadioButton.Checked) BalanceType = 4;
                 ModelDays = (int)ModelDaysNumericUpDown.Value;
                 DaysProgressBar.Maximum = ModelDays;
                 DaysProgressBar.Value = 0;
-                TimeProgressBar.Maximum = ((int)RegionsUpDown5.Value - 1) * 100 + 300;
+                TimeProgressBar.Maximum = 1440;
                 ModelDaysLabel.Text = "0";
                 StopSimButton.Enabled = true;
                 StartSimButton.Enabled = false;
@@ -87,17 +89,20 @@ namespace cluster_emul
                         StatusWindow sw = new StatusWindow(rbn.Region_num,
                             rbn.Region_num * (int)ServersUpDown.Value,
                             rbn.Region_num * (int)ClientsNumericUpDown.Value,
-                            rbn.Region_num * (int)ServersUpDown.Value * 2);
+                            rbn.Region_num * (int)ClientsNumericUpDown.Value,
+                            rbn.Region_num * (int)DBcapNumericUpDown.Value);
                         StatusWindows.Add(sw);
                         rh.RIA += new RegionIsActive(sw.RegionStatusHandler);
                         rh.QS += new QueueStatus(sw.QueueStatusHandler);
                         rh.QCS += new QueryCountStatus(sw.QueryCountStatusHandler);
-                        if ((col+1) * 300 + 300 > Screen.PrimaryScreen.WorkingArea.Width)
+                        rh.QWS += new QueueWeightStatus(sw.QueueWeightStatusHandler);
+                        rh.GR += new GeneralRegionStatus(sw.GeneralRegionStatusHandler);
+                        if ((col + 1) * sw.Width + sw.Width > Screen.PrimaryScreen.WorkingArea.Width)
                         {
                             col = 0;
                             row++;
                         }
-                        sw.SetLocation((++col) * 300, row * 300);
+                        sw.SetLocation((++col) * sw.Width, row * sw.Height);
                     }
                 }
                 thread_life = true;
@@ -141,9 +146,6 @@ namespace cluster_emul
         {
             StartSimButton.Enabled = true;
             StopSimButton.Enabled = false;
-            for (int i = 0; i < StatusWindows.Count; i++)
-                ((StatusWindow)StatusWindows[i]).Dispose();
-            StatusWindows.Clear();
         }
 
         /// <summary>
@@ -205,7 +207,7 @@ namespace cluster_emul
         /// <param name="day">модельные сутки</param>
         void SetModelDaysStatus(int day)
         {
-            DaysProgressBar.Value = day;
+            if (day<=DaysProgressBar.Maximum) DaysProgressBar.Value = day;
             ModelDaysLabel.Text = day.ToString();
         }
 
