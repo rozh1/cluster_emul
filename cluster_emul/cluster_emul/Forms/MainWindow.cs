@@ -76,6 +76,7 @@ namespace cluster_emul
                 rh = new RegionsHandler((int)RegionsUpDown5.Value, (int)ClientsNumericUpDown.Value,
                     (int)ServersUpDown.Value, (int)DBcapNumericUpDown.Value, BalanceType);
                 rh.SetThrottle(RefreshSpeedTrackBar.Value);
+                if (ZeroTimeСheckBox.Checked) rh.SetTimeToZero();
                 rh.TS += new TimeStatus(TimeStatusHandler);
                 rh.DaysTS += new TimeStatus(ModelDaysStatusHandler);
                 NextNum.Mode(RandomQueryCheckBox.Checked);

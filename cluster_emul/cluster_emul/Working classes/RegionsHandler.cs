@@ -65,8 +65,20 @@ namespace cluster_emul
                 RBN rbn = new RBN(k, k * ClientsCount, k * ClientsCount, k * ServersCount,
                     k * DB_capacity, start_time, start_time + (delta_count - RegionsCount + 1) * delta);
                 rbn.Set_normalizing_factor((float)(RegionsCount * ClientsCount) / rbn.db_capacity);
-                //rbn.Set_normalizing_factor((float)(ServersCount * 2) / DB_capacity);
                 Regions.Add(rbn);
+            }
+        }
+
+        /// <summary>
+        /// Устанавливает значение модельного времени в 0
+        /// </summary>
+        public void SetTimeToZero()
+        {
+            time = 0;
+            for (int i = 0; i < RegionsCount; i++)
+            {
+                RBN rbn = (RBN)Regions[i];
+                rbn.ClearQueue();
             }
         }
 
