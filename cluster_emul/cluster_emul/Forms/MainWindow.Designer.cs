@@ -397,6 +397,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScroll = true;
             this.ClientSize = new System.Drawing.Size(284, 600);
             this.Controls.Add(this.ZeroTimeСheckBox);
             this.Controls.Add(this.ResrefhSpeedLable);

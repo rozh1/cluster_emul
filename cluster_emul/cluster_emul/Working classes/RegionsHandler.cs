@@ -29,7 +29,7 @@ namespace cluster_emul
         int ThrottleCount = 0;              //Количество прощенных итераций
         int WeightComputeMode = 0;          //Вариант формулы для вычисления веса очереди
         int GeneralRNBnum = 0;              //Номер главного региона
-        int delta_count;                //Количество периодов времени
+        int delta_count;                    //Количество периодов времени
 
         /// <summary>
         /// Конструктор класса
@@ -55,7 +55,7 @@ namespace cluster_emul
         /// </summary>
         void InitRegions()
         {
-            delta_count = 2 + RegionsCount;
+            delta_count = 1 + RegionsCount;
             float delta = 1440.0F / delta_count;
             time = (RegionsCount - 1) * delta;
             for (int i = 0; i < RegionsCount; i++)
@@ -63,7 +63,7 @@ namespace cluster_emul
                 int k = i + 1;
                 float start_time = i * delta;
                 RBN rbn = new RBN(k, k * ClientsCount, k * ClientsCount, k * ServersCount,
-                    k * DB_capacity, start_time, start_time + (delta_count - RegionsCount + 1) * delta);
+                    k * DB_capacity, start_time, start_time + time);
                 rbn.Set_normalizing_factor((float)(RegionsCount * ClientsCount) / rbn.db_capacity);
                 Regions.Add(rbn);
             }
