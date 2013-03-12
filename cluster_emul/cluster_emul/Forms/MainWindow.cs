@@ -22,9 +22,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using cluster_emul.Utils;
 using System.Threading;
@@ -78,6 +76,7 @@ namespace cluster_emul
                 rh = new RegionsHandler((int)RegionsUpDown5.Value, (int)ClientsNumericUpDown.Value,
                     (int)ServersUpDown.Value, (int)DBcapNumericUpDown.Value, BalanceType);
                 rh.SetThrottle(RefreshSpeedTrackBar.Value);
+                if (ZeroTimeСheckBox.Checked) rh.SetTimeToZero();
                 rh.TS += new TimeStatus(TimeStatusHandler);
                 rh.DaysTS += new TimeStatus(ModelDaysStatusHandler);
                 NextNum.Mode(RandomQueryCheckBox.Checked);

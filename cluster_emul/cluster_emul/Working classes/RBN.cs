@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Collections;
 using cluster_emul.Utils;
 
@@ -383,6 +381,25 @@ namespace cluster_emul
         public int GetQueueCount()
         {
             return local_queue.Count;
+        }
+
+        /// <summary>
+        /// Очищает очередь региона и серверов в регионе (нужна для старта в момент времени 0)
+        /// </summary>
+        public void ClearQueue()
+        {
+            local_queue.Clear();
+            for (int i = 0; i < Clusters.Count; i++)
+            {
+                cluster cl = (cluster)Clusters[i];
+                cl.QueueRemove();
+                cl.QueueRemove();
+            }
+            for (int i = 0; i < Clients.Count; i++)
+            {
+                cluster_client cl = (cluster_client)Clients[i];
+                cl.request_sended = false;
+            }
         }
     }
 }
