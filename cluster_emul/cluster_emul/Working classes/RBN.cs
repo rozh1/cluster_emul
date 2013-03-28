@@ -51,6 +51,7 @@ namespace cluster_emul
             cq = new cluster_query();
             start_time = StartTime;
             end_time = EndTime;
+            time = end_time - start_time;
             InitClientCluster();
         }
 
@@ -400,6 +401,7 @@ namespace cluster_emul
                 cluster_client cl = (cluster_client)Clients[i];
                 cl.request_sended = false;
             }
+            CURENT_TOTAL_W = 0;
         }
     }
 }

@@ -57,7 +57,7 @@ namespace cluster_emul
         {
             delta_count = 1 + RegionsCount;
             float delta = 1440.0F / delta_count;
-            time = (RegionsCount - 1) * delta;
+            time = 720;//(RegionsCount - 1) * delta;
             for (int i = 0; i < RegionsCount; i++)
             {
                 int k = i + 1;
