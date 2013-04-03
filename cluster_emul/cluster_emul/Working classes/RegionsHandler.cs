@@ -30,6 +30,7 @@ namespace cluster_emul
         int WeightComputeMode = 0;          //Вариант формулы для вычисления веса очереди
         int GeneralRNBnum = 0;              //Номер главного региона
         int delta_count;                    //Количество периодов времени
+        bool startFromZero = false;         //Признак начала с времени = 0;
 
         /// <summary>
         /// Конструктор класса
@@ -75,6 +76,7 @@ namespace cluster_emul
         public void SetTimeToZero()
         {
             time = 0;
+            startFromZero = true;
             for (int i = 0; i < RegionsCount; i++)
             {
                 RBN rbn = (RBN)Regions[i];
@@ -114,10 +116,23 @@ namespace cluster_emul
                     break;
 
             }
-            if (time >= 1439.9F)
+            if (startFromZero)
+            {
+                if (time >= 1439.99F)
+                {
+                    if (DaysTS != null) DaysTS(++ModelDays);
+                }
+            }
+            else
+            {
+                if (time >= 719.99F && time <= 720.0F)
+                {
+                    if (DaysTS != null) DaysTS(++ModelDays);
+                }
+            }
+            if (time >= 1439.99F)
             {
                 time = 0;
-                if (DaysTS != null) DaysTS(++ModelDays);
             }
             if (time * 100 % 100 > 99 && time * 100 % 100 < 100 && TS != null)
                 TS((int)time);
