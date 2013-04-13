@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace cluster_emul
+﻿namespace cluster_emul
 {
     /// <summary>
     /// Класс клиента
@@ -12,12 +8,12 @@ namespace cluster_emul
         public int num;             //номер клиента
         public int num_region;      //номер региона
         public int num_request;     //номер текущего запроса
-        private cluster_query cq;   //запросы
         public bool request_sended; //флаг посылки запроса
         public int query_col;       //количество обработанных запросов клиента
         private float query_weight; //вес текущего запроса
         private float send_time;    //Время отправки запроса
         public float recive_time;   //Время задержки
+
         /// <summary>
         /// Конструктор класса
         /// </summary>
@@ -27,7 +23,6 @@ namespace cluster_emul
         {
             num = Num;
             num_region = Num_reg;
-            cq = new cluster_query();
             request_sended = false;
             query_col = 0; query_weight = 0;
         }
@@ -40,8 +35,8 @@ namespace cluster_emul
         {
             if (!request_sended)
             {
-                num_request = cq.GenQueryNum();
-                query_weight = cq.GetQueryWeightByNum(num_request);
+                num_request = cluster_query.GenQueryNum();
+                query_weight = cluster_query.GetQueryWeightByNum(num_request);
                 request_sended = true;
                 send_time = time;
             }
@@ -73,6 +68,7 @@ namespace cluster_emul
             arr[2] = num_region;
             return arr;
         }
+
         /// <summary>
         ///Возвращает вес текущего запроса
         /// </summary>

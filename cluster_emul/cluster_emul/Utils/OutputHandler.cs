@@ -18,8 +18,6 @@
 #endregion
 
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using System.IO;
 using System.Windows.Forms;
 
@@ -30,8 +28,8 @@ namespace cluster_emul.Utils
     /// </summary>
     public static class OutputHandler
     {
-        static FileStream fs;   //Файловый паток
-        static StreamWriter sw; //писатель
+        static FileStream fs;   //Файловый поток
+        static StreamWriter sw; //Писатель
 
         /// <summary>
         /// Инициализация статического класса

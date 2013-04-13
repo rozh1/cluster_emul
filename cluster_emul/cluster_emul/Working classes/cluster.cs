@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections;
+﻿using System.Collections;
 
 namespace cluster_emul
 {
@@ -10,7 +8,6 @@ namespace cluster_emul
     class cluster
     {
         private Queue queue;        //Внутрення очередь
-        private cluster_query cq;   //запросы
         public float query_time;    //время необходимое для выполения текущего запроса
 
         /// <summary>
@@ -18,7 +15,6 @@ namespace cluster_emul
         /// </summary>
         public cluster()
         {
-            cq = new cluster_query();
             queue = new Queue(2);
         }
 
@@ -46,7 +42,7 @@ namespace cluster_emul
         public void SetQueryTime()
         {
             int[] arr = (int[])queue.Peek();
-            query_time=cq.GetQueryByNum(arr[0]);
+            query_time=cluster_query.GetQueryByNum(arr[0]);
         }
 
         /// <summary>

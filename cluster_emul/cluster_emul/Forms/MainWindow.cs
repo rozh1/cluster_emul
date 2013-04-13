@@ -36,6 +36,9 @@ namespace cluster_emul
     /// <param name="time">время</param>
     delegate void TimeStatus(int time);
 
+    /// <summary>
+    /// Класс главного окна приложения
+    /// </summary>
     public partial class MainWindow : Form
     {
         Thread t;                               //Поток обработчика регионов
@@ -45,6 +48,9 @@ namespace cluster_emul
         bool thread_life = true;                //Признак жизнитпотока
         ArrayList StatusWindows;                //Коллекция статусных окон
 
+        /// <summary>
+        /// Конструктор класса
+        /// </summary>
         public MainWindow()
         {
             InitializeComponent();
@@ -52,6 +58,9 @@ namespace cluster_emul
             StatusWindows = new ArrayList();
         }
 
+        /// <summary>
+        /// Запуск симуляции по кнопке
+        /// </summary>
         private void StartSimButton_Click(object sender, EventArgs e)
         {
             for (int i = 0; i < StatusWindows.Count; i++)
@@ -212,6 +221,9 @@ namespace cluster_emul
             ModelDaysLabel.Text = day.ToString();
         }
 
+        /// <summary>
+        /// Прерывание процесса симуляции
+        /// </summary>
         private void StopSimButton_Click(object sender, EventArgs e)
         {
             thread_life = false;
@@ -224,6 +236,9 @@ namespace cluster_emul
             EnStartSimButton();
         }
 
+        /// <summary>
+        /// Обновление показания скорости симуляции
+        /// </summary>
         private void RefreshSpeedTrackBar_Scroll(object sender, EventArgs e)
         {
             ResrefhSpeedLable.Text = ((TrackBar)sender).Value.ToString();

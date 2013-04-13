@@ -53,13 +53,13 @@ namespace cluster_emul
     /// </summary>
     /// <param name="RegionNum">Номер региона</param>
     /// <param name="QueueWeight">Вес очереди</param>
-    delegate void QueueWeightStatus(int ReegionNum, float QueueWeight);
+    delegate void QueueWeightStatus(int RegionNum, float QueueWeight);
 
     /// <summary>
     /// Делегат пересылки номера главного региона
     /// </summary>
     /// <param name="RegionNum">Номер региона</param>
-    delegate void GeneralRegionStatus(int ReegionNum);
+    delegate void GeneralRegionStatus(int RegionNum);
 
     /// <summary>
     /// Класс статусного окна
@@ -99,6 +99,11 @@ namespace cluster_emul
             RegionNum = NumRegion;
         }
 
+        /// <summary>
+        /// Функция установки положения окна
+        /// </summary>
+        /// <param name="X">координата X</param>
+        /// <param name="Y">координата Y</param>
         public void SetLocation(int X, int Y)
         {
             this.Location = new Point(X, Y);

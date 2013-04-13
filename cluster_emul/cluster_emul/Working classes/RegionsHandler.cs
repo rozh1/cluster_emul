@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Collections;
 
 namespace cluster_emul
@@ -40,7 +38,8 @@ namespace cluster_emul
         /// <param name="ServersCount">Количество серверов в 1-м регионе</param>
         /// <param name="DB_capacity">Объем БД в 1-м объеме</param>
         /// <param name="BalanceType">Тип балансировки</param>
-        public RegionsHandler(int RegionsCount, int ClientsCount, int ServersCount, int DB_capacity, int BalanceType)
+        public RegionsHandler(int RegionsCount, int ClientsCount, int ServersCount, 
+            int DB_capacity, int BalanceType)
         {
             this.RegionsCount = RegionsCount;
             this.ClientsCount = ClientsCount;
@@ -256,6 +255,7 @@ namespace cluster_emul
             }
             return  s / RegionsCount;
         }
+
         /// <summary>
         /// Функция вычисляет отклонение веса региона от среднего веса
         /// </summary>
