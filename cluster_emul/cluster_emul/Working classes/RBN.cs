@@ -15,14 +15,16 @@ namespace cluster_emul
         ArrayList Clients;                  //Клиенты
         ArrayList Clusters;                 //Серверы
         float time = 200;                   //Модельное мремя
-        public int TOTAL_QUERY_COUNT = 0;   //Общее количество обработанных регионом запросов 
+        public int TOTAL_QUERY_COUNT = 0;   //Общее количество обработанных регионом 
+        //запросов 
         float CURENT_TOTAL_W = 0;           //Общий суммарный вес очредеи РБН
         public int db_capacity;             //Объём базы данных региона
         float normalizing_factor;           //Нормирующий коэффициент при расчёте весов
-        public ArrayList AnotherQueries;    //Обработанные запросы от клиентов из других регионов
+        public ArrayList AnotherQueries;    //Обработанные запросы от клиентов из 
+        //других регионов
         int last_client_num = 0;            //Номер последнего обратившегося клиента
-        public bool general=false;          //Признак главности региона
-        public float start_time=0;          //Время начала работы регина
+        public bool general = false;        //Признак главности региона
+        public float start_time = 0;        //Время начала работы регина
         public float end_time = 1440;       //Время окончания работы региона
 
         /// <summary>
@@ -61,14 +63,14 @@ namespace cluster_emul
                 cluster_client cl = new cluster_client(i, Region_num);
                 Clients.Add(cl);
             }
-            QueueRecive();                                      //Инициализация очереди РБН
+            QueueRecive();                              //Инициализация очереди РБН
             for (int i = 0; i < Clusters.Capacity; i++)
             {
                 cluster cl = new cluster();
                 Clusters.Add(cl);
             }
-            QueueAllocation(2);                                 //Инициализация очереди серверов
-            QueueRecive();                                      //Заполенение очереди РБН
+            QueueAllocation(2);                         //Инициализация очереди серверов
+            QueueRecive();                              //Заполенение очереди РБН
         }
 
         /// <summary>
@@ -97,11 +99,14 @@ namespace cluster_emul
                         if (arr[2] == Region_num)
                         {
                             cluster_client cl_w = (cluster_client)Clients[arr[1]];
-                            if (CURENT_TOTAL_W > 0) CURENT_TOTAL_W -= cl_w.GetWieghtQuery();
+                            if (CURENT_TOTAL_W > 0)
+                                CURENT_TOTAL_W -= cl_w.GetWieghtQuery();
                         }
                         else
                         {
-                            if (CURENT_TOTAL_W > 0) CURENT_TOTAL_W -= cluster_query.GetQueryWeightByNum(arr[0]);
+                            if (CURENT_TOTAL_W > 0)
+                                CURENT_TOTAL_W -=
+                                    cluster_query.GetQueryWeightByNum(arr[0]);
                         }
                         cl.QueueAdd((int[])local_queue.Dequeue());
                         cl.SetQueryTime();
@@ -110,7 +115,7 @@ namespace cluster_emul
             }
         }
 
-        int kol_iterations = 1;         //Количество итераций вызова функции QueueRecive()
+        int kol_iterations = 1; //Количество итераций вызова функции QueueRecive()
         /// <summary>
         /// Получение новых запросов от клиентов и запись в очередь РБН
         /// </summary>
@@ -119,7 +124,7 @@ namespace cluster_emul
             for (int i = last_client_num; i < Clients.Count; i++, last_client_num++)
             {
                 cluster_client cl = (cluster_client)Clients[i];
-                if (!cl.request_sended && local_queue.Count<local_queue_length)
+                if (!cl.request_sended && local_queue.Count < local_queue_length)
                 {
                     cl.NewRequest(time);
                     CURENT_TOTAL_W += cl.GetWieghtQuery();
@@ -148,7 +153,7 @@ namespace cluster_emul
             for (int i = 0; i < Clusters.Count; i++)
             {
                 cluster cl = (cluster)Clusters[i];
-                if (cl.query_time < 0.01 && cl.GetQueueCount()>0)
+                if (cl.query_time < 0.01 && cl.GetQueueCount() > 0)
                 {
                     int[] arr = cl.GetQueryInfo(true);
                     //если запрос из своего региона
@@ -157,9 +162,12 @@ namespace cluster_emul
                         TOTAL_QUERY_COUNT++;
                         cluster_client client = (cluster_client)Clients[arr[1]];
                         client.ReciveAns(time);
-                        //Номер региона;номер запроса в регионе;номер запроса;номер клиента;номер региона клиента; время задержки; время
-                        string output = String.Format("{0};{1};{2};{3};{4};{5:F2};{6:F2};{7}",
-                            Region_num, TOTAL_QUERY_COUNT, arr[0], arr[1], arr[2], client.recive_time, time, local_queue.Count);
+                        //Номер региона;номер запроса в регионе;номер запроса;
+                        //номер клиента;номер региона клиента; время задержки; время
+                        string output = String.Format(
+                            "{0};{1};{2};{3};{4};{5:F2};{6:F2};{7}",
+                            Region_num, TOTAL_QUERY_COUNT, arr[0], arr[1], arr[2],
+                            client.recive_time, time, local_queue.Count);
                         OutputHandler.WriteLine(output);
                     }
                     else
@@ -201,7 +209,8 @@ namespace cluster_emul
         }
 
         /// <summary>
-        /// Режим сна региона (дорабатывает запросы из очереди, но новые из своего региона не принимает)
+        /// Режим сна региона (дорабатывает запросы из очереди, 
+        /// но новые из своего региона не принимает)
         /// </summary>
         private void SleepHandler()
         {
@@ -239,10 +248,11 @@ namespace cluster_emul
         public float Weight_Compute(int mod)
         {
             //Wr = { [ P ]/[Li ni]}∙normalizing_factor;
-            if (mod == 0) return ((float)CURENT_TOTAL_W / (2 * Clients.Count)) * normalizing_factor;
+            if (mod == 0) return ((float)CURENT_TOTAL_W / (2 * Clients.Count)) *
+                normalizing_factor;
             else
             {
-                float local_queue_wight=0;
+                float local_queue_wight = 0;
                 for (int i = 0; i < local_queue.Count; i++)
                 {
                     int[] arr = (int[])local_queue.ToArray()[i];
@@ -251,7 +261,8 @@ namespace cluster_emul
                         local_queue_wight += cluster_query.GetQueryWeightByNum(arr[0]);
                     }
                 }
-                return ((float)local_queue_wight / (2 * Clients.Count)) * normalizing_factor;
+                return ((float)local_queue_wight / (2 * Clients.Count)) *
+                    normalizing_factor;
             }
         }
 
@@ -279,7 +290,8 @@ namespace cluster_emul
             }
             else
             {
-                if (CURENT_TOTAL_W > 0) CURENT_TOTAL_W -= cluster_query.GetQueryWeightByNum(arr[0]);
+                if (CURENT_TOTAL_W > 0)
+                    CURENT_TOTAL_W -= cluster_query.GetQueryWeightByNum(arr[0]);
             }
             return (int[])local_queue.Dequeue();
         }
@@ -308,7 +320,8 @@ namespace cluster_emul
             }
             else
             {
-                if (CURENT_TOTAL_W > 0) CURENT_TOTAL_W -= cluster_query.GetQueryWeightByNum(arr[0]);
+                if (CURENT_TOTAL_W > 0)
+                    CURENT_TOTAL_W -= cluster_query.GetQueryWeightByNum(arr[0]);
             }
             return (int[])current;
         }
@@ -370,9 +383,11 @@ namespace cluster_emul
             TOTAL_QUERY_COUNT++;
             cluster_client client = (cluster_client)Clients[arr[1]];
             client.ReciveAns(time);
-            //Номер региона;номер запроса в регионе;номер запроса;номер клиента;номер региона клиента; время задержки; время
+            //Номер региона;номер запроса в регионе;номер запроса;номер клиента;
+            //номер региона клиента; время задержки; время
             string output = String.Format("{0};{1};{2};{3};{4};{5:F2};{6:F2};{7}",
-                anotherRegion, TOTAL_QUERY_COUNT, arr[0], arr[1], arr[2], client.recive_time, time, local_queue.Count);
+                anotherRegion, TOTAL_QUERY_COUNT, arr[0], arr[1], arr[2],
+                client.recive_time, time, local_queue.Count);
             OutputHandler.WriteLine(output);
         }
 
@@ -386,7 +401,8 @@ namespace cluster_emul
         }
 
         /// <summary>
-        /// Очищает очередь региона и серверов в регионе (нужна для старта в момент времени 0)
+        /// Очищает очередь региона и серверов в регионе 
+        /// (нужна для старта в момент времени 0)
         /// </summary>
         public void ClearQueue()
         {

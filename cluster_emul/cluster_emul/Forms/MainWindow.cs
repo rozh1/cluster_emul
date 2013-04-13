@@ -17,16 +17,11 @@
  */
 #endregion
 
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
-using System.Windows.Forms;
-using cluster_emul.Utils;
-using System.Threading;
+﻿using cluster_emul.Utils;
+using System;
 using System.Collections;
+using System.Threading;
+using System.Windows.Forms;
 
 namespace cluster_emul
 {
@@ -82,8 +77,9 @@ namespace cluster_emul
                 ModelDaysLabel.Text = "0";
                 StopSimButton.Enabled = true;
                 StartSimButton.Enabled = false;
-                rh = new RegionsHandler((int)RegionsUpDown5.Value, (int)ClientsNumericUpDown.Value,
-                    (int)ServersUpDown.Value, (int)DBcapNumericUpDown.Value, BalanceType);
+                rh = new RegionsHandler((int)RegionsUpDown5.Value,
+                    (int)ClientsNumericUpDown.Value, (int)ServersUpDown.Value,
+                    (int)DBcapNumericUpDown.Value, BalanceType);
                 rh.SetThrottle(RefreshSpeedTrackBar.Value);
                 if (ZeroTimeСheckBox.Checked) rh.SetTimeToZero();
                 rh.TS += new TimeStatus(TimeStatusHandler);
@@ -107,7 +103,8 @@ namespace cluster_emul
                         rh.QCS += new QueryCountStatus(sw.QueryCountStatusHandler);
                         rh.QWS += new QueueWeightStatus(sw.QueueWeightStatusHandler);
                         rh.GR += new GeneralRegionStatus(sw.GeneralRegionStatusHandler);
-                        if ((col + 1) * sw.Width + sw.Width > Screen.PrimaryScreen.WorkingArea.Width)
+                        if ((col + 1) * sw.Width + sw.Width >
+                            Screen.PrimaryScreen.WorkingArea.Width)
                         {
                             col = 0;
                             row++;
@@ -119,7 +116,7 @@ namespace cluster_emul
                 t.Start();
             }
         }
-        
+
         /// <summary>
         /// Поток обработчика регионов
         /// </summary>
@@ -127,7 +124,7 @@ namespace cluster_emul
         {
             while ((ModelDays > rh.Work() || ModelDays == 0) && thread_life)
             {
-            //    Thread.Sleep(1); //Скрость симуляции
+                //    Thread.Sleep(1); //Скрость симуляции
             }
             OutputHandler.Close();
             if (thread_life) EnStartSimButtonInvoke();
@@ -217,7 +214,7 @@ namespace cluster_emul
         /// <param name="day">модельные сутки</param>
         void SetModelDaysStatus(int day)
         {
-            if (day<=DaysProgressBar.Maximum) DaysProgressBar.Value = day;
+            if (day <= DaysProgressBar.Maximum) DaysProgressBar.Value = day;
             ModelDaysLabel.Text = day.ToString();
         }
 

@@ -27,7 +27,7 @@ namespace cluster_emul.Utils
     static class NextNum
     {
         static int num = 0;                 //число
-        static Random rand= new Random();   //великий русский рандом
+        static Random rand = new Random();  //великий русский рандом
         static bool randomNums = false;     //режим рандома
 
         /// <summary>

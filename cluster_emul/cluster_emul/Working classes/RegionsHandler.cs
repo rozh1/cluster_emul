@@ -18,14 +18,17 @@ namespace cluster_emul
         int ModelDays = 0;                  //Количество модельных суток
         public event RegionIsActive RIA;    //Событие активности региона
         public event QueueStatus QS;        //Событие передачи статуса очереди
-        public event QueryCountStatus QCS;  //Событие передачи количества выполенных запросов
-        public event TimeStatus TS;         //Событие передачи текущего модельного времени
+        public event QueryCountStatus QCS;  //Событие передачи количества выполенных 
+                                            //запросов
+        public event TimeStatus TS;         //Событие передачи текущего модельного 
+                                            //времени
         public event TimeStatus DaysTS;     //Событие передачи текущих суток
         public event QueueWeightStatus QWS; //Событие передачи текущего веса очереди
         public event GeneralRegionStatus GR;//Событие передачи номера главного региона
         int Throttle = 10;                  //Пропуск итераций перед уведомлением
         int ThrottleCount = 0;              //Количество прощенных итераций
-        int WeightComputeMode = 0;          //Вариант формулы для вычисления веса очереди
+        int WeightComputeMode = 0;          //Вариант формулы для вычисления веса 
+                                            //очереди
         int GeneralRNBnum = 0;              //Номер главного региона
         int delta_count;                    //Количество периодов времени
         bool startFromZero = false;         //Признак начала с времени = 0;
@@ -38,7 +41,7 @@ namespace cluster_emul
         /// <param name="ServersCount">Количество серверов в 1-м регионе</param>
         /// <param name="DB_capacity">Объем БД в 1-м объеме</param>
         /// <param name="BalanceType">Тип балансировки</param>
-        public RegionsHandler(int RegionsCount, int ClientsCount, int ServersCount, 
+        public RegionsHandler(int RegionsCount, int ClientsCount, int ServersCount,
             int DB_capacity, int BalanceType)
         {
             this.RegionsCount = RegionsCount;
@@ -62,9 +65,10 @@ namespace cluster_emul
             {
                 int k = i + 1;
                 float start_time = i * delta;
-                RBN rbn = new RBN(k, k * ClientsCount, k * ClientsCount, k * ServersCount,
-                    k * DB_capacity, start_time, start_time + time);
-                rbn.Set_normalizing_factor((float)(RegionsCount * ClientsCount) / rbn.db_capacity);
+                RBN rbn = new RBN(k, k * ClientsCount, k * ClientsCount,
+                    k * ServersCount, k * DB_capacity, start_time, start_time + time);
+                rbn.Set_normalizing_factor((float)(RegionsCount * ClientsCount) / 
+                    rbn.db_capacity);
                 Regions.Add(rbn);
             }
         }
@@ -148,7 +152,7 @@ namespace cluster_emul
             {
                 RBN rbn = (RBN)Regions[i];
                 rbn.Work(time);
-                if (ThrottleCount==Throttle)
+                if (ThrottleCount == Throttle)
                 {
                     if (RIA != null) RIA(rbn.Region_num, !rbn.IsSleep());
                     if (QS != null) QS(rbn.Region_num, rbn.GetQueueCount());
@@ -202,7 +206,8 @@ namespace cluster_emul
                 for (int i = 1; i < NotSleepRegions.Count; i++)
                 {
                     RBN rbn = (RBN)NotSleepRegions[i];
-                    if (maxWeight.Weight_Compute(WeightComputeMode) < rbn.Weight_Compute(WeightComputeMode))
+                    if (maxWeight.Weight_Compute(WeightComputeMode) < 
+                        rbn.Weight_Compute(WeightComputeMode))
                         maxWeight = rbn;
                 }
                 return maxWeight;
@@ -227,11 +232,13 @@ namespace cluster_emul
                     if (i != j)
                     {
                         RBN rbn_j = (RBN)Regions[j];
-                        if (dev[i] > dev[j] && !rbn_j.QueueIsFull() && !rbn_i.QueueIsEmpty())
+                        if (dev[i] > dev[j] && !rbn_j.QueueIsFull() && 
+                            !rbn_i.QueueIsEmpty())
                         {
                             rbn_j.SetNewQuery(rbn_i.GetLastQueryFromQueue());
                         }
-                        if (dev[i] < dev[j] && !rbn_i.QueueIsFull() && !rbn_j.QueueIsEmpty())
+                        if (dev[i] < dev[j] && !rbn_i.QueueIsFull() && 
+                            !rbn_j.QueueIsEmpty())
                         {
                             rbn_i.SetNewQuery(rbn_j.GetLastQueryFromQueue());
                         }
@@ -253,14 +260,15 @@ namespace cluster_emul
                 RBN rbn = (RBN)Regions[i];
                 s += rbn.Weight_Compute(WeightComputeMode);
             }
-            return  s / RegionsCount;
+            return s / RegionsCount;
         }
 
         /// <summary>
         /// Функция вычисляет отклонение веса региона от среднего веса
         /// </summary>
         /// <param name="mean">среднее значение весов регионов</param>
-        /// <returns>массив целых чисел для каждого региона:  0 - "-" девиация 1 - "+" девиация</returns>
+        /// <returns>массив целых чисел для каждого региона: 
+        /// 0 - "-" девиация 1 - "+" девиация</returns>
         int[] deviation_average_weight(float mean)
         {
             int[] deviation = new int[RegionsCount];
@@ -270,8 +278,8 @@ namespace cluster_emul
                 if (rbn.Weight_Compute(WeightComputeMode) > mean)
                 {
                     deviation[i] = 1;
-                } 
-                else 
+                }
+                else
                 {
                     deviation[i] = 0;
                 }
@@ -280,7 +288,8 @@ namespace cluster_emul
         }
 
         /// <summary>
-        /// При наличии выполненных запросов для другого региона, они будут отосланы в свои регионы
+        /// При наличии выполненных запросов для другого региона,
+        /// они будут отосланы в свои регионы
         /// </summary>
         /// <param name="rbn">рабочий регион</param>
         void SendAns(RBN rbn)
@@ -307,7 +316,8 @@ namespace cluster_emul
         }
 
         /// <summary>
-        /// Функция реализует работу децентрализованной балансировки c элементами централизованной
+        /// Функция реализует работу децентрализованной балансировки 
+        /// c элементами централизованной
         /// </summary>
         void DeCentralizedHandlerType2()
         {
@@ -323,11 +333,13 @@ namespace cluster_emul
                         if (i != j)
                         {
                             RBN rbn_j = (RBN)Regions[j];
-                            if (dev[i] > dev[j] && !rbn_j.QueueIsFull() && !rbn_i.QueueIsEmpty())
+                            if (dev[i] > dev[j] && !rbn_j.QueueIsFull() && 
+                                !rbn_i.QueueIsEmpty())
                             {
                                 rbn_j.SetNewQuery(rbn_i.GetLastQueryFromQueue());
                             }
-                            if (dev[i] < dev[j] && !rbn_i.QueueIsFull() && !rbn_j.QueueIsEmpty())
+                            if (dev[i] < dev[j] && !rbn_i.QueueIsFull() && 
+                                !rbn_j.QueueIsEmpty())
                             {
                                 rbn_i.SetNewQuery(rbn_j.GetLastQueryFromQueue());
                             }

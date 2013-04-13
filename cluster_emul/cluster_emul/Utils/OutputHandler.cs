@@ -39,15 +39,18 @@ namespace cluster_emul.Utils
         {
             try
             {
-                fs = new FileStream(file, FileMode.Create, FileAccess.Write, FileShare.Read);
+                fs = new FileStream(file, FileMode.Create, FileAccess.Write,
+                    FileShare.Read);
             }
             catch (Exception e)
             {
-                MessageBox.Show(e.Message, "Что-то с файлом не так", MessageBoxButtons.OK, MessageBoxIcon.Hand);
+                MessageBox.Show(e.Message, "Что-то с файлом не так",
+                    MessageBoxButtons.OK, MessageBoxIcon.Hand);
                 return false;
             }
             sw = new StreamWriter(fs);
-            //WriteLine("Номер региона;номер запроса в регионе;номер запроса;номер клиента;номер региона клиента;время задержки;время;длина очереди");
+            //WriteLine("Номер региона;номер запроса в регионе;номер запроса;
+            //номер клиента;номер региона клиента;время задержки;время;длина очереди");
             return true;
         }
 

@@ -17,12 +17,7 @@
  */
 #endregion
 
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
+﻿using System.Drawing;
 using System.Windows.Forms;
 
 namespace cluster_emul
@@ -86,11 +81,12 @@ namespace cluster_emul
         /// <param name="Clients">Количество Клиентов</param>
         /// <param name="QueueLength">Длина очереди</param>
         /// <param name="DbCapacity">Объем БД региона</param>
-        public StatusWindow(int NumRegion, int Clusters, int Clients, int QueueLength, int DbCapacity)
+        public StatusWindow(int NumRegion, int Clusters, int Clients,
+            int QueueLength, int DbCapacity)
         {
             InitializeComponent();
             this.Text = "Регион №" + NumRegion;
-            ClusterCount.Text = Clusters+" ";
+            ClusterCount.Text = Clusters + " ";
             ClientsCount.Text = Clients + " ";
             RegionDbCapacity.Text = DbCapacity.ToString();
             this.Icon = AppResources.icon;
@@ -134,7 +130,7 @@ namespace cluster_emul
         /// <param name="active">активность</param>
         void SetRegionStatus(int regnum, bool active)
         {
-            if (regnum==RegionNum)
+            if (regnum == RegionNum)
                 if (active)
                 {
                     RbnStatus.Text = "Активен";
@@ -187,7 +183,8 @@ namespace cluster_emul
         {
             if (this.InvokeRequired)
             {
-                this.Invoke(new QueryCountStatus(SetQueryCountStatus), regnum, querycount);
+                this.Invoke(new QueryCountStatus(SetQueryCountStatus),
+                    regnum, querycount);
             }
             else
             {
@@ -215,7 +212,8 @@ namespace cluster_emul
         {
             if (this.InvokeRequired)
             {
-                this.Invoke(new QueueWeightStatus(SetQueueWeightStatus), regnum, queueweight);
+                this.Invoke(new QueueWeightStatus(SetQueueWeightStatus),
+                    regnum, queueweight);
             }
             else
             {

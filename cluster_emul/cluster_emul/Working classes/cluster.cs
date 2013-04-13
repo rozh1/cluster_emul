@@ -42,7 +42,7 @@ namespace cluster_emul
         public void SetQueryTime()
         {
             int[] arr = (int[])queue.Peek();
-            query_time=cluster_query.GetQueryByNum(arr[0]);
+            query_time = cluster_query.GetQueryByNum(arr[0]);
         }
 
         /// <summary>
