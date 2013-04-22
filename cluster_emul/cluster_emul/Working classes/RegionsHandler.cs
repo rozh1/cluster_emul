@@ -13,7 +13,7 @@ namespace cluster_emul
         int DB_capacity;                    //Объем БД в 1-м объеме
         int ServersCount;                   //Количество серверов в 1-м регионе
         public ArrayList Regions;           //Региональные балансировщики
-        float time = 200;                   //Модельное мремя
+        float time = 720;                   //Модельное мремя
         int BalanceType = 0;                //Тип балансировки
         int ModelDays = 0;                  //Количество модельных суток
         public event RegionIsActive RIA;    //Событие активности региона

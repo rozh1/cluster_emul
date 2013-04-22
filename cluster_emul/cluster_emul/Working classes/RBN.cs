@@ -14,7 +14,7 @@ namespace cluster_emul
         public int Region_num;              //номер региона
         ArrayList Clients;                  //Клиенты
         ArrayList Clusters;                 //Серверы
-        float time = 200;                   //Модельное мремя
+        float time = 720;                   //Модельное мремя
         public int TOTAL_QUERY_COUNT = 0;   //Общее количество обработанных регионом 
         //запросов 
         float CURENT_TOTAL_W = 0;           //Общий суммарный вес очредеи РБН
@@ -49,7 +49,6 @@ namespace cluster_emul
             AnotherQueries = new ArrayList();
             start_time = StartTime;
             end_time = EndTime;
-            time = end_time - start_time;
             InitClientCluster();
         }
 

@@ -49,7 +49,7 @@
         /// <returns>время ожидания ответа</returns>
         public void ReciveAns(float time)
         {
-            if (time < send_time) time += (num_region - 1) * 100 + 300;
+            if (time < send_time) time += 1440;
             recive_time = time - send_time;
             request_sended = false;
             query_col++;
