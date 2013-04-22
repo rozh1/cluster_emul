@@ -58,9 +58,9 @@ namespace cluster_emul
         /// </summary>
         void InitRegions()
         {
-            delta_count = 1 + RegionsCount;
+            delta_count = 2 + RegionsCount;
             float delta = 1440.0F / delta_count;
-            time = 720;//(RegionsCount - 1) * delta;
+            time = RegionsCount * delta;
             for (int i = 0; i < RegionsCount; i++)
             {
                 int k = i + 1;
@@ -71,6 +71,7 @@ namespace cluster_emul
                     rbn.db_capacity);
                 Regions.Add(rbn);
             }
+            time = 720;
         }
 
         /// <summary>

@@ -39,8 +39,8 @@ namespace cluster_emul
         Thread t;                               //Поток обработчика регионов
         RegionsHandler rh;                      //обработчик регионов
         delegate void EnStartSimButtonDel();    //Делегат активации кнопки симуляции
-        int ModelDays = 0;                      //Количество дней смуляции
-        bool thread_life = true;                //Признак жизнитпотока
+        int ModelDays = 0;                      //Количество дней симуляции
+        bool thread_life = true;                //Признак жизни потока
         ArrayList StatusWindows;                //Коллекция статусных окон
 
         /// <summary>
